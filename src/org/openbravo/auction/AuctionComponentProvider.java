@@ -8,6 +8,10 @@ import java.util.Map;
 import org.openbravo.client.kernel.BaseComponentProvider;
 import org.openbravo.client.kernel.Component;
 
+/**
+ * @author Jhonny Vargas.
+ */
+
 public class AuctionComponentProvider extends BaseComponentProvider {
 
   @Override
@@ -18,8 +22,14 @@ public class AuctionComponentProvider extends BaseComponentProvider {
   @Override
   public List<ComponentResource> getGlobalComponentResources() {
     final List<ComponentResource> globalResources = new ArrayList<ComponentResource>();
+    globalResources.add(
+        createStaticResource("web/org.openbravo.auction/js/admin-auction-control-view.js", false));
     globalResources
-    .add(createStaticResource("web/org.openbravo.auction/js/auction-control-view.js", false));
+        .add(createStaticResource("web/org.openbravo.auction/js/new-auction-form-view.js", false));
+    globalResources.add(
+        createStaticResource("web/org.openbravo.auction/js/new-auction-products-view.js", false));
+    globalResources
+        .add(createStaticResource("web/org.openbravo.auction/js/new-auction-view.js", false));
 
     return globalResources;
   }
