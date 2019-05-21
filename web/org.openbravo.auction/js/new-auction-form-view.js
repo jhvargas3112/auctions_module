@@ -1,20 +1,24 @@
-isc.defineClass("form", isc.DynamicForm);
-isc.form.addProperties({
+isc.defineClass("auctionParametersForm", isc.DynamicForm);
+isc.auctionParametersForm.addProperties({
 	titleOrientation: 'left',
 	numCols: 1,
 	titlePrefix: '<b>',
 	titleSuffix: '</b>',
+
 	initWidget: function () {
 		this.Super("initWidget", arguments);
 
 		this.setFields([
 			{
-				name: "auctionType", title: "Tipo de subasta:", 
+				name: "auctionType",
+				title: "Tipo de subasta:", 
 				editorType: "select", 
-				valueMap:[ "Subasta inglesa", "Subasta holandesa", "Subasta japonesa"]
+				valueMap:["Subasta inglesa", "Subasta holandesa", "Subasta japonesa"],
+				defaultToFirstOption: true
 			},
 
 			{
+				name: "maxBidders",
 				title: "Máximo número de postores:",
 				shouldSaveValue: false,
 				editorType: "SpinnerItem", 
@@ -27,7 +31,7 @@ isc.form.addProperties({
 				title: "Fecha de celebración:",
 				editorType: "date"
 			},
-
+			
 			{
 				name: "celebrationTime",
 				title: "Hora de celebración:",
@@ -36,19 +40,54 @@ isc.form.addProperties({
 			},
 
 			{
-				title: "Precio base (€):",
-				shouldSaveValue: false,
+				name: "startPrice",
+				title: "Precio inicial (€):",
+				// shouldSaveValue: false,
 				editorType: "SpinnerItem",
-				writeStackedIcons: false,
+				// writeStackedIcons: false,
 				defaultValue: 0.00, min: 0.00, step: 0.01
+			},
+			
+			{
+				name: "closingPrice",
+				title: "Precio de cierre (€):",
+				// shouldSaveValue: false,
+				editorType: "SpinnerItem",
+				// writeStackedIcons: false,
+				defaultValue: 0.00, min: 0.00, step: 0.01
+			},
+			
+			{
+				name: "priceUpdateFrequency",
+				title: "Frecuencia actualización precio:",
+				type: "time",
+				useTextField: false
 			},
 
 			{
 				name: "description",
-				title: "Descripción",
+				title: "Descripción:",
 				editorType: "textArea",
-				width:400,
+				width:400
 			}]
 		);
+	}
+});
+
+isc.defineClass("submitButton", isc.OBFormButton);
+isc.submitButton.addProperties({
+	title: 'Publicar subasta',
+
+	initWidget: function () {
+		this.Super("initWidget", arguments);
+	}
+});
+
+isc.defineClass("clearButton", isc.OBFormButton);
+isc.clearButton.addProperties({
+	title: 'Limpiar',
+
+	initWidget: function () {
+		this.Super("initWidget", arguments);
 	}
 });

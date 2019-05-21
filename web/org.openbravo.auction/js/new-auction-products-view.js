@@ -33,8 +33,7 @@ isc.products.addProperties({
 		},
 
 		initWidget: function () {
-			OB.Datasource.get('A5B355FDBB514902ADE25D0D09950C84', this, null, true);
 			this.Super('initWidget', arguments);
+			OB.Datasource.get('A5B355FDBB514902ADE25D0D09950C84', this, null, true);
 		}
 });
-
