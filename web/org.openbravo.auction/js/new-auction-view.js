@@ -3,6 +3,18 @@ isc.newAuctionContainer.addProperties({
 	initWidget: function () {
 		var auctionParametersForm = isc.auctionParametersForm.create();
 		
+		products = isc.products.create({selectionUpdated: function() {
+			if (this.anySelected()) {
+				var product = this.getSelectedRecord();
+				auctionParametersForm.getItem("description").setValue(
+						"Nombre: " + product.name + "\n\n" +
+						"Descripción: " + product.description + "\n\n" +
+						"Categoría: " + product.productCategory$_identifier + "\n\n" +
+						"Volumen: " + product.volume + "\n\n" +
+						"Peso: " + product.weight + "\n\n");
+			}
+		}});
+		
 		var priceUpdateFrequency = auctionParametersForm.getItem("priceUpdateFrequency");
 		
 		function activateEnglishAuctionFormMode() {
@@ -42,22 +54,28 @@ isc.newAuctionContainer.addProperties({
 				deactivatePriceUpdateFrequencyFormField();
 				setf("Subasta holandesa");
 			}
+			
+			products.deselectAllRecords();
 		};
 		
 		var auctionParametersFormButtons = isc.HStack.create({
 			align: 'center',
 			members: [
-				isc.clearButton.create({click: function() {auctionParametersForm.clearValues(); activateEnglishAuctionFormMode();}}),
+				isc.clearButton.create({click: function() {
+					auctionParametersForm.clearValues();
+					activateEnglishAuctionFormMode();
+					products.deselectAllRecords();}
+				}),
+					
 				isc.submitButton.create()
-			]});
+			]
+		});
 
 		formLayout = isc.VLayout.create({
 			width: "35%",
 			layoutMargin: 20,
 			members: [auctionParametersForm, auctionParametersFormButtons]
 		});
-		
-		products = isc.products.create();
 		
 		this.Super("initWidget", arguments);
 

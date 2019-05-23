@@ -18,15 +18,6 @@ isc.auctionParametersForm.addProperties({
 			},
 
 			{
-				name: "maxBidders",
-				title: "Máximo número de postores:",
-				shouldSaveValue: false,
-				editorType: "SpinnerItem", 
-				writeStackedIcons: false,
-				defaultValue: 2, min: 2, max: 10, step: 1
-			},
-
-			{
 				name: "celebrationDate",
 				title: "Fecha de celebración:",
 				editorType: "date"
@@ -38,22 +29,28 @@ isc.auctionParametersForm.addProperties({
 				type: "time",
 				useTextField: false
 			},
+			
+			{
+				name: "maxBidders",
+				title: "Máximo número de postores:",
+				editorType: "SpinnerItem", 
+				keyPressFilter: "[0-9]",
+				defaultValue: 2, min: 2, step: 1 // Se pensó en establecer un máximo de 10 postores en cada subasta, pero dejaremos este planteamiento para cuando se programe la parte de los agentes.
+			},
 
 			{
 				name: "startPrice",
 				title: "Precio inicial (€):",
-				// shouldSaveValue: false,
 				editorType: "SpinnerItem",
-				// writeStackedIcons: false,
+				keyPressFilter: "[0-9.]",
 				defaultValue: 0.00, min: 0.00, step: 0.01
 			},
 			
 			{
 				name: "closingPrice",
 				title: "Precio de cierre (€):",
-				// shouldSaveValue: false,
 				editorType: "SpinnerItem",
-				// writeStackedIcons: false,
+				keyPressFilter: "[0-9.]",
 				defaultValue: 0.00, min: 0.00, step: 0.01
 			},
 			
@@ -67,6 +64,16 @@ isc.auctionParametersForm.addProperties({
 			{
 				name: "description",
 				title: "Descripción:",
+				editorType: "textArea",
+				width:400,
+				canFocus: false,
+				showFocused: false,
+				canEdit: false
+			},
+			
+			{
+				name: "additionalInformation",
+				title: "Información adicional:",
 				editorType: "textArea",
 				width:400
 			}]
