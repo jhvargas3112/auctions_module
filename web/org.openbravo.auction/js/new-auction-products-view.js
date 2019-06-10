@@ -19,13 +19,6 @@ isc.products.addProperties({
 			title: 'Descripción',
 			canFilter: true,
 			filterOnKeypress: true
-		},
-
-		{
-			name: 'standardCost',
-			title: 'Precio',
-			canFilter: false,
-			filterOnKeypress: true
 		}],
 
 	setDataSource: function (ds) {

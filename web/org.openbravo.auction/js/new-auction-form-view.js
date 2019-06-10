@@ -4,6 +4,7 @@ isc.auctionParametersForm.addProperties({
 	numCols: 1,
 	titlePrefix: '<b>',
 	titleSuffix: '</b>',
+	timeFormatter: 'to24HourTime',
 
 	initWidget: function () {
 		this.Super("initWidget", arguments);
@@ -13,7 +14,7 @@ isc.auctionParametersForm.addProperties({
 				name: "auctionType",
 				title: "Tipo de subasta:", 
 				editorType: "select", 
-				valueMap:["Subasta inglesa", "Subasta holandesa", "Subasta japonesa"],
+				valueMap:["Inglesa", "Holandesa", "Japonesa"],
 				defaultToFirstOption: true
 			},
 
@@ -31,7 +32,20 @@ isc.auctionParametersForm.addProperties({
 			},
 			
 			{
-				name: "maxBidders",
+				name: "deadLine",
+				title: "Fecha de cierre:",
+				editorType: "date"
+			},
+			
+			{
+				name: "closingTime",
+				title: "Hora de cierre:",
+				type: "time",
+				useTextField: false
+			},
+			
+			{
+				name: "maximumBiddersNum",
 				title: "Máximo número de postores:",
 				editorType: "SpinnerItem", 
 				keyPressFilter: "[0-9]",
@@ -39,22 +53,22 @@ isc.auctionParametersForm.addProperties({
 			},
 
 			{
-				name: "startPrice",
-				title: "Precio inicial (€):",
+				name: "startingPrice",
+				title: "Precio de salida (€):",
 				editorType: "SpinnerItem",
 				keyPressFilter: "[0-9.]",
 				defaultValue: 0.00, min: 0.00, step: 0.01
 			},
 			
 			{
-				name: "closingPrice",
-				title: "Precio de cierre (€):",
+				name: "minimumSalePrice",
+				title: "Mínimo precio de venta (€):",
 				editorType: "SpinnerItem",
 				keyPressFilter: "[0-9.]",
 				defaultValue: 0.00, min: 0.00, step: 0.01
 			},
 			
-			{
+			{ //TODO: ESTE CAMPO HAY QUE RE-PENSARLO. NO SÉ SI HAY QUE PASARLO DESDE AQUÍ O HACERLO DIRECTAMENTE EN EL SERVIDOR, SEGÚN ALGÚN CRITERIO. 
 				name: "priceUpdateFrequency",
 				title: "Frecuencia actualización precio:",
 				type: "time",

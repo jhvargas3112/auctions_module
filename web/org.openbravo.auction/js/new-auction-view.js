@@ -18,7 +18,7 @@ isc.newAuctionContainer.addProperties({
 		var priceUpdateFrequency = auctionParametersForm.getItem("priceUpdateFrequency");
 		
 		function activateEnglishAuctionFormMode() {
-			auctionParametersForm.getItem("closingPrice").setDisabled(true);
+			auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
 			auctionParametersForm.getItem("priceUpdateFrequency").setDisabled(true);
 			priceUpdateFrequency.hourItem.setDisabled(true);
 			priceUpdateFrequency.minuteItem.setDisabled(true);
@@ -67,7 +67,23 @@ isc.newAuctionContainer.addProperties({
 					products.deselectAllRecords();}
 				}),
 					
-				isc.submitButton.create()
+				isc.submitButton.create({click: function() {
+					var auctionParameters = {
+							auctionType: auctionParametersForm.getItem("auctionType").getValue(),
+							celebrationDate: auctionParametersForm.getItem("celebrationDate").getEnteredValue(),
+							celebrationTime: auctionParametersForm.getItem("celebrationTime").getEnteredValue(),
+							deadLine: auctionParametersForm.getItem("deadLine").getEnteredValue(),
+							closingTime: auctionParametersForm.getItem("closingTime").getEnteredValue(),
+							maximumBiddersNum: auctionParametersForm.getItem("maximumBiddersNum").getValue(),
+							startingPrice: auctionParametersForm.getItem("startingPrice").getValue(),
+							minimumSalePrice: auctionParametersForm.getItem("minimumSalePrice").getValue(),
+							priceUpdateFrequency: auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
+							description: auctionParametersForm.getItem("description").getValue(),
+							additionalInformation: auctionParametersForm.getItem("additionalInformation").getValue()
+					};
+					
+					OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null);}
+				})
 			]
 		});
 
