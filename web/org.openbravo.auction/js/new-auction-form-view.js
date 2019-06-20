@@ -43,7 +43,7 @@ isc.auctionParametersForm.addProperties({
 				title: "Precio inicial (€):",
 				editorType: "SpinnerItem",
 				keyPressFilter: "[0-9.]",
-				defaultValue: 0.00, min: 0.00, step: 0.01
+				defaultValue: 0.01, min: 0.01, step: 0.01
 			},
 			
 			{
@@ -51,7 +51,7 @@ isc.auctionParametersForm.addProperties({
 				title: "Precio de cierre (€):",
 				editorType: "SpinnerItem",
 				keyPressFilter: "[0-9.]",
-				defaultValue: 0.00, min: 0.00, step: 0.01
+				defaultValue: 0.01, min: 0.01, step: 0.01
 			},
 			
 			{

@@ -22,12 +22,13 @@ public class AuctionComponentProvider extends BaseComponentProvider {
   @Override
   public List<ComponentResource> getGlobalComponentResources() {
     final List<ComponentResource> globalResources = new ArrayList<ComponentResource>();
+
     globalResources.add(
         createStaticResource("web/org.openbravo.auction/js/admin-auction-control-view.js", false));
     globalResources
         .add(createStaticResource("web/org.openbravo.auction/js/new-auction-form-view.js", false));
-    globalResources.add(
-        createStaticResource("web/org.openbravo.auction/js/new-auction-products-view.js", false));
+    globalResources
+        .add(createStaticResource("web/org.openbravo.auction/js/new-auction-items-view.js", false));
     globalResources
         .add(createStaticResource("web/org.openbravo.auction/js/new-auction-view.js", false));
 
