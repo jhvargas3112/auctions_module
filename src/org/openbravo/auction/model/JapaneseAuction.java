@@ -2,14 +2,29 @@ package org.openbravo.auction.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author Jhonny Vargas.
+ *
+ */
+
 public class JapaneseAuction extends Auction {
 
-  public JapaneseAuction(Item item, Date celebrationDate, Date deadLine, Integer maximumBiddersNum,
-      Double startingPrice, Double minimumSalePrice, String description,
-      String additionalInformation) {
-    super(item, celebrationDate, deadLine, maximumBiddersNum, startingPrice, minimumSalePrice,
-        description, additionalInformation);
-    // TODO Auto-generated constructor stub
+  // TODO: Aquí alomejor hace falta una atributo para la frecuencia de actualización del precio
+  // actual de
+  // la subasta.
+
+  public JapaneseAuction(Date celebrationDate, Integer maximumBiddersNum, Item item,
+      Double startingPrice, Double minimumSalePrice, String additionalInformation) {
+    super(celebrationDate, maximumBiddersNum, item, startingPrice, minimumSalePrice,
+        additionalInformation);
+  }
+
+  @Override
+  public String toString() {
+    return "Fecha y hora de celebración: " + celebrationDate + "\nPrecio de salida: "
+        + startingPrice + "\nProducto subastado:\n" + item + "\nInformación adicional: "
+        + additionalInformation;
   }
 
 }

@@ -8,6 +8,13 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
+/**
+ * 
+ * @author Jhonny Vargas.
+ *
+ */
+
+@SuppressWarnings("serial")
 public class AuctioneerAgent extends Agent {
 
   private Auction auction;

@@ -1,12 +1,17 @@
 package org.openbravo.auction.agents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.openbravo.auction.agents.behaviours.NewAuctionNotificationBehaviour;
 import org.openbravo.auction.agents.behaviours.NewBuyerSubscriptionBehaviour;
+import org.openbravo.auction.agents.behaviours.startOpenbravoAuctionRestServerBehaviour;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.DutchAuction;
+import org.openbravo.auction.model.EnglishAuction;
+import org.openbravo.auction.model.JapaneseAuction;
 import org.openbravo.auction.service.OpenbravoAuctionService;
 import org.openbravo.auction.utils.AuctionState;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -25,13 +30,13 @@ import jade.wrapper.StaleProxyException;
 @SuppressWarnings("serial")
 public class OpenbravoAuctionAgent extends Agent {
 
-  @Autowired
   private OpenbravoAuctionService openbravoAuctionService;
 
   private Auction auction;
   private AgentController auctioneerAgentController;
-  private HashMap<String, BuyerAgent> buyers; // FIXME: VALORAR QUÉ USAR COMO CLAVE Y QUÉ COMO
-                                              // VALOR. CREO QUE BuyerAgent DEBERÍA SER UN TIPO
+  private HashMap<String, BuyerAgent> buyers; // Key: the buyer's email; Value: the JADE agent
+                                              // associated to this buyer.
+                                              // FIXME: CREO QUE BuyerAgent DEBERÍA SER UN TIPO
                                               // GENÉRICO AgentController
   private AuctionState auctionState = AuctionState.IN_SUSCRIPTION_TIME; // FIXME: CREO QUE SOBRA.
   // VALORARLO CON DETENIMIENTO.
@@ -62,21 +67,37 @@ public class OpenbravoAuctionAgent extends Agent {
     }
 
     try {
-      auctioneerAgentController = getContainerController().createNewAgent("AUCTIONEER",
-          "org.openbravo.auction.Agents.OpenbravoAuctionAgent", new Object[0]);
-      // auctioneerAgentController.start(); TODO: LO MANDAREMOS A EMPEZAR CUANDO SE HAYA TERMINADO
-      // EL TIEMPO DE SUSCRIPCIÓN Y LA SUBASTA SE DE EMPEZADA.
+      if (auction instanceof EnglishAuction) {
+      } else if (auction instanceof EnglishAuction) {
+        auctioneerAgentController = getContainerController().createNewAgent("ENGLISH-AUCTIONEER",
+            "org.openbravo.auction.agents.EnglishAuctioneerAgent", new Object[0]);
+      } else if (auction instanceof DutchAuction) {
+        auctioneerAgentController = getContainerController().createNewAgent("DUTCH-AUCTIONEER",
+            "org.openbravo.auction.agents.DutchAuctioneerAgent", new Object[0]);
+      } else if (auction instanceof JapaneseAuction) {
+        auctioneerAgentController = getContainerController().createNewAgent("JAPANESE-AUCTIONEER",
+            "org.openbravo.auction.agents.JapaneseAuctioneerAgent", new Object[0]);
+      }
+
+      // auctioneerAgentController.start(); // TODO: LO MANDAREMOS A EMPEZAR CUANDO SE HAYA
+      // TERMINADO
+      // EL TIEMPO DE SUSCRIPCIÓN Y LA SUBASTA SE DE POR EMPEZADA.
     } catch (StaleProxyException e) {
       e.printStackTrace();
     }
 
     addBehaviour(new NewBuyerSubscriptionBehaviour(auction.getCelebrationDate()));
 
+    ArrayList<String> newAuctionNotificationMessageElements = new ArrayList<String>();
+    newAuctionNotificationMessageElements.add(auction.toString());
+
+    addBehaviour(new startOpenbravoAuctionRestServerBehaviour());
+    addBehaviour(new NewAuctionNotificationBehaviour(newAuctionNotificationMessageElements));
   }
 
   @Override
   protected void takeDown() {
-    // Deregister from the yellow pages
+    // Deregister from the yellow pages.
     try {
       DFService.deregister(this);
     } catch (FIPAException fe) {

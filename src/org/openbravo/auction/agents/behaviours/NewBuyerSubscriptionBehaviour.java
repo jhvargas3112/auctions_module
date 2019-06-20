@@ -5,6 +5,8 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 
 import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 /**
  * 
@@ -15,25 +17,38 @@ import jade.core.behaviours.Behaviour;
 @SuppressWarnings("serial")
 public class NewBuyerSubscriptionBehaviour extends Behaviour {
 
-  private Date suscriptionPeriodDeadline;
+  private Date celebrationDate;
+  private MessageTemplate messageTemplate;
 
-  public NewBuyerSubscriptionBehaviour(Date suscriptionPeriodDeadline) {
-    this.suscriptionPeriodDeadline = suscriptionPeriodDeadline;
+  public NewBuyerSubscriptionBehaviour(Date celebrationDate) {
+    this.celebrationDate = celebrationDate;
+
+    messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
   }
 
   @Override
   public void action() {
-    System.out.println("Esperando suscripciones...");
+    ACLMessage msg = myAgent.receive(messageTemplate);
+
+    if (msg != null) {
+      System.out.println("Se va a registrar el comprador con email " + msg);
+    }
+
+    // System.out.println("Esperando suscripciones...");
   }
 
   /**
-   * AQUÍ COMPROBAR SI LA SUBASTA YA HA EMPEZADO. EN ESE CASO, YA NO SE PUEDEN SUSCRIBIR MÁS
-   * COMPRADORES Y SE COMPLETA EL COMPORTAMIENTO.
-   * 
+   * Checks if the auction has already begun.
    */
   @Override
   public boolean done() {
-    return DateUtils.isSameInstant(suscriptionPeriodDeadline, new Date());
+    return DateUtils.isSameInstant(celebrationDate, new Date());
+  }
+
+  @Override
+  public int onEnd() {
+    myAgent.doDelete();
+    return 0;
   }
 
 }

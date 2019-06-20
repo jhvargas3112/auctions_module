@@ -7,11 +7,15 @@ import org.openbravo.auction.service.OpenbravoAuctionService;
 import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 import org.openbravo.base.exception.OBException;
 import org.openbravo.client.kernel.BaseActionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * 
+ * @author Jhonny Vargas.
+ *
+ */
 
 public class PublishAuctionHandler extends BaseActionHandler {
 
-  @Autowired
   private OpenbravoAuctionService openbravoAuctionService;
 
   @Override

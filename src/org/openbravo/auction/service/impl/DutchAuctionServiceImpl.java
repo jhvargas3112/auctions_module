@@ -1,7 +1,6 @@
 package org.openbravo.auction.service.impl;
 
 import org.openbravo.auction.service.DutchAuctionService;
-import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
  *
  */
 
-@Service
 public class DutchAuctionServiceImpl implements DutchAuctionService {
 
 }

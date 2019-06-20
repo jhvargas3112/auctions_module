@@ -2,7 +2,6 @@ package org.openbravo.auction.service.impl;
 
 import org.openbravo.auction.model.DutchAuction;
 import org.openbravo.auction.service.JapaneseAuctionService;
-import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
  *
  */
 
-@Service
 public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
 
   @Override
