@@ -31,6 +31,16 @@ public class AuctionComponentProvider extends BaseComponentProvider {
         .add(createStaticResource("web/org.openbravo.auction/js/new-auction-items-view.js", false));
     globalResources
         .add(createStaticResource("web/org.openbravo.auction/js/new-auction-view.js", false));
+    globalResources
+        .add(createStaticResource("web/org.openbravo.auction/js/auction-info-view.js", false));
+    globalResources.add(
+        createStaticResource("web/org.openbravo.auction/js/published-auction-info-view.js", false));
+    globalResources.add(createStaticResource(
+        "web/org.openbravo.auction/js/published-auction-buyers-view.js", false));
+    globalResources
+        .add(createStaticResource("web/org.openbravo.auction/js/published-auction-view.js", false));
+    globalResources.add(createStaticResource(
+        "web/org.openbravo.auction/js/admin-auction-control-tabbar.js", false));
 
     return globalResources;
   }

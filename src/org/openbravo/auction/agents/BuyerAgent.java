@@ -2,8 +2,6 @@ package org.openbravo.auction.agents;
 
 import org.openbravo.auction.agents.behaviours.NewBuyerSubscriptionNotifier;
 
-import jade.core.Agent;
-
 /**
  * 
  * @author Jhonny Vargas.
@@ -11,7 +9,7 @@ import jade.core.Agent;
  */
 
 @SuppressWarnings("serial")
-public class BuyerAgent extends Agent {
+public class BuyerAgent extends OpenbravoAgent {
   String buyerEmail;
 
   @Override
@@ -20,6 +18,7 @@ public class BuyerAgent extends Agent {
 
     if (args != null && args.length > 0) {
       buyerEmail = (String) args[0];
+      registerAgent("BUYER", this.getLocalName());
     }
 
     addBehaviour(new NewBuyerSubscriptionNotifier());
@@ -28,9 +27,6 @@ public class BuyerAgent extends Agent {
   @Override
   public void takeDown() {
     System.out.println("Seller-agent " + getAID().getName() + " terminating.");
-  }
-
-  public void updateCatalogue(String title, Double price) {
   }
 
   public String getBuyerEmail() {

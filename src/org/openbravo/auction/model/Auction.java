@@ -2,6 +2,8 @@ package org.openbravo.auction.model;
 
 import java.util.Date;
 
+import org.openbravo.auction.utils.AuctionType;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -10,6 +12,8 @@ import java.util.Date;
 
 public abstract class Auction {
 
+  protected final AuctionType auctionType;
+
   protected Date celebrationDate;
   protected Integer maximumBiddersNum;
   protected Item item;
@@ -17,14 +21,19 @@ public abstract class Auction {
   protected Double minimumSalePrice;
   protected String additionalInformation;
 
-  public Auction(Date celebrationDate, Integer maximumBiddersNum, Item item, Double startingPrice,
-      Double minimumSalePrice, String additionalInformation) {
+  public Auction(AuctionType auctionType, Date celebrationDate, Integer maximumBiddersNum,
+      Item item, Double startingPrice, Double minimumSalePrice, String additionalInformation) {
+    this.auctionType = auctionType;
     this.celebrationDate = celebrationDate;
     this.maximumBiddersNum = maximumBiddersNum;
     this.item = item;
     this.startingPrice = startingPrice;
     this.minimumSalePrice = minimumSalePrice;
     this.additionalInformation = additionalInformation;
+  }
+
+  public AuctionType getAuctionType() {
+    return auctionType;
   }
 
   public Date getCelebrationDate() {

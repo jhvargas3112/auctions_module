@@ -10,6 +10,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -23,8 +32,11 @@ import org.openbravo.auction.model.EnglishAuction;
 import org.openbravo.auction.model.Item;
 import org.openbravo.auction.model.JapaneseAuction;
 import org.openbravo.auction.service.OpenbravoAuctionService;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import jade.wrapper.AgentController;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 
 /**
@@ -38,7 +50,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   @Override
   public Auction createAuction(String auctionType, Date celebrationDate, Date deadLine,
       Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
-      String description, String additionalInformation) {
+      String additionalInformation) {
 
     Auction auction = null;
 
@@ -64,6 +76,8 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   // obtener el Item.
   @Override
   public void publishAuction(JSONObject jsonAuctionParameters) {
+    OpenbravoAuctionAgentContainer.INSTANCE.getValue();
+
     String auctionType = null;
     Date celebrationDate = null;
     Date deadLine = null;
@@ -71,8 +85,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     Item item = null;
     Double startingPrice = null;
     Double minimumSalePrice = null;
-    String description = null;
-    String additionalInformation = null;
+    String additionalInformation = "";
 
     try {
       auctionType = (String) jsonAuctionParameters.get("auctionType");
@@ -104,10 +117,6 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
       minimumSalePrice = Double
           .parseDouble(jsonAuctionParameters.get("minimumSalePrice").toString());
 
-      if (!jsonAuctionParameters.isNull("description")) {
-        description = (String) jsonAuctionParameters.get("description");
-      }
-
       if (!jsonAuctionParameters.isNull("additionalInformation")) {
         additionalInformation = (String) jsonAuctionParameters.get("additionalInformation");
       }
@@ -119,7 +128,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     }
 
     Auction auction = createAuction(auctionType, celebrationDate, deadLine, maximumBiddersNum, item,
-        startingPrice, minimumSalePrice, description, additionalInformation);
+        startingPrice, minimumSalePrice, additionalInformation);
 
     AgentController openbravoAuctionAgent = null;
 
@@ -128,13 +137,58 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     try {
       openbravoAuctionAgent = OpenbravoAuctionAgentContainer.INSTANCE.getValue()
-          .createNewAgent("OPENBRAVO-AUCTION", "org.openbravo.auction.agents.OpenbravoAuctionAgent",
+          .createNewAgent("openbravo_auction", "org.openbravo.auction.agents.OpenbravoAuctionAgent",
               openbravoAuctionAgentAurguments);
 
       openbravoAuctionAgent.start();
 
     } catch (StaleProxyException e) {
       e.printStackTrace();
+    } catch (ControllerException e) {
+      e.printStackTrace();
+    }
+
+    // CREATE XML BUYERS FILE
+
+    try {
+
+      DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+
+      DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+
+      Document document = documentBuilder.newDocument();
+
+      // root element
+      Element root = document.createElement("Root");
+
+      document.appendChild(root);
+
+      // create the xml file
+      // transform the DOM Object to an XML File
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      DOMSource domSource = new DOMSource(document);
+
+      ClassLoader classLoader = getClass().getClassLoader();
+      Properties appProps = new Properties();
+      try {
+        String resource = classLoader.getResource("config.properties").getPath();
+        appProps.load(new FileInputStream(resource));
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+      StreamResult streamResult = new StreamResult(
+          appProps.getProperty("registered_buyers_path_file") + "/registered_buyers.xml");
+
+      transformer.transform(domSource, streamResult);
+
+    } catch (ParserConfigurationException pce) {
+      pce.printStackTrace();
+    } catch (TransformerException tfe) {
+      tfe.printStackTrace();
     }
   }
 
@@ -229,7 +283,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     sb.append("\n\n")
         .append("Apuntate a la subasta, haciendo click en el siguiente link: "
-            + "http://192.168.0.157:8111/openbravo/auction/join_to?buyer_email=" + receiverEmail);
+            + "http://172.31.99.66:8111/openbravo/auction/join_to?buyer_email=" + receiverEmail);
 
     return sb.toString();
   }
@@ -243,11 +297,13 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     try {
       buyerAgent = OpenbravoAuctionAgentContainer.INSTANCE.getValue()
-          .createNewAgent(email + "-BUYER", "org.openbravo.auction.agents.BuyerAgent",
+          .createNewAgent(email, "org.openbravo.auction.agents.BuyerAgent",
               openbravoAuctionAgentAurguments);
 
       buyerAgent.start();
     } catch (StaleProxyException e) {
+      e.printStackTrace();
+    } catch (ControllerException e) {
       e.printStackTrace();
     }
   }

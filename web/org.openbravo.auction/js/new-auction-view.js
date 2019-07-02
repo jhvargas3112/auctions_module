@@ -1,8 +1,12 @@
+// New auction tab content
+
 isc.defineClass('newAuctionContainer', isc.HLayout);
+
+auctionParametersForm = isc.auctionParametersForm.create();
 
 isc.newAuctionContainer.addProperties({
 	initWidget: function () {
-		var auctionParametersForm = isc.auctionParametersForm.create();
+		
 		var selectedItem = null;
 
 		items = isc.items.create({selectionUpdated: function() {
@@ -44,17 +48,17 @@ isc.newAuctionContainer.addProperties({
 		auctionParametersForm.getItem("auctionType").changed = function() {
 			var selectedAuctionType = auctionParametersForm.getItem("auctionType").getValue();
 
-			if (selectedAuctionType === "Subasta inglesa") {
+			if (selectedAuctionType === "Inglesa") {
 				activateEnglishAuctionFormMode();
-				setf("Subasta inglesa");
-			} else if (selectedAuctionType === "Subasta japonesa") {
+				setf("Inglesa");
+			} else if (selectedAuctionType === "Japonesa") {
 				auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
 				deactivatePriceUpdateFrequencyFormField();
-				setf("Subasta japonesa");
+				setf("Japonesa");
 			} else {
 				auctionParametersForm.getItem("minimumSalePrice").setDisabled(false);
 				deactivatePriceUpdateFrequencyFormField();
-				setf("Subasta holandesa");
+				setf("Holandesa");
 			}
 
 			items.deselectAllRecords();
@@ -68,28 +72,6 @@ isc.newAuctionContainer.addProperties({
 					activateEnglishAuctionFormMode();
 					items.deselectAllRecords();}
 				}),
-<<<<<<< Updated upstream
-					
-				isc.submitButton.create({click: function() {
-					var auctionParameters = {
-							auctionType: auctionParametersForm.getItem("auctionType").getValue(),
-							celebrationDate: auctionParametersForm.getItem("celebrationDate").getEnteredValue(),
-							celebrationTime: auctionParametersForm.getItem("celebrationTime").getEnteredValue(),
-							deadLine: auctionParametersForm.getItem("deadLine").getEnteredValue(),
-							closingTime: auctionParametersForm.getItem("closingTime").getEnteredValue(),
-							maximumBiddersNum: auctionParametersForm.getItem("maximumBiddersNum").getValue(),
-							startingPrice: auctionParametersForm.getItem("startingPrice").getValue(),
-							minimumSalePrice: auctionParametersForm.getItem("minimumSalePrice").getValue(),
-							priceUpdateFrequency: auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
-							description: auctionParametersForm.getItem("description").getValue(),
-							additionalInformation: auctionParametersForm.getItem("additionalInformation").getValue()
-					};
-					
-					OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null);}
-				})
-			]
-=======
-
 				isc.submitButton.create({click: function() {
 					var celebrationTimeFormField = auctionParametersForm.getItem("celebrationTime");
 					var closingTimeFormField = auctionParametersForm.getItem("closingTime");
@@ -111,11 +93,10 @@ isc.newAuctionContainer.addProperties({
 							priceUpdateFrequency: auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
 							additionalInformation: auctionParametersForm.getItem("additionalInformation").getValue(),
 					};
-
-					OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null);}
-				})
-				]
->>>>>>> Stashed changes
+					
+					publishAuction(auctionParameters).then(function() {changeView();});	
+				}})
+			]
 		});
 
 		formLayout = isc.VLayout.create({
@@ -130,27 +111,17 @@ isc.newAuctionContainer.addProperties({
 	}
 });
 
-isc.defineClass("tabBar", isc.OBTabSetChild);
-isc.tabBar.addProperties({
-	height: "100%",
+changeView = function() {
+	setTimeout(function(){ 
+		newAuctionTabBar.addTab({id: "auctionInfo", title: "Información subasta", pane: isc.publishedAuctionContainer.create()});
+		newAuctionTabBar.getTab(0).setDisabled(true);
+		newAuctionTabBar.selectTab(1);
+    }, 10000);  
+}
 
-	initWidget: function () {
-		var newAuctionContainer = isc.newAuctionContainer.create();
+publishAuction = function(auctionParameters) {
+	return new Promise(function (fulfill, reject) {
+		fulfill({ value: auctionParameters, result: OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null) });
+	});
+}
 
-		this.Super("initWidget", arguments);
-
-		this.addTabs([
-			{
-				id: "newAuction",
-				title: "Nueva subasta",
-				pane: newAuctionContainer
-			},
-
-			{
-				id: "AuctionInfo",
-				title: "Información subasta",
-				pane: null
-			}]
-		);
-	}
-});

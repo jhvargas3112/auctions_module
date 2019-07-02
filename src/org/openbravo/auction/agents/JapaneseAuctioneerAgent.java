@@ -6,6 +6,7 @@ package org.openbravo.auction.agents;
  *
  */
 
-public class JapaneseAuctioneerAgent {
+@SuppressWarnings("serial")
+public class JapaneseAuctioneerAgent extends OpenbravoAgent {
 
 }

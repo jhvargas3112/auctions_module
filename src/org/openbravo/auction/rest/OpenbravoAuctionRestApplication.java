@@ -1,11 +1,22 @@
 package org.openbravo.auction.rest;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.rest.service.AuctionInfoRest;
+import org.openbravo.auction.rest.service.AuctionStateRest;
 import org.openbravo.auction.rest.service.OpenbravoAuctionRest;
+import org.openbravo.auction.rest.service.RegisteredBuyersRest;
+import org.openbravo.auction.utils.AuctionState;
 import org.restlet.Application;
+import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
 import org.restlet.routing.Router;
+import org.restlet.service.CorsService;
 
 /**
  * 
@@ -15,16 +26,32 @@ import org.restlet.routing.Router;
 
 public class OpenbravoAuctionRestApplication extends Application {
 
-  public OpenbravoAuctionRestApplication() {
+  public OpenbravoAuctionRestApplication(Auction auction) {
+    setContext(new Context());
+    getContext().setAttributes(new HashMap<String, Object>());
+    getContext().getAttributes().put("registered_buyers", new HashMap<Integer, String>());
+    getContext().getAttributes().put("auction", auction);
+    getContext().getAttributes().put("auctionState", AuctionState.PUBLISHED);
+
     setName("RESTful Openbravo auctions module server");
     setDescription("This is the RESTful API for the Openbravo auctions module");
     setOwner("Jhonny Vargas and the OPenbravo ERP community");
     setAuthor("Jhonny Vargas");
   }
 
-  public static void startOpenbravoAuctionRestServer() {
+  public static void startOpenbravoAuctionRestServer(Auction auction) {
     Server mailServer = new Server(Protocol.HTTP, 8111);
-    mailServer.setNext(new OpenbravoAuctionRestApplication());
+
+    OpenbravoAuctionRestApplication openbravoAuctionRestApplication = new OpenbravoAuctionRestApplication(
+        auction);
+
+    CorsService corsService = new CorsService();
+    corsService.setAllowedOrigins(new HashSet(Arrays.asList("*")));
+    corsService.setAllowedCredentials(true);
+
+    openbravoAuctionRestApplication.getServices().add(corsService);
+
+    mailServer.setNext(openbravoAuctionRestApplication);
 
     try {
       mailServer.start();
@@ -36,10 +63,14 @@ public class OpenbravoAuctionRestApplication extends Application {
   @Override
   public Restlet createInboundRoot() {
     Router router = new Router(getContext());
-    router.attach("http://192.168.0.157:8111/openbravo/auction/join_to",
+    router.attach("http://localhost:8111/openbravo/auction/join_to", OpenbravoAuctionRest.class);
+    router.attach("http://localhost:8111/openbravo/auction/leave_to",
         OpenbravoAuctionRest.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/leave_to",
-        OpenbravoAuctionRest.class);
+    router.attach("http://localhost:8111/openbravo/auction/registered_buyers",
+        RegisteredBuyersRest.class);
+    router.attach("http://localhost:8111/openbravo/auction/auction_info", AuctionInfoRest.class);
+    router.attach("http://localhost:8111/openbravo/auction/auction_state",
+        AuctionStateRest.class);
 
     /*
      * return new Restlet() {

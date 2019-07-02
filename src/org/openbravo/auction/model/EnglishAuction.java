@@ -2,6 +2,9 @@ package org.openbravo.auction.model;
 
 import java.util.Date;
 
+import org.openbravo.auction.utils.AuctionType;
+import org.openbravo.auction.utils.AuctionTypeEnum;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -14,8 +17,8 @@ public class EnglishAuction extends Auction {
 
   public EnglishAuction(Date celebrationDate, Date deadLine, Integer maximumBiddersNum, Item item,
       Double startingPrice, Double minimumSalePrice, String additionalInformation) {
-    super(celebrationDate, maximumBiddersNum, item, startingPrice, minimumSalePrice,
-        additionalInformation);
+    super(new AuctionType(AuctionTypeEnum.ENGLISH), celebrationDate, maximumBiddersNum, item, startingPrice,
+        minimumSalePrice, additionalInformation);
 
     this.deadLine = deadLine;
   }

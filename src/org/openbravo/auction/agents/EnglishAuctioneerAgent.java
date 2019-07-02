@@ -1,7 +1,5 @@
 package org.openbravo.auction.agents;
 
-import jade.core.Agent;
-
 /**
  * 
  * @author Jhonny Vargas.
@@ -9,6 +7,6 @@ import jade.core.Agent;
  */
 
 @SuppressWarnings("serial")
-public class EnglishAuctioneerAgent extends Agent {
+public class EnglishAuctioneerAgent extends OpenbravoAgent {
 
 }

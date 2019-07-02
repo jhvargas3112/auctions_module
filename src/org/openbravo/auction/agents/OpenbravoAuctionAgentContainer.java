@@ -3,7 +3,7 @@ package org.openbravo.auction.agents;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
-import jade.wrapper.ContainerController;
+import jade.wrapper.PlatformController;
 
 /**
  * 
@@ -14,21 +14,24 @@ import jade.wrapper.ContainerController;
 public enum OpenbravoAuctionAgentContainer {
   INSTANCE;
 
-  ContainerController mainContainer;
+  private PlatformController mainContainer = null;
 
-  public ContainerController getValue() {
-    Runtime runtime = jade.core.Runtime.instance();
-    runtime.setCloseVM(true);
+  public PlatformController getValue() {
+    if (mainContainer == null) {
+      Runtime runtime = jade.core.Runtime.instance();
+      runtime.setCloseVM(true);
 
-    // Create a default profile
-    Profile profile = new ProfileImpl(null, 1200, null);
+      Profile profile = new ProfileImpl(null, 1200, null);
 
-    mainContainer = runtime.createMainContainer(profile);
+      mainContainer = runtime.createMainContainer(profile);
 
-    return mainContainer;
+      return mainContainer;
+    } else {
+      return mainContainer;
+    }
   }
 
-  public void setValue(ContainerController mainContainer) {
+  public void setValue(PlatformController mainContainer) {
     this.mainContainer = mainContainer;
   }
 

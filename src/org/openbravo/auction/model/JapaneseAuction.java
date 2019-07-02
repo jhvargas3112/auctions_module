@@ -2,6 +2,9 @@ package org.openbravo.auction.model;
 
 import java.util.Date;
 
+import org.openbravo.auction.utils.AuctionType;
+import org.openbravo.auction.utils.AuctionTypeEnum;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -16,8 +19,8 @@ public class JapaneseAuction extends Auction {
 
   public JapaneseAuction(Date celebrationDate, Integer maximumBiddersNum, Item item,
       Double startingPrice, Double minimumSalePrice, String additionalInformation) {
-    super(celebrationDate, maximumBiddersNum, item, startingPrice, minimumSalePrice,
-        additionalInformation);
+    super(new AuctionType(AuctionTypeEnum.JAPANESE), celebrationDate, maximumBiddersNum, item, startingPrice,
+        minimumSalePrice, additionalInformation);
   }
 
   @Override

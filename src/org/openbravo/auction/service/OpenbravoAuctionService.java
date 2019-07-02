@@ -11,7 +11,7 @@ public interface OpenbravoAuctionService {
 
   public Auction createAuction(String auctionType, Date celebrationDate, Date deadLine,
       Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
-      String description, String additionalInformation);
+      String additionalInformation);
 
   public void publishAuction(JSONObject auctionParameters);
 

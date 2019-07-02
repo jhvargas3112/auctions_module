@@ -34,6 +34,6 @@ isc.items.addProperties({
 
 	initWidget: function () {
 		this.Super('initWidget', arguments);
-		OB.Datasource.get('35F3E346A43A483482E2D793593C7FB2', this, null, true);
+		OB.Datasource.get('F31BD3B6E940437EA52815504A0EB542', this, null, true);
 	}
 });

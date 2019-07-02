@@ -1,7 +1,6 @@
 package org.openbravo.auction.agents;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.openbravo.auction.agents.behaviours.NewAuctionNotificationBehaviour;
 import org.openbravo.auction.agents.behaviours.NewBuyerSubscriptionBehaviour;
@@ -13,11 +12,8 @@ import org.openbravo.auction.model.JapaneseAuction;
 import org.openbravo.auction.service.OpenbravoAuctionService;
 import org.openbravo.auction.utils.AuctionState;
 
-import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
@@ -28,37 +24,19 @@ import jade.wrapper.StaleProxyException;
  */
 
 @SuppressWarnings("serial")
-public class OpenbravoAuctionAgent extends Agent {
+public class OpenbravoAuctionAgent extends OpenbravoAgent {
 
   private OpenbravoAuctionService openbravoAuctionService;
 
   private Auction auction;
   private AgentController auctioneerAgentController;
-  private HashMap<String, BuyerAgent> buyers; // Key: the buyer's email; Value: the JADE agent
-                                              // associated to this buyer.
-                                              // FIXME: CREO QUE BuyerAgent DEBERÍA SER UN TIPO
-                                              // GENÉRICO AgentController
-  private AuctionState auctionState = AuctionState.IN_SUSCRIPTION_TIME; // FIXME: CREO QUE SOBRA.
+  private AuctionState auctionState = AuctionState.PUBLISHED; // FIXME: CREO QUE SOBRA.
   // VALORARLO CON DETENIMIENTO.
   // CREO QUE HACE ALTA AGREGAR UN ATRIBUTO PARA ESPECIFICAR EL TIPO DE SUBASTA
 
   @Override
   public void setup() {
-    DFAgentDescription dfAgentDescription = new DFAgentDescription();
-
-    dfAgentDescription.setName(getAID());
-
-    ServiceDescription serviceDescription = new ServiceDescription();
-
-    serviceDescription.setType("OPENBRAVO-AUCTION");
-    serviceDescription.setName(this.getLocalName());
-    dfAgentDescription.addServices(serviceDescription);
-
-    try {
-      DFService.register(this, dfAgentDescription);
-    } catch (FIPAException fe) {
-      fe.printStackTrace();
-    }
+    registerAgent("OPENBRAVO-AUCTION", this.getLocalName());
 
     Object[] args = getArguments();
 
@@ -91,13 +69,13 @@ public class OpenbravoAuctionAgent extends Agent {
     ArrayList<String> newAuctionNotificationMessageElements = new ArrayList<String>();
     newAuctionNotificationMessageElements.add(auction.toString());
 
-    addBehaviour(new startOpenbravoAuctionRestServerBehaviour());
+    addBehaviour(new startOpenbravoAuctionRestServerBehaviour(auction));
     addBehaviour(new NewAuctionNotificationBehaviour(newAuctionNotificationMessageElements));
   }
 
   @Override
   protected void takeDown() {
-    // Deregister from the yellow pages.
+    // Deregister from the DF.
     try {
       DFService.deregister(this);
     } catch (FIPAException fe) {

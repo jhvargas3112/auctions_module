@@ -32,6 +32,7 @@ public class PublishAuctionHandler extends BaseActionHandler {
 
       return response;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new OBException(e);
     }
   }
