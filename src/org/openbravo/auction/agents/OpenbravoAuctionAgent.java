@@ -46,7 +46,6 @@ public class OpenbravoAuctionAgent extends OpenbravoAgent {
 
     try {
       if (auction instanceof EnglishAuction) {
-      } else if (auction instanceof EnglishAuction) {
         auctioneerAgentController = getContainerController().createNewAgent("ENGLISH-AUCTIONEER",
             "org.openbravo.auction.agents.EnglishAuctioneerAgent", new Object[0]);
       } else if (auction instanceof DutchAuction) {

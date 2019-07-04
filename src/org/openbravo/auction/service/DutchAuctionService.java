@@ -7,5 +7,7 @@ package org.openbravo.auction.service;
  */
 
 public interface DutchAuctionService {
+  public void reduceCurrentDutchAuctionItemPrice();
 
+  public void determineDutchAuctionWinner();
 }

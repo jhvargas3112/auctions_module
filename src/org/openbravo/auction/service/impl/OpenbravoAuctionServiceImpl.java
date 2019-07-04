@@ -3,10 +3,7 @@ package org.openbravo.auction.service.impl;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -23,15 +20,13 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.openbravo.auction.agents.OpenbravoAuctionAgentContainer;
 import org.openbravo.auction.model.Auction;
-import org.openbravo.auction.model.DutchAuction;
-import org.openbravo.auction.model.EnglishAuction;
-import org.openbravo.auction.model.Item;
-import org.openbravo.auction.model.JapaneseAuction;
+import org.openbravo.auction.model.factory.AuctionFactory;
 import org.openbravo.auction.service.OpenbravoAuctionService;
+import org.restlet.resource.ClientResource;
+import org.restlet.resource.ResourceException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -48,88 +43,11 @@ import jade.wrapper.StaleProxyException;
 public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
   @Override
-  public Auction createAuction(String auctionType, Date celebrationDate, Date deadLine,
-      Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
-      String additionalInformation) {
-
-    Auction auction = null;
-
-    switch (auctionType) {
-      case "Inglesa":
-        auction = new EnglishAuction(celebrationDate, deadLine, maximumBiddersNum, item,
-            startingPrice, minimumSalePrice, additionalInformation);
-        break;
-      case "Holandesa":
-        auction = new DutchAuction(celebrationDate, deadLine, maximumBiddersNum, item,
-            startingPrice, minimumSalePrice, additionalInformation);
-        break;
-      case "Japonesa":
-        auction = new JapaneseAuction(celebrationDate, maximumBiddersNum, item, startingPrice,
-            minimumSalePrice, additionalInformation);
-        break;
-    }
-
-    return auction;
-  }
-
-  // FIXME: Dividir este método en 2: 1 para obtener los parametros del formulario y otro para
-  // obtener el Item.
-  @Override
   public void publishAuction(JSONObject jsonAuctionParameters) {
-    OpenbravoAuctionAgentContainer.INSTANCE.getValue();
+    // Create the appropriate auction instance.
+    Auction auction = (Auction) AuctionFactory.getAuction(jsonAuctionParameters);
 
-    String auctionType = null;
-    Date celebrationDate = null;
-    Date deadLine = null;
-    Integer maximumBiddersNum = null;
-    Item item = null;
-    Double startingPrice = null;
-    Double minimumSalePrice = null;
-    String additionalInformation = "";
-
-    try {
-      auctionType = (String) jsonAuctionParameters.get("auctionType");
-
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-      celebrationDate = dateFormat.parse((String) jsonAuctionParameters.get("celebrationDate") + " "
-          + (String) jsonAuctionParameters.get("celebrationTime"));
-
-      deadLine = dateFormat.parse((String) jsonAuctionParameters.get("deadLine") + " "
-          + (String) jsonAuctionParameters.get("closingTime"));
-
-      maximumBiddersNum = (Integer) jsonAuctionParameters.get("maximumBiddersNum");
-
-      // FIXME: Tener en cuenta los valores nulos, sobre todo en volume y weight (Y EN TOOS EN
-      // REALIDAD) y ponerle 0.0, "", o lo que corresponda por
-      // defecto, por ejemplo, o mejor ponerlo a null
-
-      item = new Item((String) ((JSONObject) jsonAuctionParameters.get("auctionItem")).get("name"),
-          (String) ((JSONObject) jsonAuctionParameters.get("auctionItem")).get("description"),
-          (String) ((JSONObject) jsonAuctionParameters.get("auctionItem")).get("category"),
-          Double.parseDouble(
-              ((JSONObject) jsonAuctionParameters.get("auctionItem")).get("volume").toString()),
-          Double.parseDouble(
-              ((JSONObject) jsonAuctionParameters.get("auctionItem")).get("weight").toString()));
-
-      startingPrice = Double.parseDouble(jsonAuctionParameters.get("startingPrice").toString());
-
-      minimumSalePrice = Double
-          .parseDouble(jsonAuctionParameters.get("minimumSalePrice").toString());
-
-      if (!jsonAuctionParameters.isNull("additionalInformation")) {
-        additionalInformation = (String) jsonAuctionParameters.get("additionalInformation");
-      }
-
-    } catch (JSONException e1) {
-      e1.printStackTrace();
-    } catch (ParseException e2) {
-      e2.printStackTrace();
-    }
-
-    Auction auction = createAuction(auctionType, celebrationDate, deadLine, maximumBiddersNum, item,
-        startingPrice, minimumSalePrice, additionalInformation);
-
+    // Create the JADE agent.
     AgentController openbravoAuctionAgent = null;
 
     Object[] openbravoAuctionAgentAurguments = new Object[1];
@@ -148,8 +66,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
       e.printStackTrace();
     }
 
-    // CREATE XML BUYERS FILE
-
+    // Create the XML buyers file.
     try {
 
       DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -283,7 +200,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     sb.append("\n\n")
         .append("Apuntate a la subasta, haciendo click en el siguiente link: "
-            + "http://172.31.99.66:8111/openbravo/auction/join_to?buyer_email=" + receiverEmail);
+            + "http://localhost:8111/openbravo/auction/join_to?buyer_email=" + receiverEmail);
 
     return sb.toString();
   }
@@ -306,6 +223,17 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     } catch (ControllerException e) {
       e.printStackTrace();
     }
+
+    try {
+      System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      new ClientResource("http://localhost:8111/openbravo/auction/auction_info").get()
+          .write(System.out);
+    } catch (ResourceException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
 }

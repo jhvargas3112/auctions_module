@@ -9,5 +9,14 @@ import org.openbravo.auction.service.DutchAuctionService;
  */
 
 public class DutchAuctionServiceImpl implements DutchAuctionService {
+  @Override
+  public void reduceCurrentDutchAuctionItemPrice() {
+
+  }
+
+  @Override
+  public void determineDutchAuctionWinner() {
+
+  }
 
 }

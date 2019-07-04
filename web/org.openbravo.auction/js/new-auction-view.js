@@ -77,22 +77,26 @@ isc.newAuctionContainer.addProperties({
 					var closingTimeFormField = auctionParametersForm.getItem("closingTime");
 
 					var auctionParameters = {
-							auctionType: auctionParametersForm.getItem("auctionType").getValue(),
-							celebrationDate: auctionParametersForm.getItem("celebrationDate").getEnteredValue(),
-							celebrationTime: celebrationTimeFormField.hourItem.getValue() + ':' +
+							'auctionType': auctionParametersForm.getItem("auctionType").getValue(),
+							'celebrationDate': auctionParametersForm.getItem("celebrationDate").getEnteredValue(),
+							'celebrationTime': celebrationTimeFormField.hourItem.getValue() + ':' +
 							celebrationTimeFormField.minuteItem.getValue() + ':' +
 							celebrationTimeFormField.secondItem.getValue(),
-							deadLine: auctionParametersForm.getItem("deadLine").getEnteredValue(),
-							closingTime: closingTimeFormField.hourItem.getValue() + ':' +
+							'deadLine': auctionParametersForm.getItem("deadLine").getEnteredValue(),
+							'closingTime': closingTimeFormField.hourItem.getValue() + ':' +
 							closingTimeFormField.minuteItem.getValue() + ':' +
 							closingTimeFormField.secondItem.getValue(),
-							maximumBiddersNum: auctionParametersForm.getItem("maximumBiddersNum").getValue(),
-							auctionItem: {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
-							startingPrice: auctionParametersForm.getItem("startingPrice").getValue(),
-							minimumSalePrice: auctionParametersForm.getItem("minimumSalePrice").getValue(),
-							priceUpdateFrequency: auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
-							additionalInformation: auctionParametersForm.getItem("additionalInformation").getValue(),
+							'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
+							'auctionItem': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
+							'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
+							'minimumSalePrice': auctionParametersForm.getItem("minimumSalePrice").getValue(),
+							'priceUpdateFrequency': auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
+							'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
 					};
+					
+					if (auctionParametersForm.getItem("auctionType").getValue() === 'Japanese') {
+						delete auctionParameters['deadLine'];
+					}
 					
 					publishAuction(auctionParameters).then(function() {changeView();});	
 				}})
