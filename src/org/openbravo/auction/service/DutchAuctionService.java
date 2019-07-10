@@ -1,5 +1,7 @@
 package org.openbravo.auction.service;
 
+import java.util.Date;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -7,7 +9,13 @@ package org.openbravo.auction.service;
  */
 
 public interface DutchAuctionService {
-  public void reduceCurrentDutchAuctionItemPrice();
+  public Long getPeriodOfTimeToDecreasePrice(Date celebrationDate, Date deadLine,
+      Integer numberOfRounds);
+
+  public Double getAmountToDecreasePrice(Double startingPrice, Double minimumSalePrice,
+      Integer numberOfRounds);
+
+  public Double reduceDutchAuctionItemPrice(Double amountToReduceOn);
 
   public void determineDutchAuctionWinner();
 }

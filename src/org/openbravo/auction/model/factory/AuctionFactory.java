@@ -15,9 +15,7 @@ import org.openbravo.auction.model.Item;
 import org.openbravo.auction.model.JapaneseAuction;
 
 public class AuctionFactory {
-
   public static Auction getAuction(JSONObject jsonAuctionParameters) {
-
     String auctionType = null;
 
     try {
@@ -26,16 +24,28 @@ public class AuctionFactory {
       e.printStackTrace();
     }
 
-    HashMap<String, Object> englishAuctionParameters = JSONAuctionParametersToHashMap(
+    HashMap<String, Object> auctionParameters = JSONAuctionParametersToHashMap(
         jsonAuctionParameters);
 
-    Date celebrationDate = (Date) englishAuctionParameters.get("celebrationDate");
-    Date deadLine = (Date) englishAuctionParameters.get("deadLine");
-    Integer maximumBiddersNum = (Integer) englishAuctionParameters.get("maximumBiddersNum");
-    Item item = (Item) englishAuctionParameters.get("item");
-    Double startingPrice = (Double) englishAuctionParameters.get("startingPrice");
-    Double minimumSalePrice = (Double) englishAuctionParameters.get("minimumSalePrice");
-    String additionalInformation = (String) englishAuctionParameters.get("additionalInformation");
+    Date celebrationDate = (Date) auctionParameters.get("celebrationDate");
+    Date deadLine = null;
+    Integer maximumBiddersNum = (Integer) auctionParameters.get("maximumBiddersNum");
+    Item item = (Item) auctionParameters.get("item");
+    Double startingPrice = (Double) auctionParameters.get("startingPrice");
+    Double minimumSalePrice = (Double) auctionParameters.get("minimumSalePrice");
+    Integer numberOfRounds = null;
+    String additionalInformation = (String) auctionParameters.get("additionalInformation");
+
+    if (StringUtils.isNotBlank(auctionType)) {
+      if (!StringUtils.equals(auctionType, "Japonesa")) {
+        deadLine = (Date) auctionParameters.get("deadLine");
+      }
+
+      if (StringUtils.equals(auctionType, "Holandesa")
+          || StringUtils.equals(auctionType, "Japonesa")) {
+        numberOfRounds = (Integer) auctionParameters.get("numberOfRounds");
+      }
+    }
 
     Auction auction = null;
 
@@ -45,12 +55,12 @@ public class AuctionFactory {
             startingPrice, minimumSalePrice, additionalInformation);
         break;
       case "Holandesa":
-        auction = new DutchAuction(celebrationDate, deadLine, maximumBiddersNum, item,
-            startingPrice, minimumSalePrice, additionalInformation);
+        auction = new DutchAuction(celebrationDate, deadLine, numberOfRounds, maximumBiddersNum,
+            item, startingPrice, minimumSalePrice, additionalInformation);
         break;
       case "Japonesa":
-        auction = new JapaneseAuction(celebrationDate, maximumBiddersNum, item, startingPrice,
-            minimumSalePrice, additionalInformation);
+        auction = new JapaneseAuction(celebrationDate, numberOfRounds, maximumBiddersNum, item,
+            startingPrice, minimumSalePrice, additionalInformation);
         break;
     }
 
@@ -66,18 +76,16 @@ public class AuctionFactory {
     Item item = null;
     Double startingPrice = null;
     Double minimumSalePrice = null;
+    Integer numberOfRounds = null;
     String additionalInformation = "";
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     try {
       auctionType = (String) jsonAuctionParameters.get("auctionType");
 
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
       celebrationDate = dateFormat.parse((String) jsonAuctionParameters.get("celebrationDate") + " "
           + (String) jsonAuctionParameters.get("celebrationTime"));
-
-      deadLine = dateFormat.parse((String) jsonAuctionParameters.get("deadLine") + " "
-          + (String) jsonAuctionParameters.get("closingTime"));
 
       maximumBiddersNum = (Integer) jsonAuctionParameters.get("maximumBiddersNum");
 
@@ -118,11 +126,32 @@ public class AuctionFactory {
     auctionParameters.put("minimumSalePrice", minimumSalePrice);
     auctionParameters.put("additionalInformation", additionalInformation);
 
-    if (StringUtils.isNotBlank(auctionType) && !StringUtils.equals(auctionType, "Japonesa")) {
-      auctionParameters.put("deadLine", deadLine);
+    if (StringUtils.isNotBlank(auctionType)) {
+      if (!StringUtils.equals(auctionType, "Japonesa")) {
+        try {
+          deadLine = dateFormat.parse((String) jsonAuctionParameters.get("deadLine") + " "
+              + (String) jsonAuctionParameters.get("closingTime"));
+
+          auctionParameters.put("deadLine", deadLine);
+        } catch (ParseException e) {
+          e.printStackTrace();
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+
+      if (StringUtils.equals(auctionType, "Holandesa")
+          || StringUtils.equals(auctionType, "Japonesa")) {
+        try {
+          numberOfRounds = Integer.parseInt(jsonAuctionParameters.get("numberOfRounds").toString());
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+
+        auctionParameters.put("numberOfRounds", numberOfRounds);
+      }
     }
 
     return auctionParameters;
   }
-
 }

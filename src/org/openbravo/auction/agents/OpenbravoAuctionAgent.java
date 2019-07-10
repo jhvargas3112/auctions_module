@@ -3,7 +3,7 @@ package org.openbravo.auction.agents;
 import java.util.ArrayList;
 
 import org.openbravo.auction.agents.behaviours.NewAuctionNotificationBehaviour;
-import org.openbravo.auction.agents.behaviours.NewBuyerSubscriptionBehaviour;
+import org.openbravo.auction.agents.behaviours.SubscribeBuyerBehaviour;
 import org.openbravo.auction.agents.behaviours.startOpenbravoAuctionRestServerBehaviour;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.model.DutchAuction;
@@ -31,45 +31,42 @@ public class OpenbravoAuctionAgent extends OpenbravoAgent {
   private Auction auction;
   private AgentController auctioneerAgentController;
   private AuctionState auctionState = AuctionState.PUBLISHED; // FIXME: CREO QUE SOBRA.
-  // VALORARLO CON DETENIMIENTO.
-  // CREO QUE HACE ALTA AGREGAR UN ATRIBUTO PARA ESPECIFICAR EL TIPO DE SUBASTA
 
   @Override
   public void setup() {
     registerAgent("OPENBRAVO-AUCTION", this.getLocalName());
 
     Object[] args = getArguments();
+    Object[] auctioneerAgentAurguments = null;
 
     if (args != null && args.length > 0) {
       auction = (Auction) args[0];
+
+      auctioneerAgentAurguments = new Object[1];
+      auctioneerAgentAurguments[0] = auction;
     }
 
     try {
       if (auction instanceof EnglishAuction) {
-        auctioneerAgentController = getContainerController().createNewAgent("ENGLISH-AUCTIONEER",
-            "org.openbravo.auction.agents.EnglishAuctioneerAgent", new Object[0]);
+        auctioneerAgentController = getContainerController().createNewAgent("english-auctioneer",
+            "org.openbravo.auction.agents.EnglishAuctioneerAgent", auctioneerAgentAurguments);
       } else if (auction instanceof DutchAuction) {
-        auctioneerAgentController = getContainerController().createNewAgent("DUTCH-AUCTIONEER",
-            "org.openbravo.auction.agents.DutchAuctioneerAgent", new Object[0]);
+        auctioneerAgentController = getContainerController().createNewAgent("dutch-auctioneer",
+            "org.openbravo.auction.agents.DutchAuctioneerAgent", auctioneerAgentAurguments);
       } else if (auction instanceof JapaneseAuction) {
-        auctioneerAgentController = getContainerController().createNewAgent("JAPANESE-AUCTIONEER",
-            "org.openbravo.auction.agents.JapaneseAuctioneerAgent", new Object[0]);
+        auctioneerAgentController = getContainerController().createNewAgent("japanese-auctioneer",
+            "org.openbravo.auction.agents.JapaneseAuctioneerAgent", auctioneerAgentAurguments);
       }
-
-      // auctioneerAgentController.start(); // TODO: LO MANDAREMOS A EMPEZAR CUANDO SE HAYA
-      // TERMINADO
-      // EL TIEMPO DE SUSCRIPCIÓN Y LA SUBASTA SE DE POR EMPEZADA.
     } catch (StaleProxyException e) {
       e.printStackTrace();
     }
-
-    addBehaviour(new NewBuyerSubscriptionBehaviour(auction.getCelebrationDate()));
 
     ArrayList<String> newAuctionNotificationMessageElements = new ArrayList<String>();
     newAuctionNotificationMessageElements.add(auction.toString());
 
     addBehaviour(new startOpenbravoAuctionRestServerBehaviour(auction));
     addBehaviour(new NewAuctionNotificationBehaviour(newAuctionNotificationMessageElements));
+    addBehaviour(new SubscribeBuyerBehaviour(auction.getCelebrationDate()));
   }
 
   @Override
@@ -90,6 +87,14 @@ public class OpenbravoAuctionAgent extends OpenbravoAgent {
 
   public void setAuction(Auction auction) {
     this.auction = auction;
+  }
+
+  public AgentController getAuctioneerAgentController() {
+    return auctioneerAgentController;
+  }
+
+  public void setAuctioneerAgentController(AgentController auctioneerAgentController) {
+    this.auctioneerAgentController = auctioneerAgentController;
   }
 
 }

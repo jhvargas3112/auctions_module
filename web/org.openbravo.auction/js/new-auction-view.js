@@ -21,21 +21,15 @@ isc.newAuctionContainer.addProperties({
 			}
 		}});
 
-		var priceUpdateFrequency = auctionParametersForm.getItem("priceUpdateFrequency");
+		var numberOfRounds = auctionParametersForm.getItem("numberOfRounds");
 
 		function activateEnglishAuctionFormMode() {
 			auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
-			auctionParametersForm.getItem("priceUpdateFrequency").setDisabled(true);
-			priceUpdateFrequency.hourItem.setDisabled(true);
-			priceUpdateFrequency.minuteItem.setDisabled(true);
-			priceUpdateFrequency.secondItem.setDisabled(true);
+			auctionParametersForm.getItem("numberOfRounds").setDisabled(true);
 		};
 
-		function deactivatePriceUpdateFrequencyFormField() {
-			auctionParametersForm.getItem("priceUpdateFrequency").setDisabled(false);
-			priceUpdateFrequency.hourItem.setDisabled(false);
-			priceUpdateFrequency.minuteItem.setDisabled(false);
-			priceUpdateFrequency.secondItem.setDisabled(false);
+		function deactivateNumberOfRoundsFormField() {
+			auctionParametersForm.getItem("numberOfRounds").setDisabled(false);
 		};
 
 		function setf(auctionType) {
@@ -53,11 +47,11 @@ isc.newAuctionContainer.addProperties({
 				setf("Inglesa");
 			} else if (selectedAuctionType === "Japonesa") {
 				auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
-				deactivatePriceUpdateFrequencyFormField();
+				deactivatenumberOfRoundsFormField();
 				setf("Japonesa");
 			} else {
 				auctionParametersForm.getItem("minimumSalePrice").setDisabled(false);
-				deactivatePriceUpdateFrequencyFormField();
+				deactivateNumberOfRoundsFormField();
 				setf("Holandesa");
 			}
 
@@ -90,7 +84,7 @@ isc.newAuctionContainer.addProperties({
 							'auctionItem': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
 							'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
 							'minimumSalePrice': auctionParametersForm.getItem("minimumSalePrice").getValue(),
-							'priceUpdateFrequency': auctionParametersForm.getItem("priceUpdateFrequency").getEnteredValue(),
+							'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 							'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
 					};
 					

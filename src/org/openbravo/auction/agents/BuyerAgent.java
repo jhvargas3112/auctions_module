@@ -1,6 +1,6 @@
 package org.openbravo.auction.agents;
 
-import org.openbravo.auction.agents.behaviours.NewBuyerSubscriptionNotifier;
+import org.openbravo.auction.agents.behaviours.BuyerSubscriptionRequestBehaviour;
 
 /**
  * 
@@ -21,12 +21,12 @@ public class BuyerAgent extends OpenbravoAgent {
       registerAgent("BUYER", this.getLocalName());
     }
 
-    addBehaviour(new NewBuyerSubscriptionNotifier());
+    addBehaviour(new BuyerSubscriptionRequestBehaviour());
   }
 
   @Override
   public void takeDown() {
-    System.out.println("Seller-agent " + getAID().getName() + " terminating.");
+    System.out.println("Buyer-agent " + getAID().getName() + " terminating.");
   }
 
   public String getBuyerEmail() {

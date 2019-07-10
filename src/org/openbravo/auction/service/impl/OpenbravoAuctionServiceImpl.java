@@ -20,13 +20,15 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.openbravo.auction.agents.OpenbravoAuctionAgentContainer;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.model.factory.AuctionFactory;
 import org.openbravo.auction.service.OpenbravoAuctionService;
+import org.openbravo.auction.utils.AuctionTypeEnum;
+import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
-import org.restlet.resource.ResourceException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -206,34 +208,47 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public void registerBuyerToAuction(String email) {
+  public void subscribeTheBuyerToAuction(String buyerEmail) {
     Object[] openbravoAuctionAgentAurguments = new Object[1];
-    openbravoAuctionAgentAurguments[0] = email;
+    openbravoAuctionAgentAurguments[0] = buyerEmail;
 
     AgentController buyerAgent;
 
     try {
       buyerAgent = OpenbravoAuctionAgentContainer.INSTANCE.getValue()
-          .createNewAgent(email, "org.openbravo.auction.agents.BuyerAgent",
+          .createNewAgent(buyerEmail, "org.openbravo.auction.agents.BuyerAgent",
               openbravoAuctionAgentAurguments);
 
       buyerAgent.start();
-    } catch (StaleProxyException e) {
-      e.printStackTrace();
     } catch (ControllerException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public AuctionTypeEnum getAuctionType() {
+    Representation JSONAuctionRepresentation = new ClientResource(
+        "http://localhost:8111/openbravo/auction/auction_info").get();
+
+    AuctionTypeEnum auctionType = null;
 
     try {
-      System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      new ClientResource("http://localhost:8111/openbravo/auction/auction_info").get()
-          .write(System.out);
-    } catch (ResourceException e) {
+      JSONObject auctionInJSONFormat = new JSONObject(JSONAuctionRepresentation.getText());
+      auctionType = AuctionTypeEnum.valueOf(
+          (String) ((JSONObject) auctionInJSONFormat.get("auctionType")).get("auctionTypeEnum"));
+
+    } catch (JSONException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+    return auctionType;
+  }
+
+  @Override
+  public Boolean isBuyerAlreadySubscribed() {
+    return null;
   }
 
 }

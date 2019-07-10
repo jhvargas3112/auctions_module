@@ -14,17 +14,16 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
 public class DutchAuction extends Auction {
 
   protected Date deadLine;
+  protected Integer numberOfRounds;
 
-  // TODO: Aquí alomejor hace falta una atributo para la frecuencia de actualización del precio
-  // actual de
-  // la subasta.
-
-  public DutchAuction(Date celebrationDate, Date deadLine, Integer maximumBiddersNum, Item item,
-      Double startingPrice, Double minimumSalePrice, String additionalInformation) {
-    super(new AuctionType(AuctionTypeEnum.DUTCH), celebrationDate, maximumBiddersNum, item, startingPrice,
-        minimumSalePrice, additionalInformation);
+  public DutchAuction(Date celebrationDate, Date deadLine, Integer numberOfRounds,
+      Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
+      String additionalInformation) {
+    super(new AuctionType(AuctionTypeEnum.DUTCH), celebrationDate, maximumBiddersNum, item,
+        startingPrice, minimumSalePrice, additionalInformation);
 
     this.deadLine = deadLine;
+    this.numberOfRounds = numberOfRounds;
   }
 
   public Date getDeadLine() {
@@ -33,6 +32,14 @@ public class DutchAuction extends Auction {
 
   public void setDeadLine(Date deadLine) {
     this.deadLine = deadLine;
+  }
+
+  public Integer getNumberOfRounds() {
+    return numberOfRounds;
+  }
+
+  public void setNumberOfRounds(Integer numberOfRounds) {
+    this.numberOfRounds = numberOfRounds;
   }
 
   @Override

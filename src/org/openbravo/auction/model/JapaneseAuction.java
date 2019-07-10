@@ -12,15 +12,22 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
  */
 
 public class JapaneseAuction extends Auction {
+  protected Integer numberOfRounds;
 
-  // TODO: Aquí alomejor hace falta una atributo para la frecuencia de actualización del precio
-  // actual de
-  // la subasta.
+  public JapaneseAuction(Date celebrationDate, Integer numberOfRounds, Integer maximumBiddersNum,
+      Item item, Double startingPrice, Double minimumSalePrice, String additionalInformation) {
+    super(new AuctionType(AuctionTypeEnum.JAPANESE), celebrationDate, maximumBiddersNum, item,
+        startingPrice, minimumSalePrice, additionalInformation);
 
-  public JapaneseAuction(Date celebrationDate, Integer maximumBiddersNum, Item item,
-      Double startingPrice, Double minimumSalePrice, String additionalInformation) {
-    super(new AuctionType(AuctionTypeEnum.JAPANESE), celebrationDate, maximumBiddersNum, item, startingPrice,
-        minimumSalePrice, additionalInformation);
+    this.numberOfRounds = numberOfRounds;
+  }
+
+  public Integer getNumberOfRounds() {
+    return numberOfRounds;
+  }
+
+  public void setNumberOfRounds(Integer numberOfRounds) {
+    this.numberOfRounds = numberOfRounds;
   }
 
   @Override
@@ -29,5 +36,4 @@ public class JapaneseAuction extends Auction {
         + startingPrice + "\nProducto subastado:\n" + item + "\nInformación adicional: "
         + additionalInformation;
   }
-
 }

@@ -7,7 +7,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.lang.acl.ACLMessage;
 
 @SuppressWarnings("serial")
-public class NewBuyerSubscriptionNotifier extends OneShotBehaviour {
+public class BuyerSubscriptionRequestBehaviour extends OneShotBehaviour {
 
   @Override
   public void action() {
@@ -15,7 +15,7 @@ public class NewBuyerSubscriptionNotifier extends OneShotBehaviour {
         .searchAgent("OPENBRAVO-AUCTION");
 
     if (openbravoAuctionAgents != null && openbravoAuctionAgents.length > 0) {
-      ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+      ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
       String buyerEmail = ((BuyerAgent) myAgent).getBuyerEmail();
       msg.setContent(buyerEmail);
 

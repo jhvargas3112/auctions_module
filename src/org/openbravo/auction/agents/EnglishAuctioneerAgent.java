@@ -14,6 +14,14 @@ public class EnglishAuctioneerAgent extends OpenbravoAgent {
 
   @Override
   public void setup() {
+
+    Object[] args = getArguments();
+
+    if (args != null && args.length > 0) {
+      englishAuction = (EnglishAuction) args[0];
+      registerAgent("ENGLISH-AUCTIONEER", this.getLocalName());
+    }
+
   }
 
   @Override

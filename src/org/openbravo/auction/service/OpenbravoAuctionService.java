@@ -3,6 +3,7 @@ package org.openbravo.auction.service;
 import java.util.ArrayList;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.openbravo.auction.utils.AuctionTypeEnum;
 
 public interface OpenbravoAuctionService {
   public void publishAuction(JSONObject auctionParameters);
@@ -25,6 +26,10 @@ public interface OpenbravoAuctionService {
   public String createNewAuctionNotificationMessage(
       ArrayList<String> newAuctionNotificationMessageElements, String receiverEmail);
 
-  public void registerBuyerToAuction(String email);
+  public void subscribeTheBuyerToAuction(String buyerEmail);
+
+  public AuctionTypeEnum getAuctionType();
+
+  public Boolean isBuyerAlreadySubscribed();
 
 }

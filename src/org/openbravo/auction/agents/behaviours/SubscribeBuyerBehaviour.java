@@ -18,6 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.openbravo.auction.agents.OpenbravoAuctionAgent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,23 +27,16 @@ import org.xml.sax.SAXException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-
-/**
- * 
- * @author Jhonny Vargas.
- *
- */
+import jade.wrapper.StaleProxyException;
 
 @SuppressWarnings("serial")
-public class NewBuyerSubscriptionBehaviour extends Behaviour {
-
+public class SubscribeBuyerBehaviour extends Behaviour {
   private Date celebrationDate;
   private MessageTemplate messageTemplate;
 
-  public NewBuyerSubscriptionBehaviour(Date celebrationDate) {
+  public SubscribeBuyerBehaviour(Date celebrationDate) {
     this.celebrationDate = celebrationDate;
-
-    messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+    messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
   }
 
   @Override
@@ -52,10 +46,9 @@ public class NewBuyerSubscriptionBehaviour extends Behaviour {
     if (msg != null) {
       String buyerEmail = msg.getContent();
 
-      System.out.println("Se va a registrar el comprador con email " + buyerEmail);
-
       ClassLoader classLoader = getClass().getClassLoader();
       Properties appProps = new Properties();
+
       try {
         String resource = classLoader.getResource("config.properties").getPath();
         appProps.load(new FileInputStream(resource));
@@ -104,6 +97,12 @@ public class NewBuyerSubscriptionBehaviour extends Behaviour {
       } catch (TransformerException e) {
         e.printStackTrace();
       }
+
+      System.out.println(
+          "Se ha añadido al comprador " + buyerEmail + " al datasource XML de compradores ");
+
+    } else {
+      // block();
     }
   }
 
@@ -117,8 +116,14 @@ public class NewBuyerSubscriptionBehaviour extends Behaviour {
 
   @Override
   public int onEnd() {
+    try {
+      System.out.println("HOY " + new Date() + " EMPIEZA A CELEBRARSE LA SUBASTA");
+      ((OpenbravoAuctionAgent) myAgent).getAuctioneerAgentController().start();
+    } catch (StaleProxyException e) {
+      e.printStackTrace();
+    }
+
     myAgent.doDelete();
     return 0;
   }
-
 }

@@ -1,6 +1,8 @@
 package org.openbravo.auction.rest.service;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +11,7 @@ import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 import org.restlet.data.Status;
 import org.restlet.representation.EmptyRepresentation;
 import org.restlet.representation.Representation;
+import org.restlet.resource.ClientResource;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
@@ -42,25 +45,43 @@ public class OpenbravoAuctionRest extends ServerResource {
   @SuppressWarnings("unchecked")
   @Post
   public void joinToAuction(String buyerEmail) {
-    openbravoAuctionService.registerBuyerToAuction(buyerEmail);
+    boolean buyerAlreadyExists = false;
 
-    HashMap<Integer, String> registeredBuyers = ((HashMap<Integer, String>) getContext()
-        .getAttributes()
-        .get("registered_buyers"));
+    try {
+      Representation buyerAlreadyExistsRepresentation = new ClientResource(
+          "http://localhost:8111/openbravo/auction/buyer_already_exists?buyer_email=" + buyerEmail)
+              .get();
 
-    int registeredBuyerCode = RandomUtils.nextInt(100000, 999999);
-
-    while (true) {
-      if (!registeredBuyers.containsKey(registeredBuyerCode)) {
-        break;
-      }
-      registeredBuyerCode = RandomUtils.nextInt(100000, 999999);
+      buyerAlreadyExists = Boolean.parseBoolean(buyerAlreadyExistsRepresentation.getText());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    ((HashMap<Integer, String>) getContext().getAttributes().get("registered_buyers"))
-        .put(registeredBuyerCode, buyerEmail);
+    if (!buyerAlreadyExists) {
+      openbravoAuctionService.subscribeTheBuyerToAuction(buyerEmail);
 
-    getResponse().setStatus(new Status(200));
+      HashMap<Integer, String> registeredBuyers = ((HashMap<Integer, String>) getContext()
+          .getAttributes()
+          .get("registered_buyers"));
+
+      int registeredBuyerCode = RandomUtils.nextInt(100000, 999999);
+
+      while (true) {
+        if (!registeredBuyers.containsKey(registeredBuyerCode)) {
+          break;
+        }
+        registeredBuyerCode = RandomUtils.nextInt(100000, 999999);
+      }
+
+      ((TreeSet<String>) getContext().getAttributes().get("subscribed_buyers")).add(buyerEmail);
+
+      ((HashMap<Integer, String>) getContext().getAttributes().get("registered_buyers"))
+          .put(registeredBuyerCode, buyerEmail);
+
+      getResponse().setStatus(new Status(200));
+    } else {
+      getResponse().setStatus(new Status(200));
+    }
   }
 
   @Post
