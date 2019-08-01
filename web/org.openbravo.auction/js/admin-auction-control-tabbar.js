@@ -5,11 +5,17 @@ isc.tabBar.addProperties({
 	initWidget: function () {
 		this.Super("initWidget", arguments);
 
-		this.addTab(
+		this.addTabs([
 			{
 				id: "newAuction",
 				title: "Nueva subasta",
 				pane: isc.newAuctionContainer.create()
-			});
+			},
+			{
+				id: "auctionsInfo",
+				title: "Información subastas",
+				pane: isc.publishedAuctionContainer.create()
+			}]
+		);
 	}
 });

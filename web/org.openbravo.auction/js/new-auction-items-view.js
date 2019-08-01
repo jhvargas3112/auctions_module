@@ -19,7 +19,8 @@ isc.items.addProperties({
 			title: 'Descripción',
 			canFilter: true,
 			filterOnKeypress: true
-		}],
+		}
+	],
 
 	setDataSource: function (ds) {
 		this.Super('setDataSource', [ds, this.gridFields]);
@@ -29,7 +30,6 @@ isc.items.addProperties({
 	},
 		
 	selectionAppearance: 'checkbox',
-	
 	selectionType: 'single',
 
 	initWidget: function () {

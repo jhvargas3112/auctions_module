@@ -15,7 +15,7 @@ isc.newAuctionContainer.addProperties({
 				auctionParametersForm.getItem("description").setValue(
 						"Nombre: " + selectedItem.name + "\n\n" +
 						"Categoría: " + selectedItem.productCategory$_identifier + "\n\n" +
-						"Información: " + selectedItem.description + "\n\n" +
+						"Descripción: " + selectedItem.description + "\n\n" +
 						"Volumen: " + selectedItem.volume + "\n\n" +
 						"Peso: " + selectedItem.weight);
 			}
@@ -92,7 +92,7 @@ isc.newAuctionContainer.addProperties({
 						delete auctionParameters['deadLine'];
 					}
 					
-					publishAuction(auctionParameters).then(function() {changeView();});	
+					publishAuction(auctionParameters);	
 				}})
 			]
 		});
@@ -109,17 +109,7 @@ isc.newAuctionContainer.addProperties({
 	}
 });
 
-changeView = function() {
-	setTimeout(function(){ 
-		newAuctionTabBar.addTab({id: "auctionInfo", title: "Información subasta", pane: isc.publishedAuctionContainer.create()});
-		newAuctionTabBar.getTab(0).setDisabled(true);
-		newAuctionTabBar.selectTab(1);
-    }, 10000);  
-}
-
 publishAuction = function(auctionParameters) {
-	return new Promise(function (fulfill, reject) {
-		fulfill({ value: auctionParameters, result: OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null) });
-	});
+	OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null);
 }
 

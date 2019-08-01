@@ -78,7 +78,7 @@ isc.auctionParametersForm.addProperties({
 
 			{
 				name: "description",
-				title: "Descripción:",
+				title: "Información del producto a subastar:",
 				editorType: "textArea",
 				width:400,
 				canFocus: false,

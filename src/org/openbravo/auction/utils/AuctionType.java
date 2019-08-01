@@ -1,7 +1,6 @@
 package org.openbravo.auction.utils;
 
 public class AuctionType {
-
   private AuctionTypeEnum auctionTypeEnum;
   private String auctionTypeName;
 
@@ -30,5 +29,4 @@ public class AuctionType {
   public String getAuctionTypeName() {
     return auctionTypeName;
   }
-
 }

@@ -1,14 +1,12 @@
 isc.defineClass('buyers', isc.OBGrid);
 isc.defineClass('buyersDS', isc.DataSource);
 
-buyersDS =isc.buyersDS.create({
-    dataFormat:"xml",
-    recordXPath:"/Root/*",
-    dataURL:"http://localhost:8111/openbravo/auction/registered_buyers",
+buyersDS = isc.buyersDS.create({
+    dataFormat:"json",
     fields: [
 		{name: 'email'}
 	]
-})
+});
 
 isc.buyers.addProperties({
 	showFilterEditor: false,
@@ -18,7 +16,7 @@ isc.buyers.addProperties({
 	fields: [
 		{
 			name: 'email',
-			title: 'Compradores inscritos en la subasta',
+			title: 'Participantes de la subasta',
 		}],
 
 	initWidget: function () {

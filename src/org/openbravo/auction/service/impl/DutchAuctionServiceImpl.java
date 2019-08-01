@@ -46,5 +46,4 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
   public void determineDutchAuctionWinner() {
 
   }
-
 }

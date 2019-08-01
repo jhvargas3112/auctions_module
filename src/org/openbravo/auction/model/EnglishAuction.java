@@ -1,7 +1,9 @@
 package org.openbravo.auction.model;
 
 import java.util.Date;
+import java.util.TreeSet;
 
+import org.openbravo.auction.utils.AuctionState;
 import org.openbravo.auction.utils.AuctionType;
 import org.openbravo.auction.utils.AuctionTypeEnum;
 
@@ -12,15 +14,19 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
  */
 
 public class EnglishAuction extends Auction {
-
   protected Date deadLine;
 
-  public EnglishAuction(Date celebrationDate, Date deadLine, Integer maximumBiddersNum, Item item,
-      Double startingPrice, Double minimumSalePrice, String additionalInformation) {
-    super(new AuctionType(AuctionTypeEnum.ENGLISH), celebrationDate, maximumBiddersNum, item, startingPrice,
-        minimumSalePrice, additionalInformation);
+  protected TreeSet<EnglishAuctionBuyer> auctionBuyers;
+
+  public EnglishAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
+      Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
+      String additionalInformation) {
+    super(new AuctionType(AuctionTypeEnum.ENGLISH), auctionState, celebrationDate,
+        maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation);
 
     this.deadLine = deadLine;
+
+    auctionBuyers = new TreeSet<EnglishAuctionBuyer>();
   }
 
   public Date getDeadLine() {
@@ -29,6 +35,14 @@ public class EnglishAuction extends Auction {
 
   public void setDeadLine(Date deadLine) {
     this.deadLine = deadLine;
+  }
+
+  public TreeSet<EnglishAuctionBuyer> getAuctionBuyers() {
+    return auctionBuyers;
+  }
+
+  public void setAuctionBuyers(TreeSet<EnglishAuctionBuyer> auctionBuyers) {
+    this.auctionBuyers = auctionBuyers;
   }
 
   @Override

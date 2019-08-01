@@ -13,6 +13,8 @@ import org.openbravo.auction.model.DutchAuction;
 import org.openbravo.auction.model.EnglishAuction;
 import org.openbravo.auction.model.Item;
 import org.openbravo.auction.model.JapaneseAuction;
+import org.openbravo.auction.utils.AuctionState;
+import org.openbravo.auction.utils.AuctionStateEnum;
 
 public class AuctionFactory {
   public static Auction getAuction(JSONObject jsonAuctionParameters) {
@@ -51,16 +53,19 @@ public class AuctionFactory {
 
     switch (auctionType) {
       case "Inglesa":
-        auction = new EnglishAuction(celebrationDate, deadLine, maximumBiddersNum, item,
-            startingPrice, minimumSalePrice, additionalInformation);
+        auction = new EnglishAuction(new AuctionState(AuctionStateEnum.PUBLISHED), celebrationDate,
+            deadLine, maximumBiddersNum, item, startingPrice, minimumSalePrice,
+            additionalInformation);
         break;
       case "Holandesa":
-        auction = new DutchAuction(celebrationDate, deadLine, numberOfRounds, maximumBiddersNum,
-            item, startingPrice, minimumSalePrice, additionalInformation);
+        auction = new DutchAuction(new AuctionState(AuctionStateEnum.PUBLISHED), celebrationDate,
+            deadLine, numberOfRounds, maximumBiddersNum, item, startingPrice, minimumSalePrice,
+            additionalInformation);
         break;
       case "Japonesa":
-        auction = new JapaneseAuction(celebrationDate, numberOfRounds, maximumBiddersNum, item,
-            startingPrice, minimumSalePrice, additionalInformation);
+        auction = new JapaneseAuction(new AuctionState(AuctionStateEnum.PUBLISHED), celebrationDate,
+            numberOfRounds, maximumBiddersNum, item, startingPrice, minimumSalePrice,
+            additionalInformation);
         break;
     }
 

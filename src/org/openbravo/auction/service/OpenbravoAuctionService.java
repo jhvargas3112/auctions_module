@@ -3,7 +3,8 @@ package org.openbravo.auction.service;
 import java.util.ArrayList;
 
 import org.codehaus.jettison.json.JSONObject;
-import org.openbravo.auction.utils.AuctionTypeEnum;
+import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.utils.AuctionStateEnum;
 
 public interface OpenbravoAuctionService {
   public void publishAuction(JSONObject auctionParameters);
@@ -12,7 +13,8 @@ public interface OpenbravoAuctionService {
    * Sends an email to bidders with the information of the new published auction. The bidders emails
    * are picked from the config.properties file.
    */
-  public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements);
+  public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements,
+      Integer auctionId);
 
   /**
    * Sends an email to bidders with the information of the new published auction.
@@ -21,15 +23,22 @@ public interface OpenbravoAuctionService {
    *          - an String array with the bidders emails.
    */
   public void notifyBidders(String[] receivers,
-      ArrayList<String> newAuctionNotificationMessageElements);
+      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId);
 
   public String createNewAuctionNotificationMessage(
-      ArrayList<String> newAuctionNotificationMessageElements, String receiverEmail);
+      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId,
+      String receiverEmail);
 
-  public void subscribeTheBuyerToAuction(String buyerEmail);
+  public String createNewSubscriptionNotificationMessage(Integer auctionCode, String receiverEmail);
 
-  public AuctionTypeEnum getAuctionType();
+  public void notifySubscription(Integer auctionCode, String buyerEmail);
+
+  public void startAuctionCelebration(Integer auctionCode);
+
+  public Auction getAuction(Integer auctionCode);
 
   public Boolean isBuyerAlreadySubscribed();
+
+  public void changeAuctionState(Integer auctionCode, AuctionStateEnum auctionState);
 
 }
