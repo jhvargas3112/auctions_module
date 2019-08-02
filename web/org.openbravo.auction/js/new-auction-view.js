@@ -69,23 +69,39 @@ isc.newAuctionContainer.addProperties({
 				isc.submitButton.create({click: function() {
 					var celebrationTimeFormField = auctionParametersForm.getItem("celebrationTime");
 					var closingTimeFormField = auctionParametersForm.getItem("closingTime");
+					
+					var auctionType = {};
+					
+					switch (auctionParametersForm.getItem("auctionType").getValue()) {
+						case 'Inglesa':
+							auctionType = {'auctionTypeEnum': 'ENGLISH', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							break;
+						case 'Holandesa':
+							auctionType = {'auctionTypeEnum': 'DUTCH', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							break;
+						case 'Japonesa':
+							auctionType = {'auctionTypeEnum': 'JAPANESE', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							break;
+					}
 
 					var auctionParameters = {
-							'auctionType': auctionParametersForm.getItem("auctionType").getValue(),
-							'celebrationDate': auctionParametersForm.getItem("celebrationDate").getEnteredValue(),
-							'celebrationTime': celebrationTimeFormField.hourItem.getValue() + ':' +
-							celebrationTimeFormField.minuteItem.getValue() + ':' +
-							celebrationTimeFormField.secondItem.getValue(),
-							'deadLine': auctionParametersForm.getItem("deadLine").getEnteredValue(),
-							'closingTime': closingTimeFormField.hourItem.getValue() + ':' +
-							closingTimeFormField.minuteItem.getValue() + ':' +
-							closingTimeFormField.secondItem.getValue(),
+							'auctionType': auctionType,
+							'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
+							'celebrationDate': moment(moment(auctionParametersForm.getItem("celebrationDate").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+											   celebrationTimeFormField.hourItem.getValue() + ':' +
+											   celebrationTimeFormField.minuteItem.getValue() + ':' +
+											   celebrationTimeFormField.secondItem.getValue()).valueOf(),
+							'deadLine': moment(moment(auctionParametersForm.getItem("deadLine").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+										closingTimeFormField.hourItem.getValue() + ':' +
+										closingTimeFormField.minuteItem.getValue() + ':' +
+										closingTimeFormField.secondItem.getValue()).valueOf(),
 							'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
-							'auctionItem': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
+							'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
 							'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
 							'minimumSalePrice': auctionParametersForm.getItem("minimumSalePrice").getValue(),
 							'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 							'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
+							"auctionBuyers": []
 					};
 					
 					if (auctionParametersForm.getItem("auctionType").getValue() === 'Japanese') {

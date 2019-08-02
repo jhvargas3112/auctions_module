@@ -53,7 +53,7 @@ public class JoinToAuctionRest extends ServerResource {
                 case ENGLISH:
                   EnglishAuction englishAuction = (EnglishAuction) auctions.get(auctionId);
 
-                  TreeSet<EnglishAuctionBuyer> englishAuctionBuyers = englishAuction
+                  TreeSet<EnglishAuctionBuyer> englishAuctionBuyers = (TreeSet<EnglishAuctionBuyer>) englishAuction
                       .getAuctionBuyers();
 
                   englishAuctionBuyers
@@ -68,7 +68,8 @@ public class JoinToAuctionRest extends ServerResource {
                       .getAttributes()
                       .get("auctions")).get(auctionId));
 
-                  TreeSet<DutchAuctionBuyer> dutchAuctionBuyers = dutchAuction.getAuctionBuyers();
+                  TreeSet<DutchAuctionBuyer> dutchAuctionBuyers = (TreeSet<DutchAuctionBuyer>) dutchAuction
+                      .getAuctionBuyers();
 
                   dutchAuctionBuyers.add(new DutchAuctionBuyer(buyerId, email));
 
@@ -82,7 +83,7 @@ public class JoinToAuctionRest extends ServerResource {
                       .getAttributes()
                       .get("auctions")).get(auctionId));
 
-                  TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers = japaneseAuction
+                  TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers = (TreeSet<JapaneseAuctionBuyer>) japaneseAuction
                       .getAuctionBuyers();
 
                   japaneseAuctionBuyers.add(new JapaneseAuctionBuyer(buyerId, email));

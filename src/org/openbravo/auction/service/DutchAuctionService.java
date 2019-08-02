@@ -1,5 +1,6 @@
 package org.openbravo.auction.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,10 +13,10 @@ public interface DutchAuctionService {
   public Long getPeriodOfTimeToDecreasePrice(Date celebrationDate, Date deadLine,
       Integer numberOfRounds);
 
-  public Double getAmountToDecreasePrice(Double startingPrice, Double minimumSalePrice,
+  public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds);
 
-  public Double reduceDutchAuctionItemPrice(Double amountToReduceOn);
+  public BigDecimal reduceDutchAuctionItemPrice(Integer auctionId, BigDecimal amountToReduce);
 
   public void determineDutchAuctionWinner();
 }

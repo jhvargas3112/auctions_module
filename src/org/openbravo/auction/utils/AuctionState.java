@@ -17,6 +17,9 @@ public class AuctionState {
       case FINISHED:
         auctionStateName = "Finalizada";
         break;
+      case CANCELLED:
+        auctionStateName = "Cancelada";
+        break;
       default:
         throw new IllegalArgumentException();
     }

@@ -1,5 +1,6 @@
 package org.openbravo.auction.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.TreeSet;
 
@@ -16,17 +17,14 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
 public class JapaneseAuction extends Auction {
   protected Integer numberOfRounds;
 
-  protected TreeSet<JapaneseAuctionBuyer> auctionBuyers;
-
   public JapaneseAuction(AuctionState auctionState, Date celebrationDate, Integer numberOfRounds,
-      Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
-      String additionalInformation) {
+      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
+      String additionalInformation, TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers) {
     super(new AuctionType(AuctionTypeEnum.JAPANESE), auctionState, celebrationDate,
-        maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation);
+        maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation,
+        japaneseAuctionBuyers);
 
     this.numberOfRounds = numberOfRounds;
-
-    auctionBuyers = new TreeSet<JapaneseAuctionBuyer>();
   }
 
   public Integer getNumberOfRounds() {
@@ -35,14 +33,6 @@ public class JapaneseAuction extends Auction {
 
   public void setNumberOfRounds(Integer numberOfRounds) {
     this.numberOfRounds = numberOfRounds;
-  }
-
-  public TreeSet<JapaneseAuctionBuyer> getAuctionBuyers() {
-    return auctionBuyers;
-  }
-
-  public void setAuctionBuyers(TreeSet<JapaneseAuctionBuyer> auctionBuyers) {
-    this.auctionBuyers = auctionBuyers;
   }
 
   @Override

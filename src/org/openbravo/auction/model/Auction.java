@@ -1,6 +1,8 @@
 package org.openbravo.auction.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.TreeSet;
 
 import org.openbravo.auction.utils.AuctionState;
 import org.openbravo.auction.utils.AuctionType;
@@ -18,13 +20,15 @@ public abstract class Auction {
   protected Date celebrationDate;
   protected Integer maximumBiddersNum;
   protected Item item;
-  protected Double startingPrice;
-  protected Double minimumSalePrice;
+  protected BigDecimal startingPrice;
+  protected BigDecimal minimumSalePrice;
   protected String additionalInformation;
 
+  protected TreeSet<?> auctionBuyers;
+
   public Auction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
-      Integer maximumBiddersNum, Item item, Double startingPrice, Double minimumSalePrice,
-      String additionalInformation) {
+      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
+      String additionalInformation, TreeSet<?> auctionBuyers) {
     this.auctionType = auctionType;
     this.auctionState = auctionState;
 
@@ -34,6 +38,8 @@ public abstract class Auction {
     this.startingPrice = startingPrice;
     this.minimumSalePrice = minimumSalePrice;
     this.additionalInformation = additionalInformation;
+
+    this.auctionBuyers = auctionBuyers;
   }
 
   public AuctionType getAuctionType() {
@@ -72,19 +78,19 @@ public abstract class Auction {
     this.item = item;
   }
 
-  public Double getStartingPrice() {
+  public BigDecimal getStartingPrice() {
     return startingPrice;
   }
 
-  public void setStartingPrice(Double startingPrice) {
+  public void setStartingPrice(BigDecimal startingPrice) {
     this.startingPrice = startingPrice;
   }
 
-  public Double getMinimumSalePrice() {
+  public BigDecimal getMinimumSalePrice() {
     return minimumSalePrice;
   }
 
-  public void setMinimumSalePrice(Double minimumSalePrice) {
+  public void setMinimumSalePrice(BigDecimal minimumSalePrice) {
     this.minimumSalePrice = minimumSalePrice;
   }
 
@@ -94,5 +100,13 @@ public abstract class Auction {
 
   public void setAdditionalInformation(String additionalInformation) {
     this.additionalInformation = additionalInformation;
+  }
+
+  public TreeSet<?> getAuctionBuyers() {
+    return auctionBuyers;
+  }
+
+  public void setAuctionBuyers(TreeSet<?> auctionBuyers) {
+    this.auctionBuyers = auctionBuyers;
   }
 }

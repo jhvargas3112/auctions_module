@@ -29,16 +29,20 @@ public interface OpenbravoAuctionService {
       ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId,
       String receiverEmail);
 
-  public String createNewSubscriptionNotificationMessage(Integer auctionCode, String receiverEmail);
+  public String createNewSubscriptionNotificationMessage(Integer auctionId, String receiverEmail);
 
-  public void notifySubscription(Integer auctionCode, String buyerEmail);
+  public void notifySubscription(Integer auctionId, String buyerEmail);
 
-  public void startAuctionCelebration(Integer auctionCode);
+  public void startAuctionCelebration(Integer auctionId);
 
-  public Auction getAuction(Integer auctionCode);
+  public void cancelAuctionCelebration(Integer auctionId);
+
+  public Auction getAuction(Integer auctionId);
+
+  public Integer countAuctionBuyers(Integer auctionId);
 
   public Boolean isBuyerAlreadySubscribed();
 
-  public void changeAuctionState(Integer auctionCode, AuctionStateEnum auctionState);
+  public void changeAuctionState(Integer auctionId, AuctionStateEnum auctionState);
 
 }

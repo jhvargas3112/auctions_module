@@ -1,19 +1,24 @@
 package org.openbravo.auction.concurrence;
 
+import java.math.BigDecimal;
+
 import org.openbravo.auction.service.impl.DutchAuctionServiceImpl;
 
 public class ReduceAuctionItemPrice implements Runnable {
-  private Double startingPrice;
-  private Double minimumSalePrice;
+  private Integer auctionId;
+
+  private BigDecimal startingPrice;
+  private BigDecimal minimumSalePrice;
   private Integer numberOfRounds;
 
   private Long period;
-  private Double amountToDecrease;
+  private BigDecimal amountToDecrease;
   private Integer roundsConsumed = 1;
 
-  public ReduceAuctionItemPrice(Double startingPrice, Double minimumSalePrice,
-      Integer numberOfRounds, Long period, Double amountToDecrease) {
-    super();
+  public ReduceAuctionItemPrice(Integer auctionId, BigDecimal startingPrice,
+      BigDecimal minimumSalePrice, Integer numberOfRounds, Long period,
+      BigDecimal amountToDecrease) {
+    this.auctionId = auctionId;
     this.startingPrice = startingPrice;
     this.minimumSalePrice = minimumSalePrice;
     this.numberOfRounds = numberOfRounds;
@@ -23,7 +28,7 @@ public class ReduceAuctionItemPrice implements Runnable {
 
   @Override
   public void run() {
-    while (roundsConsumed <= numberOfRounds && startingPrice > minimumSalePrice) {
+    while (roundsConsumed <= numberOfRounds && startingPrice.compareTo(minimumSalePrice) == 1) {
       try {
         Thread.sleep(period);
       } catch (InterruptedException e) {
@@ -31,9 +36,10 @@ public class ReduceAuctionItemPrice implements Runnable {
       }
 
       System.out.println("SE REDUCE EL PRECIO EN " + amountToDecrease);
-      startingPrice = new DutchAuctionServiceImpl().reduceDutchAuctionItemPrice(amountToDecrease);
+      startingPrice = new DutchAuctionServiceImpl().reduceDutchAuctionItemPrice(auctionId,
+          amountToDecrease);
 
-      System.out.println("PRECIO ACTUAL: " + startingPrice);
+      System.out.println("PRECIO ACTUAL: " + startingPrice.doubleValue());
 
       roundsConsumed++;
     }

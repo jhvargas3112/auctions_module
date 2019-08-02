@@ -1,6 +1,7 @@
 package org.openbravo.auction.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.openbravo.auction.service.DutchAuctionService;
@@ -21,20 +22,24 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
   }
 
   @Override
-  public Double getAmountToDecreasePrice(Double startingPrice, Double minimumSalePrice,
+  public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds) {
-    return (startingPrice - minimumSalePrice) / Double.parseDouble(String.valueOf(numberOfRounds));
+    return (startingPrice.subtract(minimumSalePrice))
+        .divide(new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))));
   }
 
   @Override
-  public Double reduceDutchAuctionItemPrice(Double amountToReduceOn) {
-    Representation responseData = new ClientResource(
-        "http://localhost:8111/openbravo/auction/reduce_item_price").post(amountToReduceOn);
+  public BigDecimal reduceDutchAuctionItemPrice(Integer auctionId, BigDecimal amountToReduce) {
+    ClientResource clientResource = new ClientResource(
+        "http://localhost:8111/openbravo/auction/reduce_item_price");
+    clientResource.addQueryParameter("auction_id", auctionId.toString());
 
-    Double priceAfterTheDecrement = null;
+    Representation responseData = clientResource.post(amountToReduce);
+
+    BigDecimal priceAfterTheDecrement = null;
 
     try {
-      priceAfterTheDecrement = Double.parseDouble(responseData.getText());
+      priceAfterTheDecrement = new BigDecimal(Double.parseDouble(responseData.getText()));
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }

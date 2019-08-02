@@ -83,7 +83,7 @@ public class OpenbravoAuctionRestApplication extends Application {
     // IsBuyerAlreadySubscribedRest.class);
     router.attach("http://localhost:8111/openbravo/auction/change_state",
         ChangeAuctionStateRest.class);
-    router.attach("http://localhost:8111/openbravo/auction/celebration}",
+    router.attach("http://localhost:8111/openbravo/auction/celebration",
         AuctionCelebrationRest.class);
     router.attach("http://localhost:8111/openbravo/auction/reduce_item_price",
         ReduceItemPriceRest.class);

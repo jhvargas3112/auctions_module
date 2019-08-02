@@ -2,7 +2,6 @@ package org.openbravo.auction.concurrence;
 
 import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 
 public class StartAuctionCelebration implements Runnable {
@@ -16,12 +15,15 @@ public class StartAuctionCelebration implements Runnable {
 
   @Override
   public void run() {
-    while (!DateUtils.isSameInstant(celebrationDate, new Date())) {
-      System.out.println("ESPERANDO... " + auctionId);
+    while (new Date().compareTo(celebrationDate) != 1) {
     }
 
-    System.out.println("HOY " + new Date() + " EMPIEZA A CELEBRARSE LA SUBASTA");
+    OpenbravoAuctionServiceImpl openbravoAuctionServiceImpl = new OpenbravoAuctionServiceImpl();
 
-    new OpenbravoAuctionServiceImpl().startAuctionCelebration(auctionId);
+    if (new OpenbravoAuctionServiceImpl().countAuctionBuyers(auctionId) >= 2) {
+      openbravoAuctionServiceImpl.startAuctionCelebration(auctionId);
+    } else {
+      openbravoAuctionServiceImpl.cancelAuctionCelebration(auctionId);
+    }
   }
 }

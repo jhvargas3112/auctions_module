@@ -48,7 +48,7 @@ isc.publishedAuctionContainer.addProperties({
 						break;
 					case 'DUTCH':
 						publishedAuctionInfo.addMembers((auctionInfoMembers.slice(0 ,4)
-								.concat(isc.Label.create({height: 50, padding: 4, contents: "<b>Mínimo precio de venta:</b> " + auctionInfo.minimumSalePrice}))
+								.concat(isc.Label.create({height: 50, padding: 4, contents: "<b>Mínimo precio de venta:</b> " + auctionInfo.minimumSalePrice + " €"}))
 								.concat(auctionInfoMembers.splice(4, 9))))
 						break;
 					case 'JAPANESE':

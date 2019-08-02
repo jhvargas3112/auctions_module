@@ -1,6 +1,7 @@
 package org.openbravo.auction.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.openbravo.auction.service.JapaneseAuctionService;
@@ -22,20 +23,21 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
   }
 
   @Override
-  public Double getAmountToDecreasePrice(Double startingPrice, Double minimumSalePrice,
+  public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds) {
-    return (startingPrice - minimumSalePrice) / Double.parseDouble(String.valueOf(numberOfRounds));
+    return (startingPrice.subtract(minimumSalePrice))
+        .divide(new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))));
   }
 
   @Override
-  public Double reduceJapaneseAuctionItemPrice(Double amountToReduceOn) {
+  public BigDecimal reduceJapaneseAuctionItemPrice(BigDecimal amountToReduceOn) {
     Representation responseData = new ClientResource(
         "http://localhost:8111/openbravo/auction/reduce_item_price").post(amountToReduceOn);
 
-    Double priceAfterTheDecrement = null;
+    BigDecimal priceAfterTheDecrement = null;
 
     try {
-      priceAfterTheDecrement = Double.parseDouble(responseData.getText());
+      priceAfterTheDecrement = new BigDecimal(Double.parseDouble(responseData.getText()));
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }
