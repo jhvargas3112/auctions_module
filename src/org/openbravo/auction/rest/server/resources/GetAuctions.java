@@ -12,19 +12,19 @@ import org.openbravo.auction.model.Auction;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class GetAuctionsRest extends ServerResource {
+public class GetAuctions extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get("json")
   public String getAuctions() {
-    HashMap<Integer, Auction> auctions = (HashMap<Integer, Auction>) getContext().getAttributes()
+    HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
         .get("auctions");
 
     ArrayList<JSONObject> auctionsCodesStates = new ArrayList<JSONObject>();
 
-    Iterator<Entry<Integer, Auction>> it = auctions.entrySet().iterator();
+    Iterator<Entry<String, Auction>> it = auctions.entrySet().iterator();
 
     while (it.hasNext()) {
-      Map.Entry<Integer, Auction> pair = (Map.Entry<Integer, Auction>) it.next();
+      Map.Entry<String, Auction> pair = (Map.Entry<String, Auction>) it.next();
 
       try {
         auctionsCodesStates.add(new JSONObject().accumulate("auction_id", pair.getKey())

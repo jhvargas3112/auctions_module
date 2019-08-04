@@ -15,10 +15,10 @@ import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class GetAuctionBuyersRest extends ServerResource {
+public class GetAuctionBuyers extends ServerResource {
   @Get("json")
   public String registeredBuyers() {
-    Integer auctionCode = Integer.parseInt(getQueryValue("auction_id"));
+    String auctionCode = getQueryValue("auction_id");
     Auction auction = new OpenbravoAuctionServiceImpl().getAuction(auctionCode);
 
     ArrayList<JSONObject> auctionBuyers = new ArrayList<JSONObject>();

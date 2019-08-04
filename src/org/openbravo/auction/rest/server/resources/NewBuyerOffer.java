@@ -5,7 +5,7 @@ import org.restlet.resource.ServerResource;
 
 import jade.wrapper.AgentController;
 
-public class NewBuyerOfferRest extends ServerResource {
+public class NewBuyerOffer extends ServerResource {
 
   @Post
   public void getAuctionInfo(String email) {

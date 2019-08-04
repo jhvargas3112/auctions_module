@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.openbravo.auction.service.impl.DutchAuctionServiceImpl;
 
 public class ReduceAuctionItemPrice implements Runnable {
-  private Integer auctionId;
+  private String auctionId;
 
   private BigDecimal startingPrice;
   private BigDecimal minimumSalePrice;
@@ -15,7 +15,7 @@ public class ReduceAuctionItemPrice implements Runnable {
   private BigDecimal amountToDecrease;
   private Integer roundsConsumed = 1;
 
-  public ReduceAuctionItemPrice(Integer auctionId, BigDecimal startingPrice,
+  public ReduceAuctionItemPrice(String auctionId, BigDecimal startingPrice,
       BigDecimal minimumSalePrice, Integer numberOfRounds, Long period,
       BigDecimal amountToDecrease) {
     this.auctionId = auctionId;

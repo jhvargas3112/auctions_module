@@ -10,8 +10,7 @@
     <meta name="author" content="LayoutIt!">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <#>include "moment.js">
-    <!-- <script type="text/javascript" src="./moment.js"></script> -->
+    
   </head>
   <body>
     <div class="header" style="border:1.7px solid #adc289;">
@@ -40,15 +39,31 @@
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>Holandesa</li>
+                        <li>Inglesa</li>
                     </ul>  
+                    <!-- <ol class="breadcrumb" style="background-color:#adc289;">
+                        <li class="breadcrumb-item">
+                            <b>Puja más alta</b>
+                        </li>
+                    </ol>
+                        <ul style="list-style-type:none;">
+                            <li>520€</li>
+                        </ul> -->
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
-                            <b>Precio actual</b>
+                            <b>Puja más alta</b>
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>155 €</li>
+                        <li>130 €</li>
+                    </ul>
+                    <ol class="breadcrumb" style="background-color:#adc289;">
+                        <li class="breadcrumb-item">
+                            <b>Precio de salida</b>
+                        </li>
+                    </ol>
+                    <ul style="list-style-type:none;">
+                        <li>${auction.startingPrice} €</li>
                     </ul>  
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
@@ -72,9 +87,16 @@
                     </ul>
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
-                            <b>Fecha de cierre</b>
+                            <b>Ganador provisional</b>
                         </li>
                     </ol>
+                    <ul style="list-style-type:none;">
+                        <li>pepito@gmail.com</li>
+                    </ul>
+                    <ol class="breadcrumb" style="background-color:#adc289;">
+                        <li class="breadcrumb-item">
+                            <b>Fecha de cierre</b>
+                        </li>
                     <ul style="list-style-type:none;">
                         <li>${auction.deadLine?datetime}</li>
                     </ul>
@@ -85,54 +107,88 @@
                     </h3>
                     <table class="table table-sm">
                         <tbody>
+                            <tr>
+                                <th>Email</th>
+                                <th>Última puja</th> 
+                            </tr>
                             <tr class="table-warning">
                                 <td>
                                     pepito@gmail.com
+                                </td>
+                                <td>
+                                    130 €
                                 </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     juana@yahoo.es
                                 </td>
+                                <td>
+                                    110 €
+                                </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     adolfo@lycos.com
+                                </td>
+                                <td>
+                                    105 €
                                 </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     pepita2@estumail.es
                                 </td>
+                                <td>
+                                    100 €
+                                </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     maria@outlook.com
+                                </td>
+                                <td>
+                                    90 €
                                 </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     jhvargas@ucm.es
                                 </td>
+                                <td>
+                                    87 €
+                                </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     jhvargas3112@gmail.com
+                                </td>
+                                <td>
+                                    0 €
                                 </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     juan@gmail.com
                                 </td>
+                                <td>
+                                    0 €
+                                </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     luisa@terra.es
                                 </td>
+                                <td>
+                                    0 €
+                                </td>
                             </tr>
                             <tr class="table-warning">
                                 <td>
                                     luis@yahoo.es
+                                </td>
+                                <td>
+                                    0 €
                                 </td>
                             </tr>
                         </tbody>
@@ -144,7 +200,7 @@
                     </h3>
                         
                     <div class="col-md-12">
-                    <!-- <label for="inputNewOffer">
+                    <label for="inputNewOffer">
                                     Nueva puja (€)
                                 </label>
                         <form role="form" class="form-inline">
@@ -154,15 +210,15 @@
                             <button type="submit" class="btn" style="background-color:#ef9734; color: #FFFFFF;">
                                 Confirmar
                             </button>
-                        </form> -->
+                        </form>
                         
-                        <button type="submit" class="btn" style="background-color:#d43519; color: #FFFFFF;">
+                        <!-- <button type="submit" class="btn" style="background-color:#d43519; color: #FFFFFF;">
                                 Abandonar
                         </button>
                         
                         <button type="submit" class="btn" style="background-color: #42700f; color: #FFFFFF;">
                             <span class="glyphicon glyphicon-floppy-disk"></span> Continuar
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

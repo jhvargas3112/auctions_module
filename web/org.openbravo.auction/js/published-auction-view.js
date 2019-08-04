@@ -56,7 +56,7 @@ isc.publishedAuctionContainer.addProperties({
 						break;
 				}
 				
-				buyersDS.dataURL ='http://localhost:8111/openbravo/auction/buyers?auction_id=' + selectedItem.auction_id;
+				buyersDS.dataURL ='http://192.168.0.157:8111/openbravo/auction/buyers?auction_id=' + selectedItem.auction_id;
 				buyers.setData([]);
 				buyers.fetchData();
 			}
@@ -70,7 +70,7 @@ isc.publishedAuctionContainer.addProperties({
 
 retrieveAuctionInfo = function(auction_id) {
 	request = new XMLHttpRequest();
-	request.open('GET', 'http://localhost:8111/openbravo/auction/auction_info?auction_id=' + auction_id, false);
+	request.open('GET', 'http://192.168.0.157:8111/openbravo/auction/auction_info?auction_id=' + auction_id, false);
 	request.send();
 
 	return httpResponseToJSON(request.response);

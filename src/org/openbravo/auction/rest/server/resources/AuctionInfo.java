@@ -8,20 +8,20 @@ import org.restlet.data.Status;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class AuctionInfoRest extends ServerResource {
+public class AuctionInfo extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get("json")
   public Auction getAuctionInfo() {
-    Integer auctionCode = Integer.parseInt(getQueryValue("auction_id"));
+    String auctionId = getQueryValue("auction_id");
 
     Auction auction = null;
 
     if (getContext().getAttributes().containsKey("auctions")) {
-      HashMap<Integer, Auction> auctions = (HashMap<Integer, Auction>) getContext().getAttributes()
+      HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
           .get("auctions");
-      if (auctions.containsKey(auctionCode)) {
-        auction = ((HashMap<Integer, Auction>) getContext().getAttributes().get("auctions"))
-            .get(auctionCode);
+      if (auctions.containsKey(auctionId)) {
+        auction = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
+            .get(auctionId);
       } else {
         getResponse().setStatus(new Status(204), ErrorResponseMsg.WRONG_AUCTION_ID);
       }

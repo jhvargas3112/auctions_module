@@ -11,27 +11,27 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 
-public class PublishAuctionRest extends ServerResource {
+public class PublishAuction extends ServerResource {
   @SuppressWarnings("unchecked")
   @Put("json")
   public Integer publishAuction(Representation JSONAuctionRepresentation) {
-    HashMap<Integer, Auction> auctions = (HashMap<Integer, Auction>) getContext().getAttributes()
+    HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
         .get("auctions");
 
-    int auctionId = RandomUtils.nextInt(100000, 999999);
+    Integer auctionId = RandomUtils.nextInt(100000, 999999);
 
-    while (auctions.containsKey(auctionId)) {
+    while (auctions.containsKey(auctionId.toString())) {
       auctionId = RandomUtils.nextInt(100000, 999999);
     }
 
-    auctions.put(auctionId,
+    auctions.put(auctionId.toString(),
         new OpenbravoAuctionServiceImpl().getAuction(JSONAuctionRepresentation));
 
-    ((HashMap<Integer, ArrayList<String>>) getContext().getAttributes().get("auction_emails"))
-        .put(auctionId, new ArrayList<String>());
+    ((HashMap<String, ArrayList<String>>) getContext().getAttributes().get("auction_emails"))
+        .put(auctionId.toString(), new ArrayList<String>());
 
-    ((HashMap<Integer, ArrayList<Integer>>) getContext().getAttributes().get("auction_buyerIds"))
-        .put(auctionId, new ArrayList<Integer>());
+    ((HashMap<String, ArrayList<String>>) getContext().getAttributes().get("auction_buyerIds"))
+        .put(auctionId.toString(), new ArrayList<String>());
 
     getResponse().setStatus(new Status(201));
 

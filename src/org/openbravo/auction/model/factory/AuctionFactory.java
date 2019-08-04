@@ -138,7 +138,7 @@ public class AuctionFactory {
       for (int i = 0; i < buyers.length(); ++i) {
         JSONObject buyer = new JSONObject(buyers.getString(i));
 
-        Integer id = Integer.parseInt(buyer.get("id").toString());
+        String id = buyer.get("id").toString();
         String email = buyer.get("email").toString();
 
         switch (auctionType.getAuctionTypeEnum()) {

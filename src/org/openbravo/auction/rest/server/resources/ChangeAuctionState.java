@@ -11,19 +11,19 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
-public class ChangeAuctionStateRest extends ServerResource {
+public class ChangeAuctionState extends ServerResource {
   @SuppressWarnings("unchecked")
   @Post
   public void changeAuctionState(StringRepresentation auctionStateRepresentation) {
-    Integer auctionId = Integer.parseInt(getQueryValue("auction_id"));
+    String auctionId = getQueryValue("auction_id");
     AuctionState auctionState = new AuctionState(
         AuctionStateEnum.valueOf(auctionStateRepresentation.getText()));
 
     if (getContext().getAttributes().containsKey("auctions")) {
-      HashMap<Integer, Auction> auctions = (HashMap<Integer, Auction>) getContext().getAttributes()
+      HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
           .get("auctions");
       if (auctions.containsKey(auctionId)) {
-        ((HashMap<Integer, Auction>) getContext().getAttributes().get("auctions")).get(auctionId)
+        ((HashMap<String, Auction>) getContext().getAttributes().get("auctions")).get(auctionId)
             .setAuctionState(auctionState);
       } else {
         getResponse().setStatus(new Status(204), ErrorResponseMsg.WRONG_AUCTION_ID);

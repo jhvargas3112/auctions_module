@@ -42,15 +42,15 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     }
 
     ClientResource clientResource = new ClientResource(
-        "http://localhost:8111/openbravo/auction/publish");
+        "http://192.168.0.157:8111/openbravo/auction/publish");
 
     Representation JSONAuctionRepresentation = clientResource.put(auction);
 
-    Integer auctionId = null;
+    String auctionId = null;
 
     try {
-      auctionId = Integer.parseInt(JSONAuctionRepresentation.getText().toString());
-    } catch (NumberFormatException | IOException e) {
+      auctionId = JSONAuctionRepresentation.getText().toString();
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -63,7 +63,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
   @Override
   public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements,
-      Integer auctionId) {
+      String auctionId) {
     ClassLoader classLoader = getClass().getClassLoader();
     Properties appProps = new Properties();
     try {
@@ -82,7 +82,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
   @Override
   public void notifyBidders(String[] receivers,
-      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId) {
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId) {
     sendEmailToBidders(receivers, newAuctionNotificationMessageElements, auctionId);
   }
 
@@ -109,7 +109,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   private void sendEmailToBidders(String[] receivers,
-      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId) {
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId) {
     HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
 
     for (int i = 0; i < receivers.length; i++) {
@@ -144,7 +144,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
   @Override
   public String createNewAuctionNotificationMessage(
-      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId,
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId,
       String receiverEmail) {
 
     StringBuilder sb = new StringBuilder();
@@ -155,21 +155,24 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     sb.append("\n\n")
         .append("Apuntate a la subasta, haciendo click en el siguiente enlace: "
-            + "http://localhost:8111/openbravo/auction/join?auction_id=" + auctionId
+            + "http://192.168.0.157:8111/openbravo/auction/sign_up?auction_id=" + auctionId
             + "&buyer_email=" + receiverEmail);
 
     return sb.toString();
   }
 
   @Override
-  public String createNewSubscriptionNotificationMessage(Integer auctionId, String receiverEmail) {
+  public String createNewSubscriptionNotificationMessage(String auctionId, String buyerId,
+      String receiverEmail) {
     Auction auction = getAuction(auctionId);
 
     String newSubscriptionNotificationMessage = "Usted acaba de inscribirse en la subasta que se celebrá el día "
         + auction.getCelebrationDate() + "."
         + "\n\nPara poder empezar a participar en la subasta en la fecha indicada, deberá acceder a la URL "
-        + "http://localhost:8111/openbravo/auction/celebration?auction_id=" + auctionId
-        + " e identificarse introduciendo el código 32323."
+        + "http://192.168.0.157:8111/openbravo/auction/join?auction_id=" + auctionId
+        + " e identificarse introduciendo el código " + buyerId // TODO: CAMBIAR ESE 32323 POR EL
+                                                                // CODIGO
+        // GENERADO POR EL SISTEMA DE SUBASTAS.
         + "\n\nA continuación, le recordamos la información de la subasta: \n\n"
         + auction.toString();
 
@@ -177,7 +180,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public void notifySubscription(Integer auctionId, String buyerEmail) {
+  public void notifySubscription(String auctionId, String buyerId, String buyerEmail) {
     HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
 
     sendEmail((String) emailSenderParameters.get("emailFrom"), buyerEmail,
@@ -185,11 +188,11 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
         (String) emailSenderParameters.get("hostname"),
         Integer.parseInt((String) emailSenderParameters.get("smtp_port")),
         "Confirmación de inscripción a subasta",
-        createNewSubscriptionNotificationMessage(auctionId, buyerEmail));
+        createNewSubscriptionNotificationMessage(auctionId, buyerId, buyerEmail));
   }
 
   @Override
-  public void startAuctionCelebration(Integer auctionId) {
+  public void startAuctionCelebration(String auctionId) {
     changeAuctionState(auctionId, AuctionStateEnum.IT_IS_CELEBRATING);
 
     Auction auction = getAuction(auctionId);
@@ -219,14 +222,14 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public void cancelAuctionCelebration(Integer auctionId) {
+  public void cancelAuctionCelebration(String auctionId) {
     changeAuctionState(auctionId, AuctionStateEnum.CANCELLED);
   }
 
   @Override
-  public Auction getAuction(Integer auctionId) {
+  public Auction getAuction(String auctionId) {
     ClientResource clientResource = new ClientResource(
-        "http://localhost:8111/openbravo/auction/auction_info");
+        "http://192.168.0.157:8111/openbravo/auction/auction_info");
     clientResource.addQueryParameter("auction_id", auctionId.toString());
 
     Representation JSONAuctionRepresentation = clientResource.get();
@@ -247,7 +250,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public Integer countAuctionBuyers(Integer auctionId) {
+  public Integer countAuctionBuyers(String auctionId) {
     return getAuction(auctionId).getAuctionBuyers().size();
   }
 
@@ -257,9 +260,9 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public void changeAuctionState(Integer auctionId, AuctionStateEnum auctionState) {
+  public void changeAuctionState(String auctionId, AuctionStateEnum auctionState) {
     ClientResource clientResource = new ClientResource(
-        "http://localhost:8111/openbravo/auction/change_state");
+        "http://192.168.0.157:8111/openbravo/auction/change_state");
     clientResource.addQueryParameter("auction_id", auctionId.toString());
     clientResource.post(new StringRepresentation(auctionState.toString()));
   }

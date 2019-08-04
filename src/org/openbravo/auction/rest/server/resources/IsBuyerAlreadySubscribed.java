@@ -1,3 +1,4 @@
+package org.openbravo.auction.rest.server.resources;
 /*
  * package org.openbravo.auction.rest.server.resources;
  * 

@@ -15,6 +15,14 @@
             var auction_id = ${auction_id};
             var buyer_id = document.getElementById("buyer_id").value;
             
+            try {
+                request = new XMLHttpRequest();
+                request.open('GET', 'http://192.168.0.157:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id, false);
+                request.send();
+            } catch (err) {
+                throw 'NETWORK_ERROR';
+            }
+            
             window.close()
             window.open('http://192.168.0.157:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id);
         }
@@ -28,7 +36,7 @@
             </a>
                     <p id="profile-name" class="profile-name-card"></p>
                         <input type="input" name="buyer_id" id="buyer_id" class="form-control form-group" placeholder="Código de acceso" required autofocus>
-                        <p id="demo"></p>
+                        <p>Código de acceso erróneo, inténtalo de nuevo</p>
                         <button class="btn btn-block btn-signin" type="submit" style="background-color:#ef9734; color: #FFFFFF;" onClick="buyerAuthentication()">Acceder a la subasta</button>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 package org.openbravo.auction.model;
 
 public class JapaneseAuctionBuyer extends AuctionBuyer implements Comparable<JapaneseAuctionBuyer> {
-  public JapaneseAuctionBuyer(Integer id, String email) {
+  public JapaneseAuctionBuyer(String id, String email) {
     super(id, email);
   }
 

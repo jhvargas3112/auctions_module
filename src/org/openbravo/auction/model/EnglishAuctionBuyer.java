@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 public class EnglishAuctionBuyer extends AuctionBuyer implements Comparable<EnglishAuctionBuyer> {
   private BigDecimal lastOffer;
 
-  public EnglishAuctionBuyer(Integer id, String email, BigDecimal lastOffer) {
+  public EnglishAuctionBuyer(String id, String email, BigDecimal lastOffer) {
     super(id, email);
     this.lastOffer = lastOffer;
   }

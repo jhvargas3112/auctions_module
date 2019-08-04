@@ -5,10 +5,10 @@ import java.util.Date;
 import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 
 public class StartAuctionCelebration implements Runnable {
-  private Integer auctionId;
+  private String auctionId;
   private Date celebrationDate;
 
-  public StartAuctionCelebration(Integer auctionId, Date celebrationDate) {
+  public StartAuctionCelebration(String auctionId, Date celebrationDate) {
     this.auctionId = auctionId;
     this.celebrationDate = celebrationDate;
   }

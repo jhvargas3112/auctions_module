@@ -1,19 +1,19 @@
 package org.openbravo.auction.model;
 
 public abstract class AuctionBuyer {
-  protected Integer id;
+  protected String id;
   protected String email;
 
-  public AuctionBuyer(Integer id, String email) {
+  public AuctionBuyer(String id, String email) {
     this.id = id;
     this.email = email;
   }
 
-  public Integer getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 

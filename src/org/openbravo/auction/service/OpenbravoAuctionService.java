@@ -14,7 +14,7 @@ public interface OpenbravoAuctionService {
    * are picked from the config.properties file.
    */
   public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements,
-      Integer auctionId);
+      String auctionId);
 
   /**
    * Sends an email to bidders with the information of the new published auction.
@@ -23,26 +23,27 @@ public interface OpenbravoAuctionService {
    *          - an String array with the bidders emails.
    */
   public void notifyBidders(String[] receivers,
-      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId);
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId);
 
   public String createNewAuctionNotificationMessage(
-      ArrayList<String> newAuctionNotificationMessageElements, Integer auctionId,
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId,
       String receiverEmail);
 
-  public String createNewSubscriptionNotificationMessage(Integer auctionId, String receiverEmail);
+  public String createNewSubscriptionNotificationMessage(String auctionId, String buyerId,
+      String receiverEmail);
 
-  public void notifySubscription(Integer auctionId, String buyerEmail);
+  public void notifySubscription(String auctionId, String buyerId, String buyerEmail);
 
-  public void startAuctionCelebration(Integer auctionId);
+  public void startAuctionCelebration(String auctionId);
 
-  public void cancelAuctionCelebration(Integer auctionId);
+  public void cancelAuctionCelebration(String auctionId);
 
-  public Auction getAuction(Integer auctionId);
+  public Auction getAuction(String auctionId);
 
-  public Integer countAuctionBuyers(Integer auctionId);
+  public Integer countAuctionBuyers(String auctionId);
 
   public Boolean isBuyerAlreadySubscribed();
 
-  public void changeAuctionState(Integer auctionId, AuctionStateEnum auctionState);
+  public void changeAuctionState(String auctionId, AuctionStateEnum auctionState);
 
 }

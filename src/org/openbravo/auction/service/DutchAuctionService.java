@@ -16,7 +16,7 @@ public interface DutchAuctionService {
   public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds);
 
-  public BigDecimal reduceDutchAuctionItemPrice(Integer auctionId, BigDecimal amountToReduce);
+  public BigDecimal reduceDutchAuctionItemPrice(String auctionId, BigDecimal amountToReduce);
 
   public void determineDutchAuctionWinner();
 }

@@ -9,19 +9,19 @@ import org.restlet.data.Status;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class AuctionStateRest extends ServerResource {
+public class AuctionState extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get
   public AuctionStateEnum getAuctionInfo() {
-    Integer auctionCode = Integer.parseInt(getQueryValue("auction_id"));
+    String auctionCode = getQueryValue("auction_id");
 
     AuctionStateEnum auctionState = null;
 
     if (getContext().getAttributes().containsKey("auctions")) {
-      HashMap<Integer, Auction> auctions = (HashMap<Integer, Auction>) getContext().getAttributes()
+      HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
           .get("auctions");
       if (auctions.containsKey(auctionCode)) {
-        auctionState = ((HashMap<Integer, Auction>) getContext().getAttributes().get("auctions"))
+        auctionState = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .get(auctionCode)
             .getAuctionState()
             .getAuctionStateEnum();
