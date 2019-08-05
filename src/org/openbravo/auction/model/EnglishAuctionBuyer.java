@@ -29,7 +29,7 @@ public class EnglishAuctionBuyer extends AuctionBuyer implements Comparable<Engl
   @Override
   public int compareTo(EnglishAuctionBuyer englishAuctionBuyer) {
     if (!this.lastOffer.equals(new BigDecimal(0.0))) {
-      return this.lastOffer.compareTo(englishAuctionBuyer.getLastOffer());
+      return englishAuctionBuyer.getLastOffer().compareTo(this.lastOffer);
     } else {
       return 1;
     }

@@ -74,7 +74,7 @@ public class AuctionFactory {
             (TreeSet<DutchAuctionBuyer>) auctionBuyers);
         break;
       case JAPANESE:
-        auction = new JapaneseAuction(auctionState, celebrationDate, numberOfRounds,
+        auction = new JapaneseAuction(auctionState, celebrationDate, deadLine, numberOfRounds,
             maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation,
             (TreeSet<JapaneseAuctionBuyer>) auctionBuyers);
         break;

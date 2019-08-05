@@ -1,9 +1,11 @@
 package org.openbravo.auction.service;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.utils.AuctionStateEnum;
 
 public interface OpenbravoAuctionService {
@@ -39,6 +41,8 @@ public interface OpenbravoAuctionService {
   public void cancelAuctionCelebration(String auctionId);
 
   public Auction getAuction(String auctionId);
+
+  public TreeSet<AuctionBuyer> getAuctionBuyers(String auctionId);
 
   public Integer countAuctionBuyers(String auctionId);
 

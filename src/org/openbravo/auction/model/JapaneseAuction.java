@@ -15,12 +15,13 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
  */
 
 public class JapaneseAuction extends Auction {
-  protected Integer numberOfRounds;
+  private Integer numberOfRounds;
 
-  public JapaneseAuction(AuctionState auctionState, Date celebrationDate, Integer numberOfRounds,
-      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
-      String additionalInformation, TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers) {
-    super(new AuctionType(AuctionTypeEnum.JAPANESE), auctionState, celebrationDate,
+  public JapaneseAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
+      Integer numberOfRounds, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
+      BigDecimal minimumSalePrice, String additionalInformation,
+      TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers) {
+    super(new AuctionType(AuctionTypeEnum.JAPANESE), auctionState, celebrationDate, deadLine,
         maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation,
         japaneseAuctionBuyers);
 

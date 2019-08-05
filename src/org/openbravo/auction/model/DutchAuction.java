@@ -15,22 +15,23 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
  */
 
 public class DutchAuction extends Auction {
-  protected Date deadLine;
-  protected Integer numberOfRounds;
+  private Integer numberOfRounds;
 
   public DutchAuction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
-      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
-      String additionalInformation, TreeSet<DutchAuctionBuyer> dutchAuctionBuyers) {
-    super(auctionType, auctionState, celebrationDate, maximumBiddersNum, item, startingPrice,
-        minimumSalePrice, additionalInformation, dutchAuctionBuyers);
+      Date deadLine, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
+      BigDecimal minimumSalePrice, String additionalInformation,
+      TreeSet<DutchAuctionBuyer> dutchAuctionBuyers) {
+    super(auctionType, auctionState, celebrationDate, deadLine, maximumBiddersNum, item,
+        startingPrice, minimumSalePrice, additionalInformation, dutchAuctionBuyers);
   }
 
   public DutchAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
       Integer numberOfRounds, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
       BigDecimal minimumSalePrice, String additionalInformation,
       TreeSet<DutchAuctionBuyer> dutchAuctionBuyers) {
-    super(new AuctionType(AuctionTypeEnum.DUTCH), auctionState, celebrationDate, maximumBiddersNum,
-        item, startingPrice, minimumSalePrice, additionalInformation, dutchAuctionBuyers);
+    super(new AuctionType(AuctionTypeEnum.DUTCH), auctionState, celebrationDate, deadLine,
+        maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation,
+        dutchAuctionBuyers);
 
     this.deadLine = deadLine;
     this.numberOfRounds = numberOfRounds;
@@ -40,17 +41,19 @@ public class DutchAuction extends Auction {
       Date deadLine, Integer numberOfRounds, Integer maximumBiddersNum, Item item,
       BigDecimal startingPrice, BigDecimal minimumSalePrice, String additionalInformation,
       TreeSet<DutchAuctionBuyer> dutchAuctionBuyers) {
-    super(auctionType, auctionState, celebrationDate, maximumBiddersNum, item, startingPrice,
-        minimumSalePrice, additionalInformation, dutchAuctionBuyers);
+    super(auctionType, auctionState, celebrationDate, deadLine, maximumBiddersNum, item,
+        startingPrice, minimumSalePrice, additionalInformation, dutchAuctionBuyers);
 
     this.deadLine = deadLine;
     this.numberOfRounds = numberOfRounds;
   }
 
+  @Override
   public Date getDeadLine() {
     return deadLine;
   }
 
+  @Override
   public void setDeadLine(Date deadLine) {
     this.deadLine = deadLine;
   }

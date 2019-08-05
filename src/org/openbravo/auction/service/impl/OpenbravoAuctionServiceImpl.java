@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.TreeSet;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -17,6 +18,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.openbravo.auction.concurrence.ReduceAuctionItemPrice;
 import org.openbravo.auction.concurrence.StartAuctionCelebration;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.model.DutchAuction;
 import org.openbravo.auction.model.factory.AuctionFactory;
 import org.openbravo.auction.rest.server.OpenbravoAuctionRestServer;
@@ -58,7 +60,9 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     newAuctionNotificationMessageElements.add(auction.toString());
     notifyBidders(newAuctionNotificationMessageElements, auctionId);
 
-    new Thread(new StartAuctionCelebration(auctionId, auction.getCelebrationDate())).start();
+    new Thread(
+        new StartAuctionCelebration(auctionId, auction.getCelebrationDate(), auction.getDeadLine()))
+            .start();
   }
 
   @Override
@@ -247,6 +251,12 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     }
 
     return auction;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public TreeSet<AuctionBuyer> getAuctionBuyers(String auctionId) {
+    return (TreeSet<AuctionBuyer>) getAuction(auctionId).getAuctionBuyers();
   }
 
   @Override

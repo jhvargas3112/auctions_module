@@ -2,13 +2,9 @@ package org.openbravo.auction.rest.server.resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeSet;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openbravo.auction.model.Auction;
-import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.restlet.data.LocalReference;
 import org.restlet.data.MediaType;
@@ -18,7 +14,7 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class AuctionCelebrationAuthentication extends ServerResource {
+public class AuctionCelebrationRefresh extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get
   public Representation getAuctionCelebrationPage() {
@@ -43,9 +39,7 @@ public class AuctionCelebrationAuthentication extends ServerResource {
           if (auction.getAuctionState()
               .getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING) {
             dataModel.put("auction", auction);
-            dataModel.put("auction_id", auctionId);
             dataModel.put("buyer_id", buyerId);
-            dataModel.put("buyer_email", getBuyerEmail(auction.getAuctionBuyers(), buyerId));
 
             switch (auction.getAuctionType().getAuctionTypeEnum()) {
               case ENGLISH:
@@ -83,21 +77,5 @@ public class AuctionCelebrationAuthentication extends ServerResource {
     }
 
     return new TemplateRepresentation(auctionCelebrationFtl, dataModel, MediaType.TEXT_HTML);
-  }
-
-  private String getBuyerEmail(TreeSet<?> auctionBuyers, String buyerId) {
-    Iterator<?> it = auctionBuyers.iterator();
-
-    String buyerEmail = null;
-
-    while (it.hasNext()) {
-      AuctionBuyer auctionBuyer = (AuctionBuyer) it.next();
-
-      if (StringUtils.equals(auctionBuyer.getId(), buyerId)) {
-        buyerEmail = auctionBuyer.getEmail();
-      }
-    }
-
-    return buyerEmail;
   }
 }

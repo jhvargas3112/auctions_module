@@ -18,6 +18,7 @@ public abstract class Auction {
   protected AuctionState auctionState;
 
   protected Date celebrationDate;
+  protected Date deadLine;
   protected Integer maximumBiddersNum;
   protected Item item;
   protected BigDecimal startingPrice;
@@ -27,12 +28,13 @@ public abstract class Auction {
   protected TreeSet<?> auctionBuyers;
 
   public Auction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
-      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
-      String additionalInformation, TreeSet<?> auctionBuyers) {
+      Date deadLine, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
+      BigDecimal minimumSalePrice, String additionalInformation, TreeSet<?> auctionBuyers) {
     this.auctionType = auctionType;
     this.auctionState = auctionState;
 
     this.celebrationDate = celebrationDate;
+    this.deadLine = deadLine;
     this.maximumBiddersNum = maximumBiddersNum;
     this.item = item;
     this.startingPrice = startingPrice;
@@ -60,6 +62,14 @@ public abstract class Auction {
 
   public void setCelebrationDate(Date celebrationDate) {
     this.celebrationDate = celebrationDate;
+  }
+
+  public Date getDeadLine() {
+    return deadLine;
+  }
+
+  public void setDeadLine(Date deadLine) {
+    this.deadLine = deadLine;
   }
 
   public Integer getMaximumBiddersNum() {

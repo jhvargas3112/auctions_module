@@ -13,6 +13,31 @@
     
   </head>
   <body>
+    <script>
+        refreshAuctionInformation = function() {
+            location.reload();  
+        };
+        
+        setBuyerOffer = function(auctionId, buyerId, buyerOffer) {
+            request = new XMLHttpRequest();
+            request.open('POST', 'http://192.168.0.157:8111/openbravo/auction/buyer/offer?auction_id=' + auctionId + '&buyer_id=' + buyerId + '&buyer_offer=' + buyerOffer, false);
+            request.send();
+            
+            var resp = httpResponseToJSON(request.response);
+            
+            if (resp.status === false) {
+                document.getElementById("alert").innerHTML = '<div class="alert alert-danger alert-dismissible fade show"><strong>¡Error!</strong> Puja no aceptada. Esta debe ser mayor a <strong id="last_highest_offer"></strong>.<button type="button" class="close" data-dismiss="alert" onCLick="refreshAuctionInformation();">&times;</button></div>';
+                document.getElementById("last_highest_offer").innerHTML = resp.highest_offer + " €";
+            } else {
+                refreshAuctionInformation();
+            }
+        };
+        
+        httpResponseToJSON = function(httpResponse) {
+            return JSON.parse(httpResponse)
+        }
+    </script>
+    
     <div class="header" style="border:1.7px solid #adc289;">
         <div align="right">
             <img src="http://localhost:8080/openbravo/utility/ShowImageLogo?logo=yourcompanymenu" align="right" name="isc_16main" border="0" suppress="TRUE" draggable="true">
@@ -24,6 +49,8 @@
         <div class="header-right" style="padding: 20px 10px; border:5px solid white;">
         </div>
     </div>
+    
+    <div id="alert"></div>
 
     <div class="container-fluid">
     <div class="row">
@@ -39,23 +66,15 @@
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>Inglesa</li>
+                        <li>${auction.auctionType.auctionTypeName}</li>
                     </ul>  
-                    <!-- <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Puja más alta</b>
-                        </li>
-                    </ol>
-                        <ul style="list-style-type:none;">
-                            <li>520€</li>
-                        </ul> -->
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
                             <b>Puja más alta</b>
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>130 €</li>
+                        <li id="highest_offer"> ${auction.auctionBuyers[0].lastOffer} €</li>
                     </ul>
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
@@ -91,12 +110,17 @@
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>pepito@gmail.com</li>
+                        <li id="provisional_winner">
+                            <#if auction.auctionBuyers[0].lastOffer gt 0>
+                                ${auction.auctionBuyers[0].email}
+                            </#if>
+                        </li>
                     </ul>
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
                             <b>Fecha de cierre</b>
                         </li>
+                    </ol>  
                     <ul style="list-style-type:none;">
                         <li>${auction.deadLine?datetime}</li>
                     </ul>
@@ -106,91 +130,25 @@
                         <b>Lista de compradores</b>
                     </h3>
                     <table class="table table-sm">
-                        <tbody>
+                        <tbody id="buyers_info">
                             <tr>
                                 <th>Email</th>
                                 <th>Última puja</th> 
                             </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    pepito@gmail.com
-                                </td>
-                                <td>
-                                    130 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    juana@yahoo.es
-                                </td>
-                                <td>
-                                    110 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    adolfo@lycos.com
-                                </td>
-                                <td>
-                                    105 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    pepita2@estumail.es
-                                </td>
-                                <td>
-                                    100 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    maria@outlook.com
-                                </td>
-                                <td>
-                                    90 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    jhvargas@ucm.es
-                                </td>
-                                <td>
-                                    87 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    jhvargas3112@gmail.com
-                                </td>
-                                <td>
-                                    0 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    juan@gmail.com
-                                </td>
-                                <td>
-                                    0 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    luisa@terra.es
-                                </td>
-                                <td>
-                                    0 €
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    luis@yahoo.es
-                                </td>
-                                <td>
-                                    0 €
-                                </td>
-                            </tr>
+                            <#list auction.auctionBuyers as buyer>
+                                <#if buyer.email == buyer_email>
+                                    <tr class="table-info">
+                                <#else>
+                                    <tr class="table-warning">
+                                </#if>
+                                    <td>
+                                        ${buyer.email}
+                                    </td>
+                                    <td>
+                                        ${buyer.lastOffer} €
+                                    </td>
+                                </tr>
+                            </#list>
                         </tbody>
                     </table>
                 </div>
@@ -200,25 +158,35 @@
                     </h3>
                         
                     <div class="col-md-12">
-                    <label for="inputNewOffer">
-                                    Nueva puja (€)
-                                </label>
-                        <form role="form" class="form-inline">
-                            <div class="form-group">
-                                <input type="number" step="0.01" class="form-control" id="inputNewOffer" required/>
-                            </div>
-                            <button type="submit" class="btn" style="background-color:#ef9734; color: #FFFFFF;">
-                                Confirmar
-                            </button>
-                        </form>
+                        <label for="inputNewOffer">
+                            Nueva puja (€)
+                        </label>
                         
-                        <!-- <button type="submit" class="btn" style="background-color:#d43519; color: #FFFFFF;">
-                                Abandonar
-                        </button>
-                        
-                        <button type="submit" class="btn" style="background-color: #42700f; color: #FFFFFF;">
-                            <span class="glyphicon glyphicon-floppy-disk"></span> Continuar
-                        </button> -->
+                        <div class="form-group">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="number" step="0.01" class="form-control" id="input_offer" required/>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn" style="background-color:#ef9734; color: #FFFFFF;" onClick='setBuyerOffer(${auction_id}, ${buyer_id}, document.getElementById("input_offer").value);'>
+                                                Confirmar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
+                                                Actualizar información
+                                            </button>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
