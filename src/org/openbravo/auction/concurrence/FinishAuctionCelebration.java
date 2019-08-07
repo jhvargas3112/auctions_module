@@ -2,6 +2,8 @@ package org.openbravo.auction.concurrence;
 
 import java.util.Date;
 
+import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
+
 public class FinishAuctionCelebration implements Runnable {
   private String auctionId;
   private Date deadLine;
@@ -17,8 +19,8 @@ public class FinishAuctionCelebration implements Runnable {
       // System.out.println("CELEBRÁNDOSE... " + auctionId);
     }
 
-    System.out.println("LA SUBASTA " + auctionId + " HA FINALIZADO.");
+    new OpenbravoAuctionServiceImpl().finishAuctionCelebration(auctionId);
 
-    // new OpenbravoAuctionServiceImpl().finishAuctionCelebration(auctionId);
+    System.out.println("LA SUBASTA " + auctionId + " HA FINALIZADO.");
   }
 }

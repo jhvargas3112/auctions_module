@@ -1,24 +1,27 @@
 isc.defineClass('publishedAuctionContainer', isc.HLayout);
+isc.defineClass('closeAuctionButton', isc.OBFormButton);
+
+isc.closeAuctionButton.addProperties({
+	title: 'Cerrar subasta',
+
+	initWidget: function () {
+		this.Super("initWidget", arguments);
+	}
+});
 
 isc.publishedAuctionContainer.addProperties({
 	initWidget: function () {
 		publishedAuctionInfo = isc.publishedAuctionInfo.create();
 		
-		updateButton = isc.updateButton.create({
+		closeAuctionButton = isc.closeAuctionButton.create({
 			click: function() {
-				auctions.setData([]);
-				auctions.fetchData();
+				
 			}
 		});
 		
-		buyers = isc.buyers.create();
+		// publishedAuctionInfo.addMember(updateAuctionInfoButton);
 		
-		registeredBuyersListLayout = isc.VLayout.create({
-			width: "35%",
-			layoutMargin: 20,
-			backgroundColor: "#ffffff",
-			members: [updateButton, buyers]
-		});
+		buyers = isc.buyers.create();
 		
 		auctions = isc.auctions.create({selectionUpdated: function() {
 			if (this.anySelected()) {
@@ -44,27 +47,37 @@ isc.publishedAuctionContainer.addProperties({
 				
 				switch (auctionInfo.auctionType.auctionTypeEnum) {
 					case 'ENGLISH':
-						publishedAuctionInfo.addMembers(auctionInfoMembers);
+						publishedAuctionInfo.setMembers(auctionInfoMembers);
 						break;
 					case 'DUTCH':
-						publishedAuctionInfo.addMembers((auctionInfoMembers.slice(0 ,4)
+						publishedAuctionInfo.setMembers((auctionInfoMembers.slice(0 ,4)
 								.concat(isc.Label.create({height: 50, padding: 4, contents: "<b>Mínimo precio de venta:</b> " + auctionInfo.minimumSalePrice + " €"}))
 								.concat(auctionInfoMembers.splice(4, 9))))
 						break;
 					case 'JAPANESE':
-						publishedAuctionInfo.addMembers(auctionInfoMembers);
+						publishedAuctionInfo.setMembers(auctionInfoMembers);
 						break;
+				}
+				
+				if (auctionInfo.auctionState.auctionStateEnum === "CANCELLED") {
+					publishedAuctionInfo.addMember(closeAuctionButton);
+				}
+				
+				if (auctionInfo.auctionState.auctionStateEnum === "FINISHED") {
+					publishedAuctionInfo.addMember(closeAuctionButton);
 				}
 				
 				buyersDS.dataURL ='http://192.168.0.157:8111/openbravo/auction/buyers?auction_id=' + selectedItem.auction_id;
 				buyers.setData([]);
 				buyers.fetchData();
+				
+				// publishedAuctionInfo.addMember(updateAuctionInfoButton, 0);
 			}
 		}});
 		
 		this.Super("initWidget", arguments);
 
-		this.addMembers([auctions, publishedAuctionInfo, registeredBuyersListLayout]);
+		this.addMembers([auctions, publishedAuctionInfo, buyers]);
 	}	
 });
 

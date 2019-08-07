@@ -21,22 +21,27 @@ public interface OpenbravoAuctionService {
   /**
    * Sends an email to bidders with the information of the new published auction.
    * 
-   * @param receivers
-   *          - an String array with the bidders emails.
+   * @param buyersEmails
+   *          - an String array with the bidders buyers.
    */
-  public void notifyBidders(String[] receivers,
+  public void notifyBidders(String[] buyersEmails,
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId);
-
-  public String createNewAuctionNotificationMessage(
-      ArrayList<String> newAuctionNotificationMessageElements, String auctionId,
-      String receiverEmail);
-
-  public String createNewSubscriptionNotificationMessage(String auctionId, String buyerId,
-      String receiverEmail);
 
   public void notifySubscription(String auctionId, String buyerId, String buyerEmail);
 
+  public void notifyAuctionWinner(String auctionId, String buyerEmail);
+
+  public String createNewAuctionNotificationMessage(
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId, String buyerEmail);
+
+  public String createNewSubscriptionNotificationMessage(String auctionId, String buyerId,
+      String buyerEmail);
+
+  public String createWinnerNotificationMessage(String auctionId, String buyerEmail);
+
   public void startAuctionCelebration(String auctionId);
+
+  public void finishAuctionCelebration(String auctionId);
 
   public void cancelAuctionCelebration(String auctionId);
 
@@ -46,8 +51,7 @@ public interface OpenbravoAuctionService {
 
   public Integer countAuctionBuyers(String auctionId);
 
-  public Boolean isBuyerAlreadySubscribed();
-
   public void changeAuctionState(String auctionId, AuctionStateEnum auctionState);
 
+  public void startOpenbravoAuctionRestServer();
 }

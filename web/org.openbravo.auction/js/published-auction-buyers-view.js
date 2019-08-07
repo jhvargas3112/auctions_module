@@ -1,5 +1,5 @@
-isc.defineClass('buyers', isc.OBGrid);
 isc.defineClass('buyersDS', isc.DataSource);
+isc.defineClass('buyers', isc.OBGrid);
 
 buyersDS = isc.buyersDS.create({
     dataFormat:"json",
@@ -9,7 +9,7 @@ buyersDS = isc.buyersDS.create({
 });
 
 isc.buyers.addProperties({
-	showFilterEditor: false,
+	showFilterEditor: true,
 	dataSource: buyersDS,
 	autoFetchData: true,
 
@@ -18,17 +18,10 @@ isc.buyers.addProperties({
 			name: 'email',
 			title: 'Participantes de la subasta',
 		}],
+	
+	emptyMessage: 'Aún no se ha apuntado ningún comprador a esta subasta.',
 
 	initWidget: function () {
 		this.Super('initWidget', arguments);
-	}
-});
-
-isc.defineClass("updateButton", isc.OBFormButton);
-isc.updateButton.addProperties({
-	title: 'Actualizar listado',
-
-	initWidget: function () {
-		this.Super("initWidget", arguments);
 	}
 });

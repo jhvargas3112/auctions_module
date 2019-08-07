@@ -7,13 +7,7 @@ import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 import org.openbravo.base.exception.OBException;
 import org.openbravo.client.kernel.BaseActionHandler;
 
-/**
- * 
- * @author Jhonny Vargas.
- *
- */
-
-public class PublishAuctionHandler extends BaseActionHandler {
+public class SaveClosedAuctionInformationHandler extends BaseActionHandler {
   @Override
   protected JSONObject execute(Map<String, Object> requestParameters, String auctionParameters) {
     try {

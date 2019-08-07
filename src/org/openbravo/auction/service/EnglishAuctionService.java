@@ -1,5 +1,8 @@
 package org.openbravo.auction.service;
 
+import org.openbravo.auction.model.EnglishAuction;
+import org.openbravo.auction.model.EnglishAuctionBuyer;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -8,6 +11,6 @@ package org.openbravo.auction.service;
 
 public interface EnglishAuctionService {
 
-  public void determineEnglishAuctionWinner();
+  public EnglishAuctionBuyer determineEnglishAuctionWinner(EnglishAuction englishAuction);
 
 }

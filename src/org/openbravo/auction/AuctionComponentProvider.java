@@ -13,7 +13,6 @@ import org.openbravo.client.kernel.Component;
  */
 
 public class AuctionComponentProvider extends BaseComponentProvider {
-
   @Override
   public Component getComponent(String componentId, Map<String, Object> parameters) {
     return null;
@@ -40,6 +39,8 @@ public class AuctionComponentProvider extends BaseComponentProvider {
     globalResources.add(createStaticResource(
         "web/org.openbravo.auction/js/published-auction-buyers-view.js", false));
     globalResources
+        .add(createStaticResource("web/org.openbravo.auction/js/auction-winners.js", false));
+    globalResources
         .add(createStaticResource("web/org.openbravo.auction/js/published-auction-view.js", false));
     globalResources.add(createStaticResource(
         "web/org.openbravo.auction/js/admin-auction-control-tabbar.js", false));
@@ -52,5 +53,4 @@ public class AuctionComponentProvider extends BaseComponentProvider {
   public List<String> getTestResources() {
     return Collections.emptyList();
   }
-
 }

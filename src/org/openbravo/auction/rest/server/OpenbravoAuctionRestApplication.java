@@ -12,6 +12,7 @@ import org.openbravo.auction.rest.server.resources.AuctionState;
 import org.openbravo.auction.rest.server.resources.BuyerOffer;
 import org.openbravo.auction.rest.server.resources.ChangeAuctionState;
 import org.openbravo.auction.rest.server.resources.GetAuctionBuyers;
+import org.openbravo.auction.rest.server.resources.GetAuctionWinners;
 import org.openbravo.auction.rest.server.resources.GetAuctions;
 import org.openbravo.auction.rest.server.resources.PublishAuction;
 import org.openbravo.auction.rest.server.resources.ReduceItemPrice;
@@ -79,6 +80,7 @@ public class OpenbravoAuctionRestApplication extends Application {
     router.attach("http://192.168.0.157:8111/openbravo/auction/sign_up", SignUpToTheAuction.class);
     // router.attach("http://localhost:8111/openbravo/auction/leave", OpenbravoAuctionRest.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/buyers", GetAuctionBuyers.class);
+    router.attach("http://192.168.0.157:8111/openbravo/auction/winners", GetAuctionWinners.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/offer", BuyerOffer.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auction_info", AuctionInfo.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auction_state", AuctionState.class);

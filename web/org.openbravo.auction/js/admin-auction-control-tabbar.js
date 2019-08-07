@@ -15,6 +15,11 @@ isc.tabBar.addProperties({
 				id: "auctionsInfo",
 				title: "Información subastas",
 				pane: isc.publishedAuctionContainer.create()
+			},
+			{
+				id: "auctionWinners",
+				title: "Ganadores",
+				pane: isc.auctionWinnersContainer.create()
 			}]
 		);
 	}

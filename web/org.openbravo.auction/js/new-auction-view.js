@@ -6,7 +6,6 @@ auctionParametersForm = isc.auctionParametersForm.create();
 
 isc.newAuctionContainer.addProperties({
 	initWidget: function () {
-		
 		var selectedItem = null;
 
 		items = isc.items.create({selectionUpdated: function() {
@@ -108,7 +107,10 @@ isc.newAuctionContainer.addProperties({
 						delete auctionParameters['deadLine'];
 					}
 					
-					publishAuction(auctionParameters);	
+					publishAuction(auctionParameters);
+					
+					auctions.setData([]);
+					auctions.fetchData();
 				}})
 			]
 		});
