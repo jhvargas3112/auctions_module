@@ -105,7 +105,7 @@ public class SignUpToTheAuction extends ServerResource {
 
                 auctionBuyersIds.add(buyerId);
 
-                openbravoAuctionService.notifySubscription(auctionId, buyerId, email);
+                openbravoAuctionService.notifyBuyerSubscription(auctionId, buyerId, email);
 
                 System.out.println(
                     "Se ha añadido al comprador " + email + " al datasource XML de compradores ");

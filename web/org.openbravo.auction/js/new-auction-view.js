@@ -71,42 +71,84 @@ isc.newAuctionContainer.addProperties({
 					
 					var auctionType = {};
 					
+					var minimumSalePrice = null;
+					
+					var auctionParameters = {};
+					
 					switch (auctionParametersForm.getItem("auctionType").getValue()) {
 						case 'Inglesa':
 							auctionType = {'auctionTypeEnum': 'ENGLISH', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							
+							auctionParameters = {
+									'auctionType': auctionType,
+									'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
+									'celebrationDate': moment(moment(auctionParametersForm.getItem("celebrationDate").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+													   celebrationTimeFormField.hourItem.getValue() + ':' +
+													   celebrationTimeFormField.minuteItem.getValue() + ':' +
+													   celebrationTimeFormField.secondItem.getValue()).valueOf(),
+									'deadLine': moment(moment(auctionParametersForm.getItem("deadLine").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+												closingTimeFormField.hourItem.getValue() + ':' +
+												closingTimeFormField.minuteItem.getValue() + ':' +
+												closingTimeFormField.secondItem.getValue()).valueOf(),
+									'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
+									'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
+									'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
+									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
+									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
+									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
+									"auctionBuyers": []
+							};
 							break;
 						case 'Holandesa':
 							auctionType = {'auctionTypeEnum': 'DUTCH', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							minimumSalePrice = auctionParametersForm.getItem("minimumSalePrice").getValue();
+							
+							auctionParameters = {
+									'auctionType': auctionType,
+									'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
+									'celebrationDate': moment(moment(auctionParametersForm.getItem("celebrationDate").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+													   celebrationTimeFormField.hourItem.getValue() + ':' +
+													   celebrationTimeFormField.minuteItem.getValue() + ':' +
+													   celebrationTimeFormField.secondItem.getValue()).valueOf(),
+									'deadLine': moment(moment(auctionParametersForm.getItem("deadLine").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+												closingTimeFormField.hourItem.getValue() + ':' +
+												closingTimeFormField.minuteItem.getValue() + ':' +
+												closingTimeFormField.secondItem.getValue()).valueOf(),
+									'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
+									'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
+									'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
+									'minimumSalePrice': minimumSalePrice,
+									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
+									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
+									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
+									"auctionBuyers": []
+							};
 							break;
 						case 'Japonesa':
 							auctionType = {'auctionTypeEnum': 'JAPANESE', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							auctionParameters = {
+									'auctionType': auctionType,
+									'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
+									'celebrationDate': moment(moment(auctionParametersForm.getItem("celebrationDate").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+													   celebrationTimeFormField.hourItem.getValue() + ':' +
+													   celebrationTimeFormField.minuteItem.getValue() + ':' +
+													   celebrationTimeFormField.secondItem.getValue()).valueOf(),
+									'deadLine': moment(moment(auctionParametersForm.getItem("deadLine").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
+												closingTimeFormField.hourItem.getValue() + ':' +
+												closingTimeFormField.minuteItem.getValue() + ':' +
+												closingTimeFormField.secondItem.getValue()).valueOf(),
+									'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
+									'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
+									'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
+									'minimumSalePrice': minimumSalePrice,
+									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
+									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
+									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
+									"auctionBuyers": []
+							};
 							break;
 					}
 
-					var auctionParameters = {
-							'auctionType': auctionType,
-							'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
-							'celebrationDate': moment(moment(auctionParametersForm.getItem("celebrationDate").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
-											   celebrationTimeFormField.hourItem.getValue() + ':' +
-											   celebrationTimeFormField.minuteItem.getValue() + ':' +
-											   celebrationTimeFormField.secondItem.getValue()).valueOf(),
-							'deadLine': moment(moment(auctionParametersForm.getItem("deadLine").getEnteredValue()).format("YYYY-MM-DD") + ' ' +
-										closingTimeFormField.hourItem.getValue() + ':' +
-										closingTimeFormField.minuteItem.getValue() + ':' +
-										closingTimeFormField.secondItem.getValue()).valueOf(),
-							'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
-							'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
-							'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
-							'minimumSalePrice': auctionParametersForm.getItem("minimumSalePrice").getValue(),
-							'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
-							'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
-							"auctionBuyers": []
-					};
-					
-					if (auctionParametersForm.getItem("auctionType").getValue() === 'Japanese') {
-						delete auctionParameters['deadLine'];
-					}
-					
 					publishAuction(auctionParameters);
 					
 					auctions.setData([]);
@@ -128,6 +170,10 @@ isc.newAuctionContainer.addProperties({
 });
 
 publishAuction = function(auctionParameters) {
-	OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, null);
+	callback = function (response, cdata, request) {
+		alert("¡La subasta ha sido publicada!");
+	};
+	
+	OB.RemoteCallManager.call('org.openbravo.auction.handler.PublishAuctionHandler', auctionParameters, {}, callback);
 }
 

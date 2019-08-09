@@ -9,7 +9,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class AuctionState extends ServerResource {
+public class GetAuctionState extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get
   public AuctionStateEnum getAuctionInfo() {

@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Root>
-	<winner>
-		<email>pepita@estumail.es</email>
-        <item>fsdfsdfsdfsdsfd</item>
-        <startingPrice>300.45 €</startingPrice>
-	</winner>
-</Root>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Root>
+  <winner>
+    <auction_id>257994</auction_id>
+    <finish_date>Thu Aug 08 21:50:00 CEST 2019</finish_date>
+    <email>sirxvgt@gmail.com</email>
+    <item>Lenovo Thinkpad T430 14" Core i5-3320M 2.6 GHz - HDD 320 GB </item>
+    <startingPrice>700 €</startingPrice>
+  </winner>
+<winner><auction_id>747156</auction_id><finish_date>Fri Aug 09 02:49:00 CEST 2019</finish_date><email>jhvargas3112@gmail.com</email><item>Razer Electra V2 USB Auriculares Gaming 7.1 PS4/PC Negro</item><startingPrice>600 €</startingPrice></winner></Root>

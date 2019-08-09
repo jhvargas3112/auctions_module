@@ -22,14 +22,14 @@ public abstract class Auction {
   protected Integer maximumBiddersNum;
   protected Item item;
   protected BigDecimal startingPrice;
-  protected BigDecimal minimumSalePrice;
+  protected BigDecimal currentPrice;
   protected String additionalInformation;
 
   protected TreeSet<?> auctionBuyers;
 
   public Auction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
       Date deadLine, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
-      BigDecimal minimumSalePrice, String additionalInformation, TreeSet<?> auctionBuyers) {
+      BigDecimal currentPrice, String additionalInformation, TreeSet<?> auctionBuyers) {
     this.auctionType = auctionType;
     this.auctionState = auctionState;
 
@@ -38,7 +38,7 @@ public abstract class Auction {
     this.maximumBiddersNum = maximumBiddersNum;
     this.item = item;
     this.startingPrice = startingPrice;
-    this.minimumSalePrice = minimumSalePrice;
+    this.currentPrice = currentPrice;
     this.additionalInformation = additionalInformation;
 
     this.auctionBuyers = auctionBuyers;
@@ -96,12 +96,12 @@ public abstract class Auction {
     this.startingPrice = startingPrice;
   }
 
-  public BigDecimal getMinimumSalePrice() {
-    return minimumSalePrice;
+  public BigDecimal getCurrentPrice() {
+    return currentPrice;
   }
 
-  public void setMinimumSalePrice(BigDecimal minimumSalePrice) {
-    this.minimumSalePrice = minimumSalePrice;
+  public void setCurrentPrice(BigDecimal currentPrice) {
+    this.currentPrice = currentPrice;
   }
 
   public String getAdditionalInformation() {

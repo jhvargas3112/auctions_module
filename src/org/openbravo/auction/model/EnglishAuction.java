@@ -16,29 +16,17 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
 
 public class EnglishAuction extends Auction {
   public EnglishAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
-      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal minimumSalePrice,
+      Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal currentPrice,
       String additionalInformation, TreeSet<EnglishAuctionBuyer> englishAuctionBuyers) {
     super(new AuctionType(AuctionTypeEnum.ENGLISH), auctionState, celebrationDate, deadLine,
-        maximumBiddersNum, item, startingPrice, minimumSalePrice, additionalInformation,
+        maximumBiddersNum, item, startingPrice, currentPrice, additionalInformation,
         englishAuctionBuyers);
-
-    this.deadLine = deadLine;
-  }
-
-  @Override
-  public Date getDeadLine() {
-    return deadLine;
-  }
-
-  @Override
-  public void setDeadLine(Date deadLine) {
-    this.deadLine = deadLine;
   }
 
   @Override
   public String toString() {
     return "Fecha y hora de celebración: " + celebrationDate + "\nFecha de cierre: " + deadLine
-        + "\nPrecio de salida: " + startingPrice + "\nProducto subastado:\n" + item
+        + "\nPrecio de salida: " + startingPrice + " €\nProducto subastado:\n" + item
         + "\nInformación adicional: " + additionalInformation;
   }
 }

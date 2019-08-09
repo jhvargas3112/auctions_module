@@ -53,6 +53,8 @@ public class BuyerOffer extends ServerResource {
               ((TreeSet<EnglishAuctionBuyer>) auction.getAuctionBuyers())
                   .add(new EnglishAuctionBuyer(buyerId, buyerEmail, buyerOffer));
 
+              auction.setCurrentPrice(buyerOffer);
+
               resp = true;
             }
           }

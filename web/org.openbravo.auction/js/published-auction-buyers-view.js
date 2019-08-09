@@ -17,9 +17,12 @@ isc.buyers.addProperties({
 		{
 			name: 'email',
 			title: 'Participantes de la subasta',
-		}],
+			canFilter: true,
+			filterOnKeypress: true
+		}
+	],
 	
-	emptyMessage: 'Aún no se ha apuntado ningún comprador a esta subasta.',
+	emptyMessage: 'Selecciona alguna subasta.',
 
 	initWidget: function () {
 		this.Super('initWidget', arguments);

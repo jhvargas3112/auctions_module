@@ -32,12 +32,10 @@
             <div class="col-3 mx-auto">
                 <div class="text-center">
                     <a href="http://www.openbravo.com/product/erp/professional/" target="_new">
-                <img src="http://localhost:8080/openbravo/utility/GetOpenbravoLogo.png" width="130" height="32" align="center" name="isc_18main" border="0" suppress="TRUE" draggable="true">
-            </a>
+                        <img src="http://localhost:8080/openbravo/utility/GetOpenbravoLogo.png" width="130" height="32" align="center" name="isc_18main" border="0" suppress="TRUE" draggable="true">
+                    </a>
                     <p id="profile-name" class="profile-name-card"></p>
-                        <input type="input" name="buyer_id" id="buyer_id" class="form-control form-group" placeholder="Código de acceso" required autofocus>
-                        <p>Código de acceso erróneo, inténtalo de nuevo.</p>
-                        <button class="btn btn-block btn-signin" type="submit" style="background-color:#ef9734; color: #FFFFFF;" onClick="buyerAuthentication()">Acceder a la subasta</button>
+                    <p>La subasta ha finalizado. En caso de haber ganado, nos pondremos en contacto contigo y te indicaremos el proceso para que puedas adquirir el producto subastado.</p>
                 </div>
             </div>
         </div>

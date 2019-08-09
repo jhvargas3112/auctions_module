@@ -14,8 +14,11 @@ public class AuctionState {
       case IT_IS_CELEBRATING:
         auctionStateName = "Celebrándose";
         break;
-      case FINISHED:
-        auctionStateName = "Finalizada";
+      case FINISHED_WITH_WINNER:
+        auctionStateName = "Finalizada con ganador";
+        break;
+      case FINISHED_WITHOUT_WINNER:
+        auctionStateName = "Finalizada sin ganador";
         break;
       case CANCELLED:
         auctionStateName = "Cancelada";

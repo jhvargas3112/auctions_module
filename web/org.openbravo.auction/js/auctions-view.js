@@ -28,7 +28,6 @@ isc.auctions.addProperties({
 	
 	selectionAppearance: 'checkbox',
 	selectionType: 'single',
-	reselectOnUpdate: true,
 	emptyMessage: 'Aún no se ha publicado ninguna subasta.',
 
 	initWidget: function () {

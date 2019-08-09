@@ -40,8 +40,8 @@ public class AuctionCelebrationAuthentication extends ServerResource {
         Auction auction = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .get(auctionId);
         if (auctionBuyersIds.contains(buyerId)) {
-          if (auction.getAuctionState()
-              .getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING) {
+          AuctionStateEnum auctionStateEnum = auction.getAuctionState().getAuctionStateEnum();
+          if (auctionStateEnum == AuctionStateEnum.IT_IS_CELEBRATING) {
             dataModel.put("auction", auction);
             dataModel.put("auction_id", auctionId);
             dataModel.put("buyer_id", buyerId);
@@ -72,6 +72,17 @@ public class AuctionCelebrationAuthentication extends ServerResource {
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/auction_celebration_is_not_available.ftl").get();
           }
+
+          // TODO: COMPROBAR EN ESTE IF SI LA SUBASTA ES HOLANDESA O JAPONESA (instanceof) Y
+          // DEVOLVER UN .FTL CON UN MENSAJE INFORMADO QUE EL COMPRADORE EN CUESTIÓN HA GANADO LA
+          // SUBASTA.
+          if (auctionStateEnum == AuctionStateEnum.FINISHED_WITH_WINNER
+              || auctionStateEnum == AuctionStateEnum.FINISHED_WITHOUT_WINNER) {
+            auctionCelebrationFtl = new ClientResource(
+                LocalReference.createClapReference(getClass().getPackage())
+                    + "/templates/auction_celebration_finished.ftl").get();
+          }
+
         } else {
           dataModel.put("auction_id", auctionId);
 

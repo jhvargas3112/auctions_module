@@ -13,7 +13,7 @@ isc.tabBar.addProperties({
 			},
 			{
 				id: "auctionsInfo",
-				title: "Información subastas",
+				title: "Información subastas", 
 				pane: isc.publishedAuctionContainer.create()
 			},
 			{

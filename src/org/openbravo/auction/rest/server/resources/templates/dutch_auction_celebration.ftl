@@ -4,15 +4,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Subasta Inglesa</title>
+    <title>Subasta Holandesa</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
   </head>
+  
   <body>
+    <script>
+    
+    </script>
+  
     <div class="header" style="border:1.7px solid #adc289;">
         <div align="right">
             <img src="http://localhost:8080/openbravo/utility/ShowImageLogo?logo=yourcompanymenu" align="right" name="isc_16main" border="0" suppress="TRUE" draggable="true">
@@ -39,7 +43,7 @@
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>Holandesa</li>
+                        <li>${auction.auctionType.auctionTypeName}</li>
                     </ul>  
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
@@ -47,7 +51,7 @@
                         </li>
                     </ol>
                     <ul style="list-style-type:none;">
-                        <li>155 €</li>
+                        <li>${auction.currenPrice} €</li>
                     </ul>  
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
@@ -83,57 +87,21 @@
                         <b>Lista de compradores</b>
                     </h3>
                     <table class="table table-sm">
-                        <tbody>
-                            <tr class="table-warning">
-                                <td>
-                                    pepito@gmail.com
-                                </td>
+                        <tbody id="buyers_info">
+                            <tr>
+                                <th>Email</th>
                             </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    juana@yahoo.es
-                                </td>
+                            <#list auction.auctionBuyers as buyer>
+                                <#if buyer.email == buyer_email>
+                                    <tr class="table-info">
+                                <#else>
+                                    <tr class="table-warning">
+                                </#if>
+                                    <td>
+                                        ${buyer.email}
+                                    </td>
                             </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    adolfo@lycos.com
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    pepita2@estumail.es
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    maria@outlook.com
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    jhvargas@ucm.es
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    jhvargas3112@gmail.com
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    juan@gmail.com
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    luisa@terra.es
-                                </td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>
-                                    luis@yahoo.es
-                                </td>
-                            </tr>
+                            </#list>
                         </tbody>
                     </table>
                 </div>
@@ -143,22 +111,6 @@
                     </h3>
                         
                     <div class="col-md-12">
-                    <!-- <label for="inputNewOffer">
-                                    Nueva puja (€)
-                                </label>
-                        <form role="form" class="form-inline">
-                            <div class="form-group">
-                                <input type="number" step="0.01" class="form-control" id="inputNewOffer" required/>
-                            </div>
-                            <button type="submit" class="btn" style="background-color:#ef9734; color: #FFFFFF;">
-                                Confirmar
-                            </button>
-                        </form> -->
-                        
-                        <!-- <button type="submit" class="btn" style="background-color:#d43519; color: #FFFFFF;">
-                                Abandonar
-                        </button> -->
-                        
                         <button type="submit" class="btn" style="background-color: #42700f; color: #FFFFFF;">
                             <span class="glyphicon glyphicon-floppy-disk"></span> Aceptar pecio
                         </button>

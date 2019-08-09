@@ -8,10 +8,11 @@ import java.util.HashSet;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.rest.server.resources.AuctionCelebrationAuthentication;
 import org.openbravo.auction.rest.server.resources.AuctionInfo;
-import org.openbravo.auction.rest.server.resources.AuctionState;
 import org.openbravo.auction.rest.server.resources.BuyerOffer;
 import org.openbravo.auction.rest.server.resources.ChangeAuctionState;
+import org.openbravo.auction.rest.server.resources.CloseAuction;
 import org.openbravo.auction.rest.server.resources.GetAuctionBuyers;
+import org.openbravo.auction.rest.server.resources.GetAuctionState;
 import org.openbravo.auction.rest.server.resources.GetAuctionWinners;
 import org.openbravo.auction.rest.server.resources.GetAuctions;
 import org.openbravo.auction.rest.server.resources.PublishAuction;
@@ -76,6 +77,7 @@ public class OpenbravoAuctionRestApplication extends Application {
     Router router = new Router(getContext());
 
     router.attach("http://192.168.0.157:8111/openbravo/auction/publish", PublishAuction.class);
+    router.attach("http://192.168.0.157:8111/openbravo/auction/close", CloseAuction.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auctions", GetAuctions.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/sign_up", SignUpToTheAuction.class);
     // router.attach("http://localhost:8111/openbravo/auction/leave", OpenbravoAuctionRest.class);
@@ -83,7 +85,8 @@ public class OpenbravoAuctionRestApplication extends Application {
     router.attach("http://192.168.0.157:8111/openbravo/auction/winners", GetAuctionWinners.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/offer", BuyerOffer.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auction_info", AuctionInfo.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/auction_state", AuctionState.class);
+    router.attach("http://192.168.0.157:8111/openbravo/auction/auction_state",
+        GetAuctionState.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/change_state",
         ChangeAuctionState.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/join",

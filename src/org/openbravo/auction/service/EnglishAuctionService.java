@@ -10,7 +10,9 @@ import org.openbravo.auction.model.EnglishAuctionBuyer;
  */
 
 public interface EnglishAuctionService {
+  public Boolean CheckIfThereIsAWinner(EnglishAuction englishAuction);
+
+  public void finishAuctionCelebration(String englishAuctionId);
 
   public EnglishAuctionBuyer determineEnglishAuctionWinner(EnglishAuction englishAuction);
-
 }

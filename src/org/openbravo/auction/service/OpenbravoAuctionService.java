@@ -11,12 +11,14 @@ import org.openbravo.auction.utils.AuctionStateEnum;
 public interface OpenbravoAuctionService {
   public void publishAuction(JSONObject auctionParameters);
 
+  public void closeAuction(String auctionId);
+
   /**
    * Sends an email to bidders with the information of the new published auction. The bidders emails
    * are picked from the config.properties file.
    */
-  public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements,
-      String auctionId);
+  public void notifyAuctionPublicationToBuyers(
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId);
 
   /**
    * Sends an email to bidders with the information of the new published auction.
@@ -24,14 +26,16 @@ public interface OpenbravoAuctionService {
    * @param buyersEmails
    *          - an String array with the bidders buyers.
    */
-  public void notifyBidders(String[] buyersEmails,
+  public void notifyAuctionPublicationToBuyers(String[] buyersEmails,
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId);
 
-  public void notifySubscription(String auctionId, String buyerId, String buyerEmail);
+  public void notifyBuyerSubscription(String auctionId, String buyerId, String buyerEmail);
+
+  public void notifyAuctionCancellation(String auctionId);
 
   public void notifyAuctionWinner(String auctionId, String buyerEmail);
 
-  public String createNewAuctionNotificationMessage(
+  public String createAuctionPublicationNotificationMessage(
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId, String buyerEmail);
 
   public String createNewSubscriptionNotificationMessage(String auctionId, String buyerId,
@@ -39,9 +43,11 @@ public interface OpenbravoAuctionService {
 
   public String createWinnerNotificationMessage(String auctionId, String buyerEmail);
 
+  public String createAuctionCancellationNotificationMessage(String auctionId);
+
   public void startAuctionCelebration(String auctionId);
 
-  public void finishAuctionCelebration(String auctionId);
+  // public void finishAuctionCelebration(String auctionId);
 
   public void cancelAuctionCelebration(String auctionId);
 

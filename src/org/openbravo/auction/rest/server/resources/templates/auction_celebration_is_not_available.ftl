@@ -36,7 +36,7 @@
             </a>
                     <p id="profile-name" class="profile-name-card"></p>
                         <input type="input" name="buyer_id" id="buyer_id" class="form-control form-group" placeholder="Código de acceso" required autofocus>
-                        <p>La subasta aún no ha empezado a celebrarse. Puede unirse a ella a partir del ${celebration_date?datetime}</p>
+                        <p>La subasta aún no ha empezado a celebrarse. Puede unirse a ella a partir del ${celebration_date?datetime}.</p>
                         <button class="btn btn-block btn-signin" type="submit" style="background-color:#ef9734; color: #FFFFFF;" onClick="buyerAuthentication()">Acceder a la subasta</button>
                 </div>
             </div>

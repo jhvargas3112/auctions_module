@@ -20,8 +20,6 @@ import org.openbravo.auction.concurrence.StartAuctionCelebration;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.model.DutchAuction;
-import org.openbravo.auction.model.EnglishAuction;
-import org.openbravo.auction.model.EnglishAuctionBuyer;
 import org.openbravo.auction.model.factory.AuctionFactory;
 import org.openbravo.auction.rest.server.OpenbravoAuctionRestServer;
 import org.openbravo.auction.service.OpenbravoAuctionService;
@@ -56,7 +54,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     ArrayList<String> newAuctionNotificationMessageElements = new ArrayList<String>();
     newAuctionNotificationMessageElements.add(auction.toString());
-    notifyBidders(newAuctionNotificationMessageElements, auctionId);
+    notifyAuctionPublicationToBuyers(newAuctionNotificationMessageElements, auctionId);
 
     new Thread(
         new StartAuctionCelebration(auctionId, auction.getCelebrationDate(), auction.getDeadLine()))
@@ -64,12 +62,21 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
-  public void notifyBidders(ArrayList<String> newAuctionNotificationMessageElements,
-      String auctionId) {
+  public void closeAuction(String auctionId) {
+    ClientResource clientResource = new ClientResource(
+        "http://192.168.0.157:8111/openbravo/auction/close");
+    clientResource.addQueryParameter("auction_id", auctionId.toString());
+    clientResource.delete();
+  }
+
+  @Override
+  public void notifyAuctionPublicationToBuyers(
+      ArrayList<String> newAuctionNotificationMessageElements, String auctionId) {
     ClassLoader classLoader = getClass().getClassLoader();
     Properties appProps = new Properties();
+
     try {
-      String resource = classLoader.getResource("bidders").getPath();
+      String resource = classLoader.getResource("buyers").getPath();
       appProps.load(new FileInputStream(resource));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -77,19 +84,19 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
       e.printStackTrace();
     }
 
-    String[] buyers = appProps.getProperty("bidders").split(",");
+    String[] buyers = appProps.getProperty("buyers").split(",");
 
-    notifyBidders(buyers, newAuctionNotificationMessageElements, auctionId);
+    notifyAuctionPublicationToBuyers(buyers, newAuctionNotificationMessageElements, auctionId);
   }
 
   @Override
-  public void notifyBidders(String[] buyersEmails,
+  public void notifyAuctionPublicationToBuyers(String[] buyersEmails,
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId) {
-    sendEmailToBidders(buyersEmails, newAuctionNotificationMessageElements, auctionId);
+    sendEmailToBuyers(buyersEmails, newAuctionNotificationMessageElements, auctionId);
   }
 
   @Override
-  public void notifySubscription(String auctionId, String buyerId, String buyerEmail) {
+  public void notifyBuyerSubscription(String auctionId, String buyerId, String buyerEmail) {
     HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
 
     sendEmail((String) emailSenderParameters.get("emailFrom"), buyerEmail,
@@ -101,6 +108,26 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   @Override
+  public void notifyAuctionCancellation(String auctionId) {
+    ClassLoader classLoader = getClass().getClassLoader();
+    Properties appProps = new Properties();
+
+    try {
+      String resource = classLoader.getResource("buyers").getPath();
+      appProps.load(new FileInputStream(resource));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String[] buyers = appProps.getProperty("buyers").split(",");
+
+    sendEmailToBuyers(buyers, "Subasta " + auctionId + " cancelada",
+        createAuctionCancellationNotificationMessage(auctionId));
+  }
+
+  @Override
   public void notifyAuctionWinner(String auctionId, String buyerEmail) {
     HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
 
@@ -108,16 +135,18 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
         (String) emailSenderParameters.get("password"),
         (String) emailSenderParameters.get("hostname"),
         Integer.parseInt((String) emailSenderParameters.get("smtp_port")),
-        "¡Enhorabuena! usted ha sido ganador de la subasta",
+        "¡Enhorabuena! has sido el ganador ganador de la subasta",
         createWinnerNotificationMessage(auctionId, buyerEmail));
   }
 
   @Override
-  public String createNewAuctionNotificationMessage(
+  public String createAuctionPublicationNotificationMessage(
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId,
       String buyerEmail) {
 
     StringBuilder sb = new StringBuilder();
+
+    sb.append("Se ha publicado una nueva subasta con código " + auctionId + ":\n\n");
 
     for (String element : newAuctionNotificationMessageElements) {
       sb.append(element).append("\n");
@@ -136,12 +165,12 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
       String buyerEmail) {
     Auction auction = getAuction(auctionId);
 
-    String newSubscriptionNotificationMessage = "Usted acaba de inscribirse en la subasta que se celebrá el día "
+    String newSubscriptionNotificationMessage = "Acabas de inscribirte en la subasta que se celebrará el día "
         + auction.getCelebrationDate() + "."
-        + "\n\nPara poder empezar a participar en la subasta en la fecha indicada, deberá acceder a la URL "
+        + "\n\nPara poder empezar a participar en la subasta en la fecha indicada, deberás acceder a la URL "
         + "http://192.168.0.157:8111/openbravo/auction/join?auction_id=" + auctionId
-        + " e identificarse introduciendo el código " + buyerId
-        + "\n\nA continuación, le recordamos la información de la subasta: \n\n"
+        + " e identificarte introduciendo el código " + buyerId
+        + "\n\nA continuación, te recordamos la información de la subasta: \n\n"
         + auction.toString();
 
     return newSubscriptionNotificationMessage;
@@ -151,11 +180,20 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   public String createWinnerNotificationMessage(String auctionId, String buyerEmail) {
     Auction auction = getAuction(auctionId);
 
-    String newSubscriptionNotificationMessage = "Enhorabuena, usted a resultado ganador de la subasta con código "
-        + auctionId + ", con un precio de venta final de " + auction.getStartingPrice()
-        + ". Nos pondremos en contacto con usted le indicaremos el proceso para que pueda adquirir el producto subastado."
-        + "\nA continuación, le recordamos la información de la subasta que finalizó el día "
+    String newSubscriptionNotificationMessage = "Enhorabuena, has resultado ser el ganador de la subasta con código "
+        + auctionId + ", con un precio de venta final de " + auction.getCurrentPrice() + " €"
+        + ". Nos pondremos en contacto contigo y te indicaremos el proceso para que puedas adquirir el producto subastado."
+        + "\nA continuación, te recordamos la información de la subasta que finalizó el día "
         + auction.getDeadLine() + ": \n\n" + auction.toString();
+
+    return newSubscriptionNotificationMessage;
+  }
+
+  @Override
+  public String createAuctionCancellationNotificationMessage(String auctionId) {
+    String newSubscriptionNotificationMessage = "Lo sentimos, la subasta con código " + auctionId
+        + " ha sido cancelada porque no se ha alcanzado el mínimo número de postores para su celebración."
+        + " Pronto estaremos anunciando nuevas subastas." + "\n\nUn cordial saludo.";
 
     return newSubscriptionNotificationMessage;
   }
@@ -190,31 +228,39 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     }
   }
 
-  @Override
-  public void finishAuctionCelebration(String auctionId) {
-    changeAuctionState(auctionId, AuctionStateEnum.FINISHED);
-
-    Auction auction = getAuction(auctionId);
-
-    switch (auction.getAuctionType().getAuctionTypeEnum()) {
-      case ENGLISH:
-        EnglishAuctionBuyer winner = new EnglishAuctionServiceImpl()
-            .determineEnglishAuctionWinner((EnglishAuction) auction);
-        notifyAuctionWinner(auctionId, winner.getEmail());
-
-        // TODO: Eliminar la subasta del contexto de restlet o pensar como solucionar eso, porque el
-        // administrador tiene que guardarse la info para poder después contactar con el ganador.
-        break;
-      case DUTCH:
-        break;
-      case JAPANESE:
-        break;
-    }
-  }
+  /*
+   * @Override public void finishAuctionCelebration(String auctionId, String ) { Auction auction =
+   * getAuction(auctionId);
+   * 
+   * switch (auction.getAuctionType().getAuctionTypeEnum()) { case ENGLISH:
+   * EnglishAuctionServiceImpl englishAuctionServiceImpl = new EnglishAuctionServiceImpl();
+   * 
+   * if (englishAuctionServiceImpl.CheckIfThereIsAWinner((EnglishAuction) auction)) {
+   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER);
+   * 
+   * EnglishAuctionBuyer winner = new EnglishAuctionServiceImpl()
+   * .determineEnglishAuctionWinner((EnglishAuction) auction); notifyAuctionWinner(auctionId,
+   * winner.getEmail());
+   * 
+   * new XMLUtils().saveAuctionWinner(auctionId, auction.getDeadLine().toString(),
+   * winner.getEmail(), auction.getItem().getName(), auction.getCurrentPrice()); } else {
+   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITHOUT_WINNER); } break; case DUTCH:
+   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER);
+   * 
+   * DutchAuctionBuyer winner = new DutchAuctionServiceImpl()
+   * .determineDutchAuctionWinner((DutchAuction) auction, );
+   * 
+   * notifyAuctionWinner(auctionId, winner.getEmail());
+   * 
+   * new XMLUtils().saveAuctionWinner(auctionId, auction.getDeadLine().toString(),
+   * winner.getEmail(), auction.getItem().getName(), auction.getCurrentPrice()); break; case
+   * JAPANESE: changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER); break; } }
+   */
 
   @Override
   public void cancelAuctionCelebration(String auctionId) {
     changeAuctionState(auctionId, AuctionStateEnum.CANCELLED);
+    notifyAuctionCancellation(auctionId);
   }
 
   @Override
@@ -290,7 +336,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     return emailSenderParameters;
   }
 
-  private void sendEmailToBidders(String[] buyersEmails,
+  private void sendEmailToBuyers(String[] buyersEmails,
       ArrayList<String> newAuctionNotificationMessageElements, String auctionId) {
     HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
 
@@ -301,8 +347,21 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
           (String) emailSenderParameters.get("password"),
           (String) emailSenderParameters.get("hostname"),
           Integer.parseInt((String) emailSenderParameters.get("smtp_port")), "Nueva subasta",
-          createNewAuctionNotificationMessage(newAuctionNotificationMessageElements, auctionId,
-              buyerEmail));
+          createAuctionPublicationNotificationMessage(newAuctionNotificationMessageElements,
+              auctionId, buyerEmail));
+    }
+  }
+
+  private void sendEmailToBuyers(String[] buyersEmails, String topic, String message) {
+    HashMap<String, Object> emailSenderParameters = getSenderEmailParameters();
+
+    for (int i = 0; i < buyersEmails.length; i++) {
+      String buyerEmail = buyersEmails[i];
+
+      sendEmail((String) emailSenderParameters.get("emailFrom"), buyerEmail,
+          (String) emailSenderParameters.get("password"),
+          (String) emailSenderParameters.get("hostname"),
+          Integer.parseInt((String) emailSenderParameters.get("smtp_port")), topic, message);
     }
   }
 

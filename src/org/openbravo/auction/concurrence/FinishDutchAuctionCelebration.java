@@ -4,11 +4,11 @@ import java.util.Date;
 
 import org.openbravo.auction.service.impl.EnglishAuctionServiceImpl;
 
-public class FinishAuctionCelebration implements Runnable {
+public class FinishDutchAuctionCelebration implements Runnable {
   private String auctionId;
   private Date deadLine;
 
-  public FinishAuctionCelebration(String auctionId, Date deadLine) {
+  public FinishDutchAuctionCelebration(String auctionId, Date deadLine) {
     this.auctionId = auctionId;
     this.deadLine = deadLine;
   }
