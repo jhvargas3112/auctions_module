@@ -37,6 +37,8 @@ public class ReduceItemPrice extends ServerResource {
         priceAfterTheDecrement = auction.getStartingPrice().subtract(amountToReduce);
 
         auction.setStartingPrice(priceAfterTheDecrement);
+        auction.setCurrentPrice(priceAfterTheDecrement);
+
         ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .put(auctionId.toString(), auction);
       } else {

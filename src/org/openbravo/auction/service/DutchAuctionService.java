@@ -21,6 +21,8 @@ public interface DutchAuctionService {
 
   public BigDecimal reduceDutchAuctionItemPrice(String dutchAuctionId, BigDecimal amountToReduce);
 
+  public void finishAuctionCelebration(String dutchAuctionId);
+
   public void finishAuctionCelebration(String dutchAuctionId, String dutchAuctionBuyerId);
 
   public DutchAuctionBuyer determineDutchAuctionWinner(DutchAuction dutchAuction,

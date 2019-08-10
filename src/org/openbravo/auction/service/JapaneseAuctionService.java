@@ -3,6 +3,9 @@ package org.openbravo.auction.service;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.openbravo.auction.model.JapaneseAuction;
+import org.openbravo.auction.model.JapaneseAuctionBuyer;
+
 /**
  * 
  * @author Jhonny Vargas.
@@ -18,5 +21,11 @@ public interface JapaneseAuctionService {
 
   public BigDecimal reduceJapaneseAuctionItemPrice(BigDecimal amountToReduceOn);
 
-  public void determineJapaneseAuctionWinner();
+  public void finishAuctionCelebration(String japaneseAuctionId);
+
+  public Boolean finishAuctionCelebration(String japaneseAuctionId, String japaneseAuctionBuyerId);
+
+  public Boolean CheckIfThereIsAWinner(JapaneseAuction japaneseAuction);
+
+  public JapaneseAuctionBuyer determineJapaneseAuctionWinner(JapaneseAuction japaneseAuction);
 }

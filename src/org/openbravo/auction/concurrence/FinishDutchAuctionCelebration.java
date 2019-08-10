@@ -2,7 +2,7 @@ package org.openbravo.auction.concurrence;
 
 import java.util.Date;
 
-import org.openbravo.auction.service.impl.EnglishAuctionServiceImpl;
+import org.openbravo.auction.service.impl.DutchAuctionServiceImpl;
 
 public class FinishDutchAuctionCelebration implements Runnable {
   private String auctionId;
@@ -19,7 +19,7 @@ public class FinishDutchAuctionCelebration implements Runnable {
       // System.out.println("CELEBRÁNDOSE... " + auctionId);
     }
 
-    new EnglishAuctionServiceImpl().finishAuctionCelebration(auctionId);
+    new DutchAuctionServiceImpl().finishAuctionCelebration(auctionId);
 
     System.out.println("LA SUBASTA " + auctionId + " HA FINALIZADO.");
   }

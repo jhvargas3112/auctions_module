@@ -15,7 +15,7 @@
             var auction_id = ${auction_id};
             var buyer_id = document.getElementById("buyer_id").value;
             
-            window.close()
+            window.close();
             window.open('http://192.168.0.157:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id);
         }
     </script>

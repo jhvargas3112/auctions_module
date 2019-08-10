@@ -13,8 +13,7 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class LeaveAuction extends ServerResource {
-
+public class ContinueIntheAuction extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get
   public Representation continueIntheAuction() {
@@ -31,10 +30,10 @@ public class LeaveAuction extends ServerResource {
       if (auctions.containsKey(auctionId)) {
         auction = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .get(auctionId);
-        if (auction.getAuctionState().getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING) {
+        AuctionStateEnum auctionState = auction.getAuctionState().getAuctionStateEnum();
+        if (auctionState == AuctionStateEnum.IT_IS_CELEBRATING) {
           boolean auctionHasBeenFinished = new JapaneseAuctionServiceImpl()
               .finishAuctionCelebration(auctionId, buyerId);
-
           if (auctionHasBeenFinished) {
             auctionCelebrationFtl = new ClientResource(
                 LocalReference.createClapReference(getClass().getPackage())
@@ -44,7 +43,8 @@ public class LeaveAuction extends ServerResource {
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/japanese_auction_celebration.ftl").get();
           }
-        } else {
+        } else if (auctionState == AuctionStateEnum.FINISHED_WITH_WINNER
+            || auctionState == AuctionStateEnum.FINISHED_WITHOUT_WINNER) {
           auctionCelebrationFtl = new ClientResource(
               LocalReference.createClapReference(getClass().getPackage())
                   + "/templates/auction_celebration_finished.ftl").get();
@@ -54,5 +54,4 @@ public class LeaveAuction extends ServerResource {
 
     return new TemplateRepresentation(auctionCelebrationFtl, null, MediaType.TEXT_HTML);
   }
-
 }

@@ -14,7 +14,14 @@
   
   <body>
     <script>
+        refreshAuctionInformation = function() {
+            location.reload();  
+        };
     
+        acceptCurrentPrice = function(auctionId, buyerId) {
+            window.close();
+            window.open('http://192.168.0.157:8111/openbravo/auction/buyer/accept_current_item_price?auction_id=' + auctionId + '&buyer_id=' + buyerId);
+        }
     </script>
   
     <div class="header" style="border:1.7px solid #adc289;">
@@ -30,96 +37,112 @@
     </div>
 
     <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
-                    <h3 class="font-weight-bold">
-                        <b>Información subasta</b>
-                    </h3>
-                    <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Tipo de subasta</b>
-                        </li>
-                    </ol>
-                    <ul style="list-style-type:none;">
-                        <li>${auction.auctionType.auctionTypeName}</li>
-                    </ul>  
-                    <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Precio actual</b>
-                        </li>
-                    </ol>
-                    <ul style="list-style-type:none;">
-                        <li>${auction.currenPrice} €</li>
-                    </ul>  
-                    <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Producto subastado</b>
-                        </li>
-                    </ol>
-                    <ul>
-                        <li>Nombre: ${auction.item.name}</li>
-                        <li>Categoría: ${auction.item.category}</li>
-                        <li>Descripción: ${auction.item.description}</li>
-                        <li>Volumen: ${auction.item.volume}</li>
-                        <li>Peso: ${auction.item.weight}</li>
-                    </ul> 
-                    <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Información adicional</b>
-                        </li>
-                    </ol>
-                    <ul style="list-style-type:none;">
-                        <li>${auction.additionalInformation}</li>
-                    </ul>
-                    <ol class="breadcrumb" style="background-color:#adc289;">
-                        <li class="breadcrumb-item">
-                            <b>Fecha de cierre</b>
-                        </li>
-                    </ol>
-                    <ul style="list-style-type:none;">
-                        <li>${auction.deadLine?datetime}</li>
-                    </ul>
-                </div>
-                <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
-                    <h3 class="font-weight-bold">
-                        <b>Lista de compradores</b>
-                    </h3>
-                    <table class="table table-sm">
-                        <tbody id="buyers_info">
-                            <tr>
-                                <th>Email</th>
-                            </tr>
-                            <#list auction.auctionBuyers as buyer>
-                                <#if buyer.email == buyer_email>
-                                    <tr class="table-info">
-                                <#else>
-                                    <tr class="table-warning">
-                                </#if>
-                                    <td>
-                                        ${buyer.email}
-                                    </td>
-                            </tr>
-                            </#list>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
-                    <h3 class="font-weight-bold">
-                        <b>Acciones</b>
-                    </h3>
-                        
-                    <div class="col-md-12">
-                        <button type="submit" class="btn" style="background-color: #42700f; color: #FFFFFF;">
-                            <span class="glyphicon glyphicon-floppy-disk"></span> Aceptar pecio
-                        </button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
+                        <h3 class="font-weight-bold">
+                            <b>Información subasta</b>
+                        </h3>
+                        <ol class="breadcrumb" style="background-color:#adc289;">
+                            <li class="breadcrumb-item">
+                                <b>Tipo de subasta</b>
+                            </li>
+                        </ol>
+                        <ul style="list-style-type:none;">
+                            <li>${auction.auctionType.auctionTypeName}</li>
+                        </ul>  
+                        <ol class="breadcrumb" style="background-color:#adc289;">
+                            <li class="breadcrumb-item">
+                                <b>Precio actual</b>
+                            </li>
+                        </ol>
+                        <ul style="list-style-type:none;">
+                            <li>${auction.currentPrice} €</li>
+                        </ul>  
+                        <ol class="breadcrumb" style="background-color:#adc289;">
+                            <li class="breadcrumb-item">
+                                <b>Producto subastado</b>
+                            </li>
+                        </ol>
+                        <ul>
+                            <li>Nombre: ${auction.item.name}</li>
+                            <li>Categoría: ${auction.item.category}</li>
+                            <li>Descripción: ${auction.item.description}</li>
+                            <li>Volumen: ${auction.item.volume}</li>
+                            <li>Peso: ${auction.item.weight}</li>
+                        </ul> 
+                        <ol class="breadcrumb" style="background-color:#adc289;">
+                            <li class="breadcrumb-item">
+                                <b>Información adicional</b>
+                            </li>
+                        </ol>
+                        <ul style="list-style-type:none;">
+                            <li>${auction.additionalInformation}</li>
+                        </ul>
+                        <ol class="breadcrumb" style="background-color:#adc289;">
+                            <li class="breadcrumb-item">
+                                <b>Fecha de cierre</b>
+                            </li>
+                        </ol>
+                        <ul style="list-style-type:none;">
+                            <li>${auction.deadLine?datetime}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
+                        <h3 class="font-weight-bold">
+                            <b>Lista de compradores</b>
+                        </h3>
+                        <table class="table table-sm">
+                            <tbody id="buyers_info">
+                                <tr>
+                                    <th>Email</th>
+                                </tr>
+                                <#list auction.auctionBuyers as buyer>
+                                    <#if buyer.email == buyer_email>
+                                        <tr class="table-info">
+                                    <#else>
+                                        <tr class="table-warning">
+                                    </#if>
+                                        <td>
+                                            ${buyer.email}
+                                        </td>
+                                </tr>
+                                </#list>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="col-md-4" style="background-color:#e5e5e5; border:5px solid white;">
+                        <h3 class="font-weight-bold">
+                            <b>Acciones</b>
+                        </h3
+                    
+                        <div class="form-group">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn" style="background-color: #42700f; color: #FFFFFF;" onClick="acceptCurrentPrice(${auction_id}, ${buyer_id});">
+                                                <span class="glyphicon glyphicon-floppy-disk"></span> Aceptar pecio
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
+                                                Actualizar información
+                                            </button>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

@@ -38,7 +38,7 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
   @Override
   public BigDecimal reduceDutchAuctionItemPrice(String dutchAuctionId, BigDecimal amountToReduce) {
     ClientResource clientResource = new ClientResource(
-        "http://localhost:8111/openbravo/auction/reduce_item_price");
+        "http://192.168.0.157:8111/openbravo/auction/reduce_item_price");
     clientResource.addQueryParameter("auction_id", dutchAuctionId.toString());
 
     Representation responseData = clientResource.post(amountToReduce);
@@ -52,6 +52,12 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
     }
 
     return priceAfterTheDecrement;
+  }
+
+  @Override
+  public void finishAuctionCelebration(String dutchAuctionId) {
+    new OpenbravoAuctionServiceImpl().changeAuctionState(dutchAuctionId,
+        AuctionStateEnum.FINISHED_WITHOUT_WINNER);
   }
 
   @Override

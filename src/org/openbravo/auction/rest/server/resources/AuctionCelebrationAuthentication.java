@@ -73,16 +73,12 @@ public class AuctionCelebrationAuthentication extends ServerResource {
                     + "/templates/auction_celebration_is_not_available.ftl").get();
           }
 
-          // TODO: COMPROBAR EN ESTE IF SI LA SUBASTA ES HOLANDESA O JAPONESA (instanceof) Y
-          // DEVOLVER UN .FTL CON UN MENSAJE INFORMADO QUE EL COMPRADORE EN CUESTIÓN HA GANADO LA
-          // SUBASTA.
           if (auctionStateEnum == AuctionStateEnum.FINISHED_WITH_WINNER
               || auctionStateEnum == AuctionStateEnum.FINISHED_WITHOUT_WINNER) {
             auctionCelebrationFtl = new ClientResource(
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/auction_celebration_finished.ftl").get();
           }
-
         } else {
           dataModel.put("auction_id", auctionId);
 

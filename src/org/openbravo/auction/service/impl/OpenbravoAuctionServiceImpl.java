@@ -56,9 +56,8 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     newAuctionNotificationMessageElements.add(auction.toString());
     notifyAuctionPublicationToBuyers(newAuctionNotificationMessageElements, auctionId);
 
-    new Thread(
-        new StartAuctionCelebration(auctionId, auction.getCelebrationDate(), auction.getDeadLine()))
-            .start();
+    new Thread(new StartAuctionCelebration(auctionId, auction.getCelebrationDate(),
+        auction.getDeadLine(), auction.getAuctionType().getAuctionTypeEnum())).start();
   }
 
   @Override
@@ -180,7 +179,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   public String createWinnerNotificationMessage(String auctionId, String buyerEmail) {
     Auction auction = getAuction(auctionId);
 
-    String newSubscriptionNotificationMessage = "Enhorabuena, has resultado ser el ganador de la subasta con código "
+    String newSubscriptionNotificationMessage = "¡Enhorabuena!, has resultado ser el ganador de la subasta con código "
         + auctionId + ", con un precio de venta final de " + auction.getCurrentPrice() + " €"
         + ". Nos pondremos en contacto contigo y te indicaremos el proceso para que puedas adquirir el producto subastado."
         + "\nA continuación, te recordamos la información de la subasta que finalizó el día "
@@ -193,7 +192,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   public String createAuctionCancellationNotificationMessage(String auctionId) {
     String newSubscriptionNotificationMessage = "Lo sentimos, la subasta con código " + auctionId
         + " ha sido cancelada porque no se ha alcanzado el mínimo número de postores para su celebración."
-        + " Pronto estaremos anunciando nuevas subastas." + "\n\nUn cordial saludo.";
+        + " Pronto estaremos publicando nuevas subastas." + "\n\nUn cordial saludo.";
 
     return newSubscriptionNotificationMessage;
   }
@@ -229,32 +228,13 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   }
 
   /*
-   * @Override public void finishAuctionCelebration(String auctionId, String ) { Auction auction =
+   * @Override public void finishAuctionCelebration(String auctionId) { Auction auction =
    * getAuction(auctionId);
    * 
-   * switch (auction.getAuctionType().getAuctionTypeEnum()) { case ENGLISH:
-   * EnglishAuctionServiceImpl englishAuctionServiceImpl = new EnglishAuctionServiceImpl();
-   * 
-   * if (englishAuctionServiceImpl.CheckIfThereIsAWinner((EnglishAuction) auction)) {
-   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER);
-   * 
-   * EnglishAuctionBuyer winner = new EnglishAuctionServiceImpl()
-   * .determineEnglishAuctionWinner((EnglishAuction) auction); notifyAuctionWinner(auctionId,
-   * winner.getEmail());
-   * 
-   * new XMLUtils().saveAuctionWinner(auctionId, auction.getDeadLine().toString(),
-   * winner.getEmail(), auction.getItem().getName(), auction.getCurrentPrice()); } else {
-   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITHOUT_WINNER); } break; case DUTCH:
-   * changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER);
-   * 
-   * DutchAuctionBuyer winner = new DutchAuctionServiceImpl()
-   * .determineDutchAuctionWinner((DutchAuction) auction, );
-   * 
-   * notifyAuctionWinner(auctionId, winner.getEmail());
-   * 
-   * new XMLUtils().saveAuctionWinner(auctionId, auction.getDeadLine().toString(),
-   * winner.getEmail(), auction.getItem().getName(), auction.getCurrentPrice()); break; case
-   * JAPANESE: changeAuctionState(auctionId, AuctionStateEnum.FINISHED_WITH_WINNER); break; } }
+   * switch (auction.getAuctionType().getAuctionTypeEnum()) { case ENGLISH: new
+   * EnglishAuctionServiceImpl().finishAuctionCelebration(auctionId); break; case DUTCH: new
+   * DutchAuctionServiceImpl().fini finishAuctionCelebration(auctionId); break; case JAPANESE: new
+   * JapaneseAuctionServiceImpl().finishAuctionCelebration(auctionId); break; } }
    */
 
   @Override

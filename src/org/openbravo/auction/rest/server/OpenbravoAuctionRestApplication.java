@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.rest.server.resources.AcceptCurrentItemPrice;
 import org.openbravo.auction.rest.server.resources.AuctionCelebrationAuthentication;
 import org.openbravo.auction.rest.server.resources.AuctionInfo;
 import org.openbravo.auction.rest.server.resources.BuyerOffer;
@@ -84,6 +85,8 @@ public class OpenbravoAuctionRestApplication extends Application {
     router.attach("http://192.168.0.157:8111/openbravo/auction/buyers", GetAuctionBuyers.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/winners", GetAuctionWinners.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/offer", BuyerOffer.class);
+    router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/accept_current_item_price",
+        AcceptCurrentItemPrice.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auction_info", AuctionInfo.class);
     router.attach("http://192.168.0.157:8111/openbravo/auction/auction_state",
         GetAuctionState.class);

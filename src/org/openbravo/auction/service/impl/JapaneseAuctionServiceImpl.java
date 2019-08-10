@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.openbravo.auction.model.JapaneseAuction;
+import org.openbravo.auction.model.JapaneseAuctionBuyer;
 import org.openbravo.auction.service.JapaneseAuctionService;
+import org.openbravo.auction.utils.AuctionStateEnum;
+import org.openbravo.auction.utils.XMLUtils;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 
@@ -46,8 +50,51 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
   }
 
   @Override
-  public void determineJapaneseAuctionWinner() {
-
+  public void finishAuctionCelebration(String japaneseAuctionId) {
+    new OpenbravoAuctionServiceImpl().changeAuctionState(japaneseAuctionId,
+        AuctionStateEnum.FINISHED_WITHOUT_WINNER);
   }
 
+  @Override
+  public Boolean finishAuctionCelebration(String japaneseAuctionId, String japaneseAuctionBuyerId) {
+    OpenbravoAuctionServiceImpl openbravoAuctionServiceImpl = new OpenbravoAuctionServiceImpl();
+
+    JapaneseAuction japaneseAuction = (JapaneseAuction) openbravoAuctionServiceImpl
+        .getAuction(japaneseAuctionId);
+
+    JapaneseAuctionBuyer winner = determineJapaneseAuctionWinner(japaneseAuction);
+
+    boolean resp = false;
+
+    if (winner != null) {
+      openbravoAuctionServiceImpl.changeAuctionState(japaneseAuctionId,
+          AuctionStateEnum.FINISHED_WITH_WINNER);
+
+      openbravoAuctionServiceImpl.notifyAuctionWinner(japaneseAuctionId, winner.getEmail());
+
+      new XMLUtils().saveAuctionWinner(japaneseAuctionId, japaneseAuction.getDeadLine().toString(),
+          winner.getEmail(), japaneseAuction.getItem().getName(),
+          japaneseAuction.getCurrentPrice());
+
+      resp = true;
+    }
+
+    return resp;
+  }
+
+  @Override
+  public Boolean CheckIfThereIsAWinner(JapaneseAuction japaneseAuction) {
+    return japaneseAuction.getAuctionState()
+        .getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING
+        && japaneseAuction.getAuctionBuyers().size() == 1;
+  }
+
+  @Override
+  public JapaneseAuctionBuyer determineJapaneseAuctionWinner(JapaneseAuction japaneseAuction) {
+    if (CheckIfThereIsAWinner(japaneseAuction)) {
+      return (JapaneseAuctionBuyer) japaneseAuction.getAuctionBuyers().first();
+    } else {
+      return null;
+    }
+  }
 }
