@@ -1,8 +1,13 @@
 package org.openbravo.auction.rest.server.resources;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.service.impl.JapaneseAuctionServiceImpl;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.restlet.data.LocalReference;
@@ -22,6 +27,8 @@ public class ContinueIntheAuction extends ServerResource {
 
     Representation auctionCelebrationFtl = null;
 
+    Map<String, Object> dataModel = new HashMap<String, Object>();
+
     Auction auction = null;
 
     if (getContext().getAttributes().containsKey("auctions")) {
@@ -39,6 +46,11 @@ public class ContinueIntheAuction extends ServerResource {
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/auction_winner_page.ftl").get();
           } else {
+            dataModel.put("auction", auction);
+            dataModel.put("auction_id", auctionId);
+            dataModel.put("buyer_id", buyerId);
+            dataModel.put("buyer_email", getBuyerEmail(auction.getAuctionBuyers(), buyerId));
+
             auctionCelebrationFtl = new ClientResource(
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/japanese_auction_celebration.ftl").get();
@@ -47,11 +59,35 @@ public class ContinueIntheAuction extends ServerResource {
             || auctionState == AuctionStateEnum.FINISHED_WITHOUT_WINNER) {
           auctionCelebrationFtl = new ClientResource(
               LocalReference.createClapReference(getClass().getPackage())
-                  + "/templates/auction_celebration_finished.ftl").get();
+                  + "/templates/japanese_auction_celebration_finished.ftl").get();
         }
+      } else {
+        auctionCelebrationFtl = new ClientResource(
+            LocalReference.createClapReference(getClass().getPackage())
+                + "/templates/auction_not_exist.ftl").get();
+      }
+    } else {
+      auctionCelebrationFtl = new ClientResource(
+          LocalReference.createClapReference(getClass().getPackage())
+              + "/templates/auction_not_exist.ftl").get();
+    }
+
+    return new TemplateRepresentation(auctionCelebrationFtl, dataModel, MediaType.TEXT_HTML);
+  }
+
+  private String getBuyerEmail(TreeSet<?> auctionBuyers, String buyerId) {
+    Iterator<?> it = auctionBuyers.iterator();
+
+    String buyerEmail = null;
+
+    while (it.hasNext()) {
+      AuctionBuyer auctionBuyer = (AuctionBuyer) it.next();
+
+      if (StringUtils.equals(auctionBuyer.getId(), buyerId)) {
+        buyerEmail = auctionBuyer.getEmail();
       }
     }
 
-    return new TemplateRepresentation(auctionCelebrationFtl, null, MediaType.TEXT_HTML);
+    return buyerEmail;
   }
 }

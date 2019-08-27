@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Subasta Inglesa</title>
+    <title>Subasta inglesa</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -26,7 +26,7 @@
             var resp = httpResponseToJSON(request.response);
             
             if (resp.status === false) {
-                document.getElementById("alert").innerHTML = '<div class="alert alert-danger alert-dismissible fade show"><strong>¡Error!</strong> Puja no aceptada. Esta debe ser mayor a <strong id="last_highest_offer"></strong>.<button type="button" class="close" data-dismiss="alert" onCLick="refreshAuctionInformation();">&times;</button></div>';
+                document.getElementById("alert").innerHTML = '<div class="alert alert-danger alert-dismissible fade show"><strong id="error">¡Error!</strong> Puja no aceptada. Esta debe ser mayor a <strong id="last_highest_offer"></strong>.<button type="button" class="close" data-dismiss="alert" onCLick="refreshAuctionInformation();">&times;</button></div>';
                 document.getElementById("last_highest_offer").innerHTML = resp.highest_offer + " €";
             } else {
                 refreshAuctionInformation();
@@ -86,7 +86,7 @@
                     </ul>  
                     <ol class="breadcrumb" style="background-color:#adc289;">
                         <li class="breadcrumb-item">
-                            <b>Producto subastado</b>
+                            <b>Bien subastado</b>
                         </li>
                     </ol>
                     <ul>
@@ -170,14 +170,14 @@
                                             <input type="number" step="0.01" class="form-control" id="input_offer" required/>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn" style="background-color:#ef9734; color: #FFFFFF;" onClick='setBuyerOffer(${auction_id}, ${buyer_id}, document.getElementById("input_offer").value);'>
+                                            <button type="button" class="btn" id="confirm_offer_button" style="background-color:#ef9734; color: #FFFFFF;" onClick='setBuyerOffer(${auction_id}, ${buyer_id}, document.getElementById("input_offer").value);'>
                                                 Confirmar
                                             </button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
+                                            <button type="button" class="btn" id="update_auction_info_button" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
                                                 Actualizar información
                                             </button>
                                         </td>

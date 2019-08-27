@@ -22,16 +22,13 @@ isc.newAuctionContainer.addProperties({
 
 		var numberOfRounds = auctionParametersForm.getItem("numberOfRounds");
 
-		function activateEnglishAuctionFormMode() {
+		activateEnglishAuctionFormMode = function() {
 			auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
+			auctionParametersForm.getItem("maximumSalePrice").setDisabled(true);
 			auctionParametersForm.getItem("numberOfRounds").setDisabled(true);
 		};
 
-		function deactivateNumberOfRoundsFormField() {
-			auctionParametersForm.getItem("numberOfRounds").setDisabled(false);
-		};
-
-		function setf(auctionType) {
+		setAuctionType = function(auctionType) {
 			auctionParametersForm.clearValues();
 			auctionParametersForm.getItem("auctionType").setValue(auctionType);
 		};
@@ -43,15 +40,17 @@ isc.newAuctionContainer.addProperties({
 
 			if (selectedAuctionType === "Inglesa") {
 				activateEnglishAuctionFormMode();
-				setf("Inglesa");
+				setAuctionType("Inglesa");
+			} else if (selectedAuctionType === "Holandesa") {
+				auctionParametersForm.getItem("maximumSalePrice").setDisabled(true);
+				auctionParametersForm.getItem("minimumSalePrice").setDisabled(false);
+				auctionParametersForm.getItem("numberOfRounds").setDisabled(false);
+				setAuctionType("Holandesa");
 			} else if (selectedAuctionType === "Japonesa") {
 				auctionParametersForm.getItem("minimumSalePrice").setDisabled(true);
-				deactivatenumberOfRoundsFormField();
-				setf("Japonesa");
-			} else {
-				auctionParametersForm.getItem("minimumSalePrice").setDisabled(false);
-				deactivateNumberOfRoundsFormField();
-				setf("Holandesa");
+				auctionParametersForm.getItem("maximumSalePrice").setDisabled(false);
+				auctionParametersForm.getItem("numberOfRounds").setDisabled(false);
+				setAuctionType("Japonesa");
 			}
 
 			items.deselectAllRecords();
@@ -126,6 +125,8 @@ isc.newAuctionContainer.addProperties({
 							break;
 						case 'Japonesa':
 							auctionType = {'auctionTypeEnum': 'JAPANESE', 'auctionTypeName': auctionParametersForm.getItem("auctionType").getValue()};
+							maximumSalePrice = auctionParametersForm.getItem("maximumSalePrice").getValue();
+							
 							auctionParameters = {
 									'auctionType': auctionType,
 									'auctionState': {'auctionStateEnum': 'PUBLISHED', 'auctionStateName': 'Publicada'},
@@ -140,7 +141,7 @@ isc.newAuctionContainer.addProperties({
 									'maximumBiddersNum': auctionParametersForm.getItem("maximumBiddersNum").getValue(),
 									'item': {name: selectedItem.name, description: selectedItem.description, category: selectedItem.productCategory$_identifier, volume: selectedItem.volume, weight: selectedItem.weight},
 									'startingPrice': auctionParametersForm.getItem("startingPrice").getValue(),
-									'minimumSalePrice': minimumSalePrice,
+									'maximumSalePrice': maximumSalePrice,
 									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
 									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),

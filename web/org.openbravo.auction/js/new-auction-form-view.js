@@ -69,6 +69,14 @@ isc.auctionParametersForm.addProperties({
 			},
 			
 			{
+				name: "maximumSalePrice",
+				title: "Máximo precio de venta (€):",
+				editorType: "SpinnerItem",
+				keyPressFilter: "[0-9.]",
+				defaultValue: 0.01, min: 0.01, step: 0.01
+			},
+			
+			{
 				name: "numberOfRounds",
 				title: "Número de rondas:",
 				editorType: "SpinnerItem",
@@ -78,7 +86,7 @@ isc.auctionParametersForm.addProperties({
 
 			{
 				name: "description",
-				title: "Información del producto a subastar:",
+				title: "Información del bien a subastar:",
 				editorType: "textArea",
 				width:400,
 				canFocus: false,

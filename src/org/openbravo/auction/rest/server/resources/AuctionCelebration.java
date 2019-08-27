@@ -2,9 +2,13 @@ package org.openbravo.auction.rest.server.resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.restlet.data.LocalReference;
 import org.restlet.data.MediaType;
@@ -14,7 +18,7 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
-public class AuctionCelebrationRefresh extends ServerResource {
+public class AuctionCelebration extends ServerResource {
   @SuppressWarnings("unchecked")
   @Get
   public Representation getAuctionCelebrationPage() {
@@ -36,10 +40,12 @@ public class AuctionCelebrationRefresh extends ServerResource {
         Auction auction = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .get(auctionId);
         if (auctionBuyersIds.contains(buyerId)) {
-          if (auction.getAuctionState()
-              .getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING) {
+          AuctionStateEnum auctionStateEnum = auction.getAuctionState().getAuctionStateEnum();
+          if (auctionStateEnum == AuctionStateEnum.IT_IS_CELEBRATING) {
             dataModel.put("auction", auction);
+            dataModel.put("auction_id", auctionId);
             dataModel.put("buyer_id", buyerId);
+            dataModel.put("buyer_email", getBuyerEmail(auction.getAuctionBuyers(), buyerId));
 
             switch (auction.getAuctionType().getAuctionTypeEnum()) {
               case ENGLISH:
@@ -66,6 +72,27 @@ public class AuctionCelebrationRefresh extends ServerResource {
                 LocalReference.createClapReference(getClass().getPackage())
                     + "/templates/auction_celebration_is_not_available.ftl").get();
           }
+
+          if (auctionStateEnum == AuctionStateEnum.FINISHED_WITH_WINNER
+              || auctionStateEnum == AuctionStateEnum.FINISHED_WITHOUT_WINNER) {
+            switch (auction.getAuctionType().getAuctionTypeEnum()) {
+              case ENGLISH:
+                auctionCelebrationFtl = new ClientResource(
+                    LocalReference.createClapReference(getClass().getPackage())
+                        + "/templates/english_auction_celebration_finished.ftl").get();
+                break;
+              case DUTCH:
+                auctionCelebrationFtl = new ClientResource(
+                    LocalReference.createClapReference(getClass().getPackage())
+                        + "/templates/ducth_auction_celebration_finished.ftl").get();
+                break;
+              case JAPANESE:
+                auctionCelebrationFtl = new ClientResource(
+                    LocalReference.createClapReference(getClass().getPackage())
+                        + "/templates/japanese_auction_celebration_finished.ftl").get();
+                break;
+            }
+          }
         } else {
           dataModel.put("auction_id", auctionId);
 
@@ -73,9 +100,33 @@ public class AuctionCelebrationRefresh extends ServerResource {
               LocalReference.createClapReference(getClass().getPackage())
                   + "/templates/auction_celebration_auth_failed.ftl").get();
         }
+      } else {
+        auctionCelebrationFtl = new ClientResource(
+            LocalReference.createClapReference(getClass().getPackage())
+                + "/templates/auction_not_exist.ftl").get();
       }
+    } else {
+      auctionCelebrationFtl = new ClientResource(
+          LocalReference.createClapReference(getClass().getPackage())
+              + "/templates/auction_not_exist.ftl").get();
     }
 
     return new TemplateRepresentation(auctionCelebrationFtl, dataModel, MediaType.TEXT_HTML);
+  }
+
+  private String getBuyerEmail(TreeSet<?> auctionBuyers, String buyerId) {
+    Iterator<?> it = auctionBuyers.iterator();
+
+    String buyerEmail = null;
+
+    while (it.hasNext()) {
+      AuctionBuyer auctionBuyer = (AuctionBuyer) it.next();
+
+      if (StringUtils.equals(auctionBuyer.getId(), buyerId)) {
+        buyerEmail = auctionBuyer.getEmail();
+      }
+    }
+
+    return buyerEmail;
   }
 }

@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Subasta Holandesa</title>
+    <title>Subasta holandesa</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -58,11 +58,11 @@
                             </li>
                         </ol>
                         <ul style="list-style-type:none;">
-                            <li>${auction.currentPrice} €</li>
+                            <li id="current_price">${auction.currentPrice} €</li>
                         </ul>  
                         <ol class="breadcrumb" style="background-color:#adc289;">
                             <li class="breadcrumb-item">
-                                <b>Producto subastado</b>
+                                <b>Bien subastado</b>
                             </li>
                         </ol>
                         <ul>
@@ -123,12 +123,12 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn" style="background-color: #42700f; color: #FFFFFF;" onClick="acceptCurrentPrice(${auction_id}, ${buyer_id});">
-                                                <span class="glyphicon glyphicon-floppy-disk"></span> Aceptar pecio
+                                            <button type="button" id="accept_current_price_button" class="btn" style="background-color: #ef9734; color: #FFFFFF;" onClick="acceptCurrentPrice(${auction_id}, ${buyer_id});">
+                                                <span class="glyphicon glyphicon-floppy-disk"></span> Aceptar precio
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
+                                            <button type="button" class="btn" id="update_auction_info_button" style="background-color:#42700f; color: #FFFFFF;" onClick="refreshAuctionInformation();">
                                                 Actualizar información
                                             </button>
                                         </td>

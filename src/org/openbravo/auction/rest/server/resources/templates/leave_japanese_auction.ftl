@@ -18,7 +18,7 @@
                         <img src="http://localhost:8080/openbravo/utility/GetOpenbravoLogo.png" width="130" height="32" align="center" name="isc_18main" border="0" suppress="TRUE" draggable="true">
                     </a>
                     <p id="profile-name" class="profile-name-card"></p>
-                    <p>La subasta ha finalizado. En caso de haber ganado, nos pondremos en contacto contigo y te indicaremos el proceso para que puedas adquirir el producto subastado.</p>
+                    <p>Gracias por participar.</p>
                 </div>
             </div>
         </div>

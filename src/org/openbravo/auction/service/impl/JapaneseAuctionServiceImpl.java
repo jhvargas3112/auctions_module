@@ -2,6 +2,7 @@ package org.openbravo.auction.service.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 import org.openbravo.auction.model.JapaneseAuction;
@@ -27,26 +28,30 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
   }
 
   @Override
-  public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
+  public BigDecimal getAmountToIncrementPrice(BigDecimal startingPrice, BigDecimal maximumSalePrice,
       Integer numberOfRounds) {
-    return (startingPrice.subtract(minimumSalePrice))
-        .divide(new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))));
+    return (maximumSalePrice.subtract(startingPrice)).divide(
+        new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))), RoundingMode.HALF_DOWN);
   }
 
   @Override
-  public BigDecimal reduceJapaneseAuctionItemPrice(BigDecimal amountToReduceOn) {
-    Representation responseData = new ClientResource(
-        "http://localhost:8111/openbravo/auction/reduce_item_price").post(amountToReduceOn);
+  public BigDecimal incrementJapaneseAuctionItemPrice(String dutchAuctionId,
+      BigDecimal amountToIncrementOn) {
+    ClientResource clientResource = new ClientResource(
+        "http://192.168.0.157:8111/openbravo/auction/increment_item_price");
+    clientResource.addQueryParameter("auction_id", dutchAuctionId.toString());
 
-    BigDecimal priceAfterTheDecrement = null;
+    Representation responseData = clientResource.post(amountToIncrementOn);
+
+    BigDecimal priceAfterTheIncrement = null;
 
     try {
-      priceAfterTheDecrement = new BigDecimal(Double.parseDouble(responseData.getText()));
+      priceAfterTheIncrement = new BigDecimal(Double.parseDouble(responseData.getText()));
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }
 
-    return priceAfterTheDecrement;
+    return priceAfterTheIncrement;
   }
 
   @Override

@@ -17,23 +17,29 @@ import org.openbravo.auction.service.OpenbravoAuctionService;
 import org.openbravo.auction.service.impl.OpenbravoAuctionServiceImpl;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.openbravo.auction.utils.ErrorResponseMsg;
+import org.restlet.data.LocalReference;
+import org.restlet.data.MediaType;
 import org.restlet.data.Status;
-import org.restlet.resource.Post;
+import org.restlet.ext.freemarker.TemplateRepresentation;
+import org.restlet.representation.Representation;
+import org.restlet.resource.ClientResource;
+import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
 public class SignUpToTheAuction extends ServerResource {
   private OpenbravoAuctionService openbravoAuctionService = new OpenbravoAuctionServiceImpl();
 
   @SuppressWarnings("unchecked")
-  @Post // ESTO DEBERIA IR POR GET (DEVOLVIENDO UN BOOLEANO) PORQUE NO PUEDE UNIRME DESDE EL MENSAJE
-        // RECIBIDO EN EL CORREO ELECTRÓNICO
-  public void joinToAuction() {
+  @Get
+  public Representation joinToAuction() {
     String auctionId = getQueryValue("auction_id");
     String email = getQueryValue("buyer_email");
 
     ArrayList<String> auctionBuyersEmails = ((HashMap<String, ArrayList<String>>) getContext()
         .getAttributes()
         .get("auction_emails")).get(auctionId);
+
+    Representation auctionCelebrationFtl = null;
 
     if (getContext().getAttributes().containsKey("auctions")) {
       HashMap<String, Auction> auctions = (HashMap<String, Auction>) getContext().getAttributes()
@@ -107,18 +113,16 @@ public class SignUpToTheAuction extends ServerResource {
 
                 openbravoAuctionService.notifyBuyerSubscription(auctionId, buyerId, email);
 
-                System.out.println(
-                    "Se ha añadido al comprador " + email + " al datasource XML de compradores ");
-
                 getResponse().setStatus(new Status(200));
+
+                auctionCelebrationFtl = new ClientResource(
+                    LocalReference.createClapReference(getClass().getPackage())
+                        + "/templates/buyer_registered.ftl").get();
               } else {
-                // TODO: NOTIFICAR AL COMPRADOR QUE YA ESTÁ REGISTRADO EN LA SUBASTA.
                 getResponse().setStatus(new Status(422),
                     ErrorResponseMsg.BUYER_IS_ALREADY_SUBSCRIBED);
               }
             } else {
-              // TODO: NOTIFICAR AL COMPRADOR QUE YA SE HA SUPERADO EL NÚMERO MÁXIMO DE COMPRADORES
-              // PARA ESTA SUBASTA.
               getResponse().setStatus(new Status(422),
                   ErrorResponseMsg.MAXIMUM_NUMBER_OF_BUYERS_EXCEEDED);
             }
@@ -134,6 +138,8 @@ public class SignUpToTheAuction extends ServerResource {
     } else {
       getResponse().setStatus(new Status(204), ErrorResponseMsg.WRONG_AUCTION_ID);
     }
+
+    return new TemplateRepresentation(auctionCelebrationFtl, null, MediaType.TEXT_HTML);
   }
 
   @SuppressWarnings("unchecked")

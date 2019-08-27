@@ -1,3 +1,219 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Root>
-  
-<winner><auction_id>887299</auction_id><finish_date>Sat Aug 10 00:42:00 CEST 2019</finish_date><email>pepelucho24109@gmail.com</email><item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item><startingPrice>765.5 €</startingPrice></winner><winner><auction_id>190699</auction_id><finish_date>Sat Aug 10 00:54:00 CEST 2019</finish_date><email>jhvargas@ucm.es</email><item>Lenovo Thinkpad T430 14" Core i5-3320M 2.6 GHz - HDD 320 GB </item><startingPrice>1373.125 €</startingPrice></winner><winner><auction_id>650449</auction_id><finish_date>Sat Aug 10 01:00:00 CEST 2019</finish_date><email>jhvargas@ucm.es</email><item>Razer Electra V2 USB Auriculares Gaming 7.1 PS4/PC Negro</item><startingPrice>381.25 €</startingPrice></winner><winner><auction_id>150115</auction_id><finish_date>Sat Aug 10 00:59:00 CEST 2019</finish_date><email>jhvargas@ucm.es</email><item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item><startingPrice>366.25 €</startingPrice></winner></Root>
+  <winner>
+    <auction_id>190699</auction_id>
+    <finish_date>Sat Aug 10 00:54:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>Lenovo Thinkpad T430 14" Core i5-3320M 2.6 GHz - HDD 320 GB </item>
+    <startingPrice>1373.125 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>650449</auction_id>
+    <finish_date>Sat Aug 10 01:00:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>Razer Electra V2 USB Auriculares Gaming 7.1 PS4/PC Negro</item>
+    <startingPrice>381.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>150115</auction_id>
+    <finish_date>Sat Aug 10 00:59:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>366.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>767641</auction_id>
+    <finish_date>Sat Aug 10 21:04:00 CEST 2019</finish_date>
+    <email>jhvargas3112@gmail.com</email>
+    <item>Lenovo Thinkpad T430 14" Core i5-3320M 2.6 GHz - HDD 320 GB </item>
+    <startingPrice>747 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>983595</auction_id>
+    <finish_date>Sat Aug 10 21:29:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>920 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>125063</auction_id>
+    <finish_date>Sun Aug 18 23:44:00 CEST 2019</finish_date>
+    <email>pedro@lycos.es</email>
+    <item>Razer Electra V2 USB Auriculares Gaming 7.1 PS4/PC Negro</item>
+    <startingPrice>97.5 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>183117</auction_id>
+    <finish_date>Wed Aug 21 00:00:00 CEST 2019</finish_date>
+    <email>jhvargas@tormail.com</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>100 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>716052</auction_id>
+    <finish_date>Wed Aug 21 18:18:00 CEST 2019</finish_date>
+    <email>pablo@tormail.com</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>309106</auction_id>
+    <finish_date>Thu Aug 22 20:00:00 CEST 2019</finish_date>
+    <email>jhvargas@uFEsaWcEmD.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>111.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>227136</auction_id>
+    <finish_date>Thu Aug 22 20:30:00 CEST 2019</finish_date>
+    <email>jhvsargas@ucddssrm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>111.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>420335</auction_id>
+    <finish_date>Thu Aug 22 20:53:00 CEST 2019</finish_date>
+    <email>jhvscrgasc@ucddssrm.escsa</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>152.5 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>699615</auction_id>
+    <finish_date>Fri Aug 23 16:34:00 CEST 2019</finish_date>
+    <email>jhvargas@uwwcm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>345 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>624665</auction_id>
+    <finish_date>Fri Aug 23 16:34:00 CEST 2019</finish_date>
+    <email>jhvargas@udwcm.eds</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>345 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>187998</auction_id>
+    <finish_date>Fri Aug 23 16:34:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>345 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>720779</auction_id>
+    <finish_date>Fri Aug 23 22:42:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>70 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>253905</auction_id>
+    <finish_date>Fri Aug 23 23:00:00 CEST 2019</finish_date>
+    <email>jhvargas3112@gmail.com</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>70 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>374558</auction_id>
+    <finish_date>Fri Aug 23 22:59:00 CEST 2019</finish_date>
+    <email>jhvargas3112@gmail.com</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>70 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>493751</auction_id>
+    <finish_date>Sat Aug 24 15:35:00 CEST 2019</finish_date>
+    <email>jh3vargads@uc4c4vedm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>166.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>283000</auction_id>
+    <finish_date>Sat Aug 24 15:35:00 CEST 2019</finish_date>
+    <email>jhvarDgas3DgDDQQmail.com</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>502958</auction_id>
+    <finish_date>Sat Aug 24 16:09:00 CEST 2019</finish_date>
+    <email>jhvarscdgas@ucvm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>235 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>892571</auction_id>
+    <finish_date>Sat Aug 24 16:15:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>152.5 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>105020</auction_id>
+    <finish_date>Sat Aug 24 16:29:00 CEST 2019</finish_date>
+    <email>jhvargDdsase@uwqddsFDcm.eqs</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>698495</auction_id>
+    <finish_date>Sat Aug 24 16:40:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>248.75 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>220933</auction_id>
+    <finish_date>Sat Aug 24 16:51:00 CEST 2019</finish_date>
+    <email>jhvarddsddsas@udvvcm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>166.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>761080</auction_id>
+    <finish_date>Sat Aug 24 17:06:00 CEST 2019</finish_date>
+    <email>jhvargas@ucm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>345 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>768529</auction_id>
+    <finish_date>Sat Aug 24 17:15:00 CEST 2019</finish_date>
+    <email>jhvargasfdds@ufcfddfdms.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>276.25 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>402544</auction_id>
+    <finish_date>Sat Aug 24 19:13:00 CEST 2019</finish_date>
+    <email>jhswvargdas@uccdcdsmq.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>262679</auction_id>
+    <finish_date>Sat Aug 24 19:35:00 CEST 2019</finish_date>
+    <email>jhvareddegas@uddewwcm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>345 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>577264</auction_id>
+    <finish_date>Sat Aug 24 19:33:00 CEST 2019</finish_date>
+    <email>jhvargas@udewwcm.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>902983</auction_id>
+    <finish_date>Sat Aug 24 20:13:00 CEST 2019</finish_date>
+    <email>jhvargas@ucsms.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>303.75 €</startingPrice>
+  </winner>
+  <winner>
+    <auction_id>671259</auction_id>
+    <finish_date>Sat Aug 24 20:11:00 CEST 2019</finish_date>
+    <email>jhvaDrddwwgas@ucWdmdw.es</email>
+    <item>HP LaserJet Pro M15w Impresora Láser Monocromo Wifi</item>
+    <startingPrice>180 €</startingPrice>
+  </winner>
+<winner><auction_id>873287</auction_id><finish_date>Tue Aug 27 15:10:00 CEST 2019</finish_date><email>jhvargas@ucm.es</email><item>Lenovo Thinkpad T430 14" Core i5-3320M 2.6 GHz - HDD 320 GB </item><startingPrice>450 €</startingPrice></winner></Root>

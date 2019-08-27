@@ -76,7 +76,7 @@ isc.publishedAuctionHLayout.addProperties({
 					isc.Label.create({height: 50, padding: 4, contents: "<b>Fecha de celebración:</b> " + new Date(auctionInfo.celebrationDate)}),
 					isc.Label.create({height: 50, padding: 4, contents: "<b>Fecha de cierre:</b> " + new Date(auctionInfo.deadLine)}),
 					isc.Label.create({height: 50, padding: 4, contents: "<b>Precio de salida:</b> " + auctionInfo.startingPrice + " €"}), 
-					isc.Label.create({height: 50, padding: 4, contents: "<b>Información del producto subastado</b>"}),
+					isc.Label.create({height: 50, padding: 4, contents: "<b>Información del bien subastado</b>"}),
 					isc.Label.create({height: 25, padding: 4, contents: "Nombre: " + auctionInfo.item.name}),
 					isc.Label.create({height: 25, padding: 4, contents: "Categoría: " + auctionInfo.item.category}),
 					isc.Label.create({height: 25, padding: 4, contents: "Descripción: " + auctionInfo.item.description}),
@@ -95,7 +95,9 @@ isc.publishedAuctionHLayout.addProperties({
 								.concat(auctionInfoMembers.splice(4, 9))))
 						break;
 					case 'JAPANESE':
-						publishedAuctionInfo.setMembers(auctionInfoMembers);
+						publishedAuctionInfo.setMembers((auctionInfoMembers.slice(0 ,4)
+								.concat(isc.Label.create({height: 50, padding: 4, contents: "<b>Máximo precio de venta:</b> " + auctionInfo.maximumSalePrice + " €"}))
+								.concat(auctionInfoMembers.splice(4, 9))))
 						break;
 				}
 				

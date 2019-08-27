@@ -15,27 +15,27 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
  */
 
 public class JapaneseAuction extends Auction {
-  protected BigDecimal minimumSalePrice;
+  protected BigDecimal maximumSalePrice;
   private Integer numberOfRounds;
 
   public JapaneseAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
       Integer numberOfRounds, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
-      BigDecimal currentPrice, BigDecimal minimumSalePrice, String additionalInformation,
+      BigDecimal currentPrice, BigDecimal maximumSalePrice, String additionalInformation,
       TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers) {
     super(new AuctionType(AuctionTypeEnum.JAPANESE), auctionState, celebrationDate, deadLine,
         maximumBiddersNum, item, startingPrice, currentPrice, additionalInformation,
         japaneseAuctionBuyers);
 
-    this.minimumSalePrice = minimumSalePrice;
+    this.maximumSalePrice = maximumSalePrice;
     this.numberOfRounds = numberOfRounds;
   }
 
-  public BigDecimal getMinimumSalePrice() {
-    return minimumSalePrice;
+  public BigDecimal getMaximumSalePrice() {
+    return maximumSalePrice;
   }
 
-  public void setMinimumSalePrice(BigDecimal minimumSalePrice) {
-    this.minimumSalePrice = minimumSalePrice;
+  public void setMaximumSalePrice(BigDecimal maximumSalePrice) {
+    this.maximumSalePrice = maximumSalePrice;
   }
 
   public Integer getNumberOfRounds() {

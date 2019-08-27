@@ -1,8 +1,12 @@
 package org.openbravo.auction.rest.server.resources;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openbravo.auction.model.Auction;
+import org.openbravo.auction.model.JapaneseAuctionBuyer;
 import org.openbravo.auction.service.impl.JapaneseAuctionServiceImpl;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.restlet.data.LocalReference;
@@ -31,28 +35,46 @@ public class LeaveAuction extends ServerResource {
       if (auctions.containsKey(auctionId)) {
         auction = ((HashMap<String, Auction>) getContext().getAttributes().get("auctions"))
             .get(auctionId);
-        if (auction.getAuctionState().getAuctionStateEnum() == AuctionStateEnum.IT_IS_CELEBRATING) {
-          boolean auctionHasBeenFinished = new JapaneseAuctionServiceImpl()
-              .finishAuctionCelebration(auctionId, buyerId);
 
-          if (auctionHasBeenFinished) {
-            auctionCelebrationFtl = new ClientResource(
-                LocalReference.createClapReference(getClass().getPackage())
-                    + "/templates/auction_winner_page.ftl").get();
-          } else {
-            auctionCelebrationFtl = new ClientResource(
-                LocalReference.createClapReference(getClass().getPackage())
-                    + "/templates/japanese_auction_celebration.ftl").get();
-          }
+        AuctionStateEnum auctionState = auction.getAuctionState().getAuctionStateEnum();
+
+        if (auctionState == AuctionStateEnum.IT_IS_CELEBRATING) {
+          ((TreeSet<JapaneseAuctionBuyer>) auction.getAuctionBuyers())
+              .removeIf(auctionBuyer -> StringUtils.equals(auctionBuyer.getId(), buyerId));
+
+          ArrayList<String> auctionBuyersIds = ((HashMap<String, ArrayList<String>>) getContext()
+              .getAttributes()
+              .get("auction_buyerIds")).get(auctionId);
+
+          auctionBuyersIds.remove(buyerId);
+
+          getContext().getAttributes().put("auction_buyerIds", auctionBuyersIds);
+
+          new JapaneseAuctionServiceImpl().finishAuctionCelebration(auctionId, buyerId);
+
+          auctionCelebrationFtl = new ClientResource(
+              LocalReference.createClapReference(getClass().getPackage())
+                  + "/templates/leave_japanese_auction.ftl").get();
+        } else if (auctionState == AuctionStateEnum.FINISHED_WITH_WINNER) {
+          auctionCelebrationFtl = new ClientResource(
+              LocalReference.createClapReference(getClass().getPackage())
+                  + "/templates/auction_winner_page.ftl").get();
         } else {
           auctionCelebrationFtl = new ClientResource(
               LocalReference.createClapReference(getClass().getPackage())
-                  + "/templates/auction_celebration_finished.ftl").get();
+                  + "/templates/japanese_auction_celebration_finished.ftl").get();
         }
+      } else {
+        auctionCelebrationFtl = new ClientResource(
+            LocalReference.createClapReference(getClass().getPackage())
+                + "/templates/auction_not_exist.ftl").get();
       }
+    } else {
+      auctionCelebrationFtl = new ClientResource(
+          LocalReference.createClapReference(getClass().getPackage())
+              + "/templates/auction_not_exist.ftl").get();
     }
 
     return new TemplateRepresentation(auctionCelebrationFtl, null, MediaType.TEXT_HTML);
   }
-
 }

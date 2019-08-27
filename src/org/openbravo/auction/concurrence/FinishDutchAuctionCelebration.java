@@ -16,7 +16,6 @@ public class FinishDutchAuctionCelebration implements Runnable {
   @Override
   public void run() {
     while (new Date().compareTo(deadLine) != 1) {
-      // System.out.println("CELEBRÁNDOSE... " + auctionId);
     }
 
     new DutchAuctionServiceImpl().finishAuctionCelebration(auctionId);

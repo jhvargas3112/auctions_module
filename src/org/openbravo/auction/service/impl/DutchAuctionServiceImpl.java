@@ -89,9 +89,9 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
     DutchAuctionBuyer winner = null;
 
     while (it.hasNext()) {
-      if (StringUtils.equals(dutchAuctionBuyerId, it.next().getId())) {
-        winner = it.next();
+      winner = it.next();
 
+      if (StringUtils.equals(dutchAuctionBuyerId, winner.getId())) {
         break;
       }
     }

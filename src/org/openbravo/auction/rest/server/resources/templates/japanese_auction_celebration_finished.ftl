@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>!Has ganado la subasta!</title>
+    <title>Subasta finalizada</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
@@ -18,7 +18,7 @@
                         <img src="http://localhost:8080/openbravo/utility/GetOpenbravoLogo.png" width="130" height="32" align="center" name="isc_18main" border="0" suppress="TRUE" draggable="true">
                     </a>
                     <p id="profile-name" class="profile-name-card"></p>
-                    <p id="auction_winner_notification">¡Enhorabuena! has ganado la subasta. nos pondremos en contacto contigo y te indicaremos el proceso para que puedas adquirir el producto subastado.</p>
+                    <p>La subasta ha finalizado.</p>
                 </div>
             </div>
         </div>

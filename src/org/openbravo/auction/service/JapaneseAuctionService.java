@@ -16,10 +16,11 @@ public interface JapaneseAuctionService {
   public Long getPeriodOfTimeToDecreasePrice(Date celebrationDate, Date deadLine,
       Integer numberOfRounds);
 
-  public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
+  public BigDecimal getAmountToIncrementPrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds);
 
-  public BigDecimal reduceJapaneseAuctionItemPrice(BigDecimal amountToReduceOn);
+  public BigDecimal incrementJapaneseAuctionItemPrice(String dutchAuctionId,
+      BigDecimal amountToReduceOn);
 
   public void finishAuctionCelebration(String japaneseAuctionId);
 

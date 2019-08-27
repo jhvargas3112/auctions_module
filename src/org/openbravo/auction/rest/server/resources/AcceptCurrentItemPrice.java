@@ -39,9 +39,17 @@ public class AcceptCurrentItemPrice extends ServerResource {
         } else {
           auctionCelebrationFtl = new ClientResource(
               LocalReference.createClapReference(getClass().getPackage())
-                  + "/templates/auction_celebration_finished.ftl").get();
+                  + "/templates/dutch_auction_celebration_finished.ftl").get();
         }
+      } else {
+        auctionCelebrationFtl = new ClientResource(
+            LocalReference.createClapReference(getClass().getPackage())
+                + "/templates/auction_not_exist.ftl").get();
       }
+    } else {
+      auctionCelebrationFtl = new ClientResource(
+          LocalReference.createClapReference(getClass().getPackage())
+              + "/templates/auction_not_exist.ftl").get();
     }
 
     return new TemplateRepresentation(auctionCelebrationFtl, null, MediaType.TEXT_HTML);

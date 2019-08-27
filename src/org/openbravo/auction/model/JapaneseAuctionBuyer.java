@@ -12,7 +12,6 @@ public class JapaneseAuctionBuyer extends AuctionBuyer implements Comparable<Jap
 
   @Override
   public boolean equals(EnglishAuctionBuyer englishAuctionBuyer) {
-    // TODO Auto-generated method stub
     return false;
   }
 }

@@ -40,21 +40,18 @@ public class AuctionFactory {
 
     AuctionState auctionState = (AuctionState) auctionParameters.get("auctionState");
     Date celebrationDate = (Date) auctionParameters.get("celebrationDate");
-    Date deadLine = null;
+    Date deadLine = (Date) auctionParameters.get("deadLine");
     Integer maximumBiddersNum = (Integer) auctionParameters.get("maximumBiddersNum");
     Item item = (Item) auctionParameters.get("item");
     BigDecimal startingPrice = (BigDecimal) auctionParameters.get("startingPrice");
     BigDecimal currentPrice = (BigDecimal) auctionParameters.get("currentPrice");
     BigDecimal minimumSalePrice = (BigDecimal) auctionParameters.get("minimumSalePrice");
+    BigDecimal maximumSalePrice = (BigDecimal) auctionParameters.get("maximumSalePrice");
     Integer numberOfRounds = null;
     String additionalInformation = (String) auctionParameters.get("additionalInformation");
     TreeSet<?> auctionBuyers = (TreeSet<?>) auctionParameters.get("auctionBuyers");
 
     if (auctionType != null) {
-      if (!auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.JAPANESE)) {
-        deadLine = (Date) auctionParameters.get("deadLine");
-      }
-
       if (auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.DUTCH)
           || auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.JAPANESE)) {
         numberOfRounds = (Integer) auctionParameters.get("numberOfRounds");
@@ -76,7 +73,7 @@ public class AuctionFactory {
         break;
       case JAPANESE:
         auction = new JapaneseAuction(auctionState, celebrationDate, deadLine, numberOfRounds,
-            maximumBiddersNum, item, startingPrice, currentPrice, minimumSalePrice,
+            maximumBiddersNum, item, startingPrice, currentPrice, maximumSalePrice,
             additionalInformation, (TreeSet<JapaneseAuctionBuyer>) auctionBuyers);
         break;
     }
@@ -94,6 +91,7 @@ public class AuctionFactory {
     Item item = null;
     BigDecimal startingPrice = null;
     BigDecimal minimumSalePrice = null;
+    BigDecimal maximumSalePrice = null;
     Integer numberOfRounds = null;
     BigDecimal currentPrice = null;
     String additionalInformation = "";
@@ -175,6 +173,7 @@ public class AuctionFactory {
     auctionParameters.put("startingPrice", startingPrice);
     auctionParameters.put("currentPrice", currentPrice);
     auctionParameters.put("minimumSalePrice", minimumSalePrice);
+    auctionParameters.put("maximumSalePrice", minimumSalePrice);
     auctionParameters.put("additionalInformation", additionalInformation);
 
     switch (auctionType.getAuctionTypeEnum()) {
@@ -193,17 +192,27 @@ public class AuctionFactory {
       if (auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.DUTCH)
           || auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.JAPANESE)) {
         try {
-          minimumSalePrice = new BigDecimal(
-              Double.parseDouble(jsonAuctionParameters.get("minimumSalePrice").toString()));
+
           numberOfRounds = Integer.parseInt(jsonAuctionParameters.get("numberOfRounds").toString());
+
+          auctionParameters.put("numberOfRounds", numberOfRounds);
+
+          if (auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.DUTCH)) {
+            minimumSalePrice = new BigDecimal(
+                Double.parseDouble(jsonAuctionParameters.get("minimumSalePrice").toString()));
+            auctionParameters.put("minimumSalePrice", minimumSalePrice);
+          }
+
+          if (auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.JAPANESE)) {
+            maximumSalePrice = new BigDecimal(
+                Double.parseDouble(jsonAuctionParameters.get("maximumSalePrice").toString()));
+            auctionParameters.put("maximumSalePrice", maximumSalePrice);
+          }
+
         } catch (JSONException e) {
           e.printStackTrace();
         }
-
-        auctionParameters.put("minimumSalePrice", minimumSalePrice);
-        auctionParameters.put("numberOfRounds", numberOfRounds);
       }
-
     }
 
     return auctionParameters;

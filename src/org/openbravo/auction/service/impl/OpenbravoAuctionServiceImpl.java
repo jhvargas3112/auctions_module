@@ -15,11 +15,13 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.openbravo.auction.concurrence.ReduceAuctionItemPrice;
+import org.openbravo.auction.concurrence.IncrementJapaneseAuctionItemPrice;
+import org.openbravo.auction.concurrence.ReduceDutchAuctionItemPrice;
 import org.openbravo.auction.concurrence.StartAuctionCelebration;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.model.AuctionBuyer;
 import org.openbravo.auction.model.DutchAuction;
+import org.openbravo.auction.model.JapaneseAuction;
 import org.openbravo.auction.model.factory.AuctionFactory;
 import org.openbravo.auction.rest.server.OpenbravoAuctionRestServer;
 import org.openbravo.auction.service.OpenbravoAuctionService;
@@ -203,6 +205,11 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     Auction auction = getAuction(auctionId);
 
+    Long periodOfTimeToDecreasePrice = null;
+    Long periodOfTimeToIncrementPrice = null;
+    BigDecimal amountToDecreasePrice = null;
+    BigDecimal amountToIncrementPrice = null;
+
     switch (auction.getAuctionType().getAuctionTypeEnum()) {
       case ENGLISH:
         break;
@@ -210,19 +217,34 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
         DutchAuction dutchAuction = (DutchAuction) auction;
 
         DutchAuctionServiceImpl dutchAuctionServiceImpl = new DutchAuctionServiceImpl();
-        Long periodOfTimeToDecreasePrice = dutchAuctionServiceImpl.getPeriodOfTimeToDecreasePrice(
+        periodOfTimeToDecreasePrice = dutchAuctionServiceImpl.getPeriodOfTimeToDecreasePrice(
             dutchAuction.getCelebrationDate(), dutchAuction.getDeadLine(),
             dutchAuction.getNumberOfRounds());
 
-        BigDecimal amountToDecreasePrice = dutchAuctionServiceImpl.getAmountToDecreasePrice(
+        amountToDecreasePrice = dutchAuctionServiceImpl.getAmountToDecreasePrice(
             dutchAuction.getStartingPrice(), dutchAuction.getMinimumSalePrice(),
             dutchAuction.getNumberOfRounds());
 
-        new Thread(new ReduceAuctionItemPrice(auctionId, dutchAuction.getStartingPrice(),
+        new Thread(new ReduceDutchAuctionItemPrice(auctionId, dutchAuction.getStartingPrice(),
             dutchAuction.getMinimumSalePrice(), dutchAuction.getNumberOfRounds(),
             periodOfTimeToDecreasePrice, amountToDecreasePrice)).start();
         break;
       case JAPANESE:
+        JapaneseAuction japaneseAuction = (JapaneseAuction) auction;
+
+        JapaneseAuctionServiceImpl japaneseAuctionServiceImpl = new JapaneseAuctionServiceImpl();
+        periodOfTimeToIncrementPrice = japaneseAuctionServiceImpl.getPeriodOfTimeToDecreasePrice(
+            japaneseAuction.getCelebrationDate(), japaneseAuction.getDeadLine(),
+            japaneseAuction.getNumberOfRounds());
+
+        amountToIncrementPrice = japaneseAuctionServiceImpl.getAmountToIncrementPrice(
+            japaneseAuction.getStartingPrice(), japaneseAuction.getMaximumSalePrice(),
+            japaneseAuction.getNumberOfRounds());
+
+        new Thread(
+            new IncrementJapaneseAuctionItemPrice(auctionId, japaneseAuction.getStartingPrice(),
+                japaneseAuction.getMaximumSalePrice(), japaneseAuction.getNumberOfRounds(),
+                periodOfTimeToIncrementPrice, amountToIncrementPrice)).start();
         break;
     }
   }
