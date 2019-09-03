@@ -17,14 +17,14 @@
             
             try {
                 request = new XMLHttpRequest();
-                request.open('GET', 'http://192.168.0.157:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id, false);
+                request.open('GET', 'http://localhost:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id, false);
                 request.send();
             } catch (err) {
                 throw 'NETWORK_ERROR';
             }
             
             window.close()
-            window.open('http://192.168.0.157:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id);
+            window.open('http://localhost:8111/openbravo/auction/celebration?auction_id=' + auction_id + '&buyer_id=' + buyer_id);
         }
     </script>
     <div class="container h-80">

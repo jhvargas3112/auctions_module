@@ -20,12 +20,12 @@
     
         continueInTheAuction = function(auctionId, buyerId) {
             window.close();
-            window.open('http://192.168.0.157:8111/openbravo/auction/buyer/continue_in_the_auction?auction_id=' + auctionId + '&buyer_id=' + buyerId);
+            window.open('http://localhost:8111/openbravo/auction/buyer/continue_in_the_auction?auction_id=' + auctionId + '&buyer_id=' + buyerId);
         };
         
         leaveAuction = function(auctionId, buyerId) {
             window.close();
-            window.open('http://192.168.0.157:8111/openbravo/auction/buyer/leave_auction?auction_id=' + auctionId + '&buyer_id=' + buyerId);
+            window.open('http://localhost:8111/openbravo/auction/buyer/leave_auction?auction_id=' + auctionId + '&buyer_id=' + buyerId);
         };
     </script>
   

@@ -38,7 +38,7 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
   public BigDecimal incrementJapaneseAuctionItemPrice(String dutchAuctionId,
       BigDecimal amountToIncrementOn) {
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/increment_item_price");
+        "http://localhost:8111/openbravo/auction/increment_item_price");
     clientResource.addQueryParameter("auction_id", dutchAuctionId.toString());
 
     Representation responseData = clientResource.post(amountToIncrementOn);

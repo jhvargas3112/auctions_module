@@ -20,7 +20,7 @@
         
         setBuyerOffer = function(auctionId, buyerId, buyerOffer) {
             request = new XMLHttpRequest();
-            request.open('POST', 'http://192.168.0.157:8111/openbravo/auction/buyer/offer?auction_id=' + auctionId + '&buyer_id=' + buyerId + '&buyer_offer=' + buyerOffer, false);
+            request.open('POST', 'http://localhost:8111/openbravo/auction/buyer/offer?auction_id=' + auctionId + '&buyer_id=' + buyerId + '&buyer_offer=' + buyerOffer, false);
             request.send();
             
             var resp = httpResponseToJSON(request.response);

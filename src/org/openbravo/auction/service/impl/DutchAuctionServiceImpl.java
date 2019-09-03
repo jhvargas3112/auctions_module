@@ -38,7 +38,7 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
   @Override
   public BigDecimal reduceDutchAuctionItemPrice(String dutchAuctionId, BigDecimal amountToReduce) {
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/reduce_item_price");
+        "http://localhost:8111/openbravo/auction/reduce_item_price");
     clientResource.addQueryParameter("auction_id", dutchAuctionId.toString());
 
     Representation responseData = clientResource.post(amountToReduce);

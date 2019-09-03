@@ -50,7 +50,7 @@ isc.auctionWinnersToolBar.addProperties({
 winnersDS = isc.winnersDS.create({
     dataFormat:"xml",
     recordXPath:"/Root/*",
-    dataURL:"http://192.168.0.157:8111/openbravo/auction/winners",
+    dataURL:"http://localhost:8111/openbravo/auction/winners",
     fields: [
     	{name: 'auction_id'},
     	{name: 'finish_date'},

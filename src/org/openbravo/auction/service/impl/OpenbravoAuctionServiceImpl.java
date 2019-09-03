@@ -42,7 +42,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     Auction auction = (Auction) AuctionFactory.getAuction(jsonAuctionParameters);
 
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/publish");
+        "http://localhost:8111/openbravo/auction/publish");
 
     Representation JSONAuctionRepresentation = clientResource.put(auction);
 
@@ -65,7 +65,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   @Override
   public void closeAuction(String auctionId) {
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/close");
+        "http://localhost:8111/openbravo/auction/close");
     clientResource.addQueryParameter("auction_id", auctionId.toString());
     clientResource.delete();
   }
@@ -155,7 +155,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
 
     sb.append("\n\n")
         .append("Apuntate a la subasta, haciendo click en el siguiente enlace: "
-            + "http://192.168.0.157:8111/openbravo/auction/sign_up?auction_id=" + auctionId
+            + "http://localhost:8111/openbravo/auction/sign_up?auction_id=" + auctionId
             + "&buyer_email=" + buyerEmail);
 
     return sb.toString();
@@ -169,7 +169,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
     String newSubscriptionNotificationMessage = "Acabas de inscribirte en la subasta que se celebrará el día "
         + auction.getCelebrationDate() + "."
         + "\n\nPara poder empezar a participar en la subasta en la fecha indicada, deberás acceder a la URL "
-        + "http://192.168.0.157:8111/openbravo/auction/join?auction_id=" + auctionId
+        + "http://localhost:8111/openbravo/auction/join?auction_id=" + auctionId
         + " e identificarte introduciendo el código " + buyerId
         + "\n\nA continuación, te recordamos la información de la subasta: \n\n"
         + auction.toString();
@@ -268,7 +268,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   @Override
   public Auction getAuction(String auctionId) {
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/auction_info");
+        "http://localhost:8111/openbravo/auction/auction_info");
     clientResource.addQueryParameter("auction_id", auctionId.toString());
 
     Representation JSONAuctionRepresentation = clientResource.get();
@@ -302,7 +302,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
   @Override
   public void changeAuctionState(String auctionId, AuctionStateEnum auctionState) {
     ClientResource clientResource = new ClientResource(
-        "http://192.168.0.157:8111/openbravo/auction/change_state");
+        "http://localhost:8111/openbravo/auction/change_state");
     clientResource.addQueryParameter("auction_id", auctionId.toString());
     clientResource.post(new StringRepresentation(auctionState.toString()));
   }

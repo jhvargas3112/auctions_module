@@ -80,33 +80,27 @@ public class OpenbravoAuctionRestApplication extends Application {
   public Restlet createInboundRoot() {
     Router router = new Router(getContext());
 
-    router.attach("http://192.168.0.157:8111/openbravo/auction/publish", PublishAuction.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/close", CloseAuction.class); // HACER
-                                                                                            // 8
-    router.attach("http://192.168.0.157:8111/openbravo/auction/auctions", GetAuctions.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/sign_up", SignUpToTheAuction.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/buyers", GetAuctionBuyers.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/winners", GetAuctionWinners.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/offer", // HECHO
-        BuyerOffer.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/accept_current_item_price", // HECHO
+    router.attach("http://localhost:8111/openbravo/auction/publish", PublishAuction.class);
+    router.attach("http://localhost:8111/openbravo/auction/close", CloseAuction.class);
+    router.attach("http://localhost:8111/openbravo/auction/auctions", GetAuctions.class);
+    router.attach("http://localhost:8111/openbravo/auction/sign_up", SignUpToTheAuction.class);
+    router.attach("http://localhost:8111/openbravo/auction/buyers", GetAuctionBuyers.class);
+    router.attach("http://localhost:8111/openbravo/auction/winners", GetAuctionWinners.class);
+    router.attach("http://localhost:8111/openbravo/auction/buyer/offer", BuyerOffer.class);
+    router.attach("http://localhost:8111/openbravo/auction/buyer/accept_current_item_price",
         AcceptCurrentItemPrice.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/continue_in_the_auction", // HECHO
+    router.attach("http://localhost:8111/openbravo/auction/buyer/continue_in_the_auction",
         ContinueIntheAuction.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/buyer/leave_auction", // HECHO
+    router.attach("http://localhost:8111/openbravo/auction/buyer/leave_auction",
         LeaveAuction.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/auction_info", AuctionInfo.class); // HECHO
-    router.attach("http://192.168.0.157:8111/openbravo/auction/auction_state",
-        GetAuctionState.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/change_state", // HECHO
-        ChangeAuctionState.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/join", // HECHO
-        RequestToJoinToTheAuction.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/celebration", // HECHO
-        AuctionCelebration.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/reduce_item_price",
+    router.attach("http://localhost:8111/openbravo/auction/auction_info", AuctionInfo.class);
+    router.attach("http://localhost:8111/openbravo/auction/auction_state", GetAuctionState.class);
+    router.attach("http://localhost:8111/openbravo/auction/change_state", ChangeAuctionState.class);
+    router.attach("http://localhost:8111/openbravo/auction/join", RequestToJoinToTheAuction.class);
+    router.attach("http://localhost:8111/openbravo/auction/celebration", AuctionCelebration.class);
+    router.attach("http://localhost:8111/openbravo/auction/reduce_item_price",
         ReduceItemPrice.class);
-    router.attach("http://192.168.0.157:8111/openbravo/auction/increment_item_price",
+    router.attach("http://localhost:8111/openbravo/auction/increment_item_price",
         IncrementItemPrice.class);
 
     return router;

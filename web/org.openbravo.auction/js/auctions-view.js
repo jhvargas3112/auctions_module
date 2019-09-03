@@ -3,7 +3,7 @@ isc.defineClass('auctionsDS', isc.DataSource);
 
 auctionsDS =isc.auctionsDS.create({
     dataFormat:"json",
-    dataURL:'http://192.168.0.157:8111/openbravo/auction/auctions',
+    dataURL:'http://localhost:8111/openbravo/auction/auctions',
     fields: [
 		{name: 'auction_id'},
 		{name: 'auction_state'}

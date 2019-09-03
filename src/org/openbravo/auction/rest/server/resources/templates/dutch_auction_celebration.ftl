@@ -20,7 +20,7 @@
     
         acceptCurrentPrice = function(auctionId, buyerId) {
             window.close();
-            window.open('http://192.168.0.157:8111/openbravo/auction/buyer/accept_current_item_price?auction_id=' + auctionId + '&buyer_id=' + buyerId);
+            window.open('http://localhost:8111/openbravo/auction/buyer/accept_current_item_price?auction_id=' + auctionId + '&buyer_id=' + buyerId);
         }
     </script>
   
