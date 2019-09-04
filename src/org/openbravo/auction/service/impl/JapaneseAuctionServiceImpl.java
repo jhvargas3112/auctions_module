@@ -22,7 +22,7 @@ import org.restlet.resource.ClientResource;
 public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
 
   @Override
-  public Long getPeriodOfTimeToDecreasePrice(Date celebrationDate, Date deadLine,
+  public Long getPeriodOfTimeToIncrementPrice(Date celebrationDate, Date deadLine,
       Integer numberOfRounds) {
     return (Math.abs(deadLine.getTime() - celebrationDate.getTime())) / numberOfRounds;
   }
@@ -76,6 +76,12 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
           AuctionStateEnum.FINISHED_WITH_WINNER);
 
       openbravoAuctionServiceImpl.notifyAuctionWinner(japaneseAuctionId, winner.getEmail());
+
+      ClientResource clientResource = new ClientResource(
+          "http://localhost:8111/openbravo/auction/set_winner");
+      clientResource.addQueryParameter("auction_id", japaneseAuctionId);
+
+      clientResource.put(winner.getEmail());
 
       new XMLUtils().saveAuctionWinner(japaneseAuctionId, japaneseAuction.getDeadLine().toString(),
           winner.getEmail(), japaneseAuction.getItem().getName(),

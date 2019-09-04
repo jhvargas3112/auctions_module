@@ -106,7 +106,7 @@ isc.publishedAuctionHLayout.addProperties({
 				} else if (auctionInfo.auctionState.auctionStateEnum === "FINISHED_WITHOUT_WINNER") {
 					closeAuctionButton.enable();
 				} else if (auctionInfo.auctionState.auctionStateEnum === "FINISHED_WITH_WINNER") {
-					publishedAuctionInfo.addMember({height: 50, padding: 4, contents: "<b>Ganador:</b> " + auctionInfo.auctionBuyers[0].email});
+					publishedAuctionInfo.addMember({height: 50, padding: 4, contents: "<b>Ganador:</b> " + auctionInfo.winnerEmail});
 					publishedAuctionInfo.addMember({height: 50, padding: 4, contents: "<b>Precio de cierre:</b> " + auctionInfo.currentPrice + " €"});
 					closeAuctionButton.enable();
 				} else if (auctionInfo.auctionState.auctionStateEnum === "PUBLISHED") {

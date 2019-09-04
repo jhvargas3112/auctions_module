@@ -75,6 +75,12 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
 
     openbravoAuctionServiceImpl.notifyAuctionWinner(dutchAuctionId, winner.getEmail());
 
+    ClientResource clientResource = new ClientResource(
+        "http://localhost:8111/openbravo/auction/set_winner");
+    clientResource.addQueryParameter("auction_id", dutchAuctionId);
+
+    clientResource.put(winner.getEmail());
+
     new XMLUtils().saveAuctionWinner(dutchAuctionId, dutchAuction.getDeadLine().toString(),
         winner.getEmail(), dutchAuction.getItem().getName(), dutchAuction.getCurrentPrice());
   }

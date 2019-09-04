@@ -35,11 +35,8 @@ public class ReduceDutchAuctionItemPrice implements Runnable {
         e.printStackTrace();
       }
 
-      System.out.println("SE REDUCE EL PRECIO EN " + amountToDecrease);
       startingPrice = new DutchAuctionServiceImpl().reduceDutchAuctionItemPrice(auctionId,
           amountToDecrease);
-
-      System.out.println("PRECIO ACTUAL: " + startingPrice.doubleValue());
 
       roundsConsumed++;
     }

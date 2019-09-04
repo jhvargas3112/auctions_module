@@ -35,11 +35,8 @@ public class IncrementJapaneseAuctionItemPrice implements Runnable {
         e.printStackTrace();
       }
 
-      System.out.println("SE INCREMENTA EL PRECIO EN " + amountToDecrease);
       startingPrice = new JapaneseAuctionServiceImpl().incrementJapaneseAuctionItemPrice(auctionId,
           amountToDecrease);
-
-      System.out.println("PRECIO ACTUAL: " + startingPrice.doubleValue());
 
       roundsConsumed++;
     }

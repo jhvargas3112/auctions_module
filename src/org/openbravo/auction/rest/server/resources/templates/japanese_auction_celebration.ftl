@@ -134,7 +134,7 @@
                                         </td>
                                         
                                         <td>
-                                            <button type="button" class="btn" id="leave_auction_button" style="background-color: #42700f; color: #FFFFFF;" onClick="leaveAuction(${auction_id}, ${buyer_id});">
+                                            <button type="button" class="btn" id="leave_auction_button" style="background-color: #de0000; color: #FFFFFF;" onClick="leaveAuction(${auction_id}, ${buyer_id});">
                                                 <span class="glyphicon glyphicon-floppy-disk"></span> Abandonar
                                             </button>
                                         </td>

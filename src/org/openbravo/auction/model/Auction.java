@@ -26,6 +26,7 @@ public abstract class Auction {
   protected String additionalInformation;
 
   protected TreeSet<?> auctionBuyers;
+  protected String winnerEmail;
 
   public Auction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
       Date deadLine, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
@@ -42,6 +43,7 @@ public abstract class Auction {
     this.additionalInformation = additionalInformation;
 
     this.auctionBuyers = auctionBuyers;
+    this.winnerEmail = null;
   }
 
   public AuctionType getAuctionType() {
@@ -118,5 +120,13 @@ public abstract class Auction {
 
   public void setAuctionBuyers(TreeSet<?> auctionBuyers) {
     this.auctionBuyers = auctionBuyers;
+  }
+
+  public String getWinnerEmail() {
+    return winnerEmail;
+  }
+
+  public void setWinnerEmail(String winnerEmail) {
+    this.winnerEmail = winnerEmail;
   }
 }

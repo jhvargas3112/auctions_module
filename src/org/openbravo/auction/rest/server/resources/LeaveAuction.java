@@ -3,11 +3,11 @@ package org.openbravo.auction.rest.server.resources;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openbravo.auction.model.Auction;
 import org.openbravo.auction.model.JapaneseAuctionBuyer;
-import org.openbravo.auction.service.impl.JapaneseAuctionServiceImpl;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.restlet.data.LocalReference;
 import org.restlet.data.MediaType;
@@ -42,15 +42,14 @@ public class LeaveAuction extends ServerResource {
           ((TreeSet<JapaneseAuctionBuyer>) auction.getAuctionBuyers())
               .removeIf(auctionBuyer -> StringUtils.equals(auctionBuyer.getId(), buyerId));
 
-          ArrayList<String> auctionBuyersIds = ((HashMap<String, ArrayList<String>>) getContext()
-              .getAttributes()
-              .get("auction_buyerIds")).get(auctionId);
+          HashMap<String, ArrayList<String>> auctionBuyersIds = (HashMap<String, ArrayList<String>>) ((ConcurrentHashMap<String, Object>) getContext()
+              .getAttributes()).get("auction_buyerIds");
 
-          auctionBuyersIds.remove(buyerId);
+          ArrayList<String> buyerIds = auctionBuyersIds.get(auctionId);
+
+          buyerIds.remove(buyerId);
 
           getContext().getAttributes().put("auction_buyerIds", auctionBuyersIds);
-
-          new JapaneseAuctionServiceImpl().finishAuctionCelebration(auctionId, buyerId);
 
           auctionCelebrationFtl = new ClientResource(
               LocalReference.createClapReference(getClass().getPackage())

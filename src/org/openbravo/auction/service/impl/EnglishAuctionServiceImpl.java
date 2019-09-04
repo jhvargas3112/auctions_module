@@ -7,6 +7,7 @@ import org.openbravo.auction.model.EnglishAuctionBuyer;
 import org.openbravo.auction.service.EnglishAuctionService;
 import org.openbravo.auction.utils.AuctionStateEnum;
 import org.openbravo.auction.utils.XMLUtils;
+import org.restlet.resource.ClientResource;
 
 /**
  * 
@@ -41,6 +42,12 @@ public class EnglishAuctionServiceImpl implements EnglishAuctionService {
       EnglishAuctionBuyer winner = new EnglishAuctionServiceImpl()
           .determineEnglishAuctionWinner((EnglishAuction) englishAuction);
       openbravoAuctionServiceImpl.notifyAuctionWinner(englishAuctionId, winner.getEmail());
+
+      ClientResource clientResource = new ClientResource(
+          "http://localhost:8111/openbravo/auction/set_winner");
+      clientResource.addQueryParameter("auction_id", englishAuctionId);
+
+      clientResource.put(winner.getEmail());
 
       new XMLUtils().saveAuctionWinner(englishAuctionId, englishAuction.getDeadLine().toString(),
           winner.getEmail(), englishAuction.getItem().getName(), englishAuction.getCurrentPrice());

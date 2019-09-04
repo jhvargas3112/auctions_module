@@ -22,6 +22,7 @@ import org.openbravo.auction.rest.server.resources.LeaveAuction;
 import org.openbravo.auction.rest.server.resources.PublishAuction;
 import org.openbravo.auction.rest.server.resources.ReduceItemPrice;
 import org.openbravo.auction.rest.server.resources.RequestToJoinToTheAuction;
+import org.openbravo.auction.rest.server.resources.SetAuctionWinner;
 import org.openbravo.auction.rest.server.resources.SignUpToTheAuction;
 import org.restlet.Application;
 import org.restlet.Context;
@@ -102,6 +103,7 @@ public class OpenbravoAuctionRestApplication extends Application {
         ReduceItemPrice.class);
     router.attach("http://localhost:8111/openbravo/auction/increment_item_price",
         IncrementItemPrice.class);
+    router.attach("http://localhost:8111/openbravo/auction/set_winner", SetAuctionWinner.class);
 
     return router;
   }

@@ -13,10 +13,10 @@ import org.openbravo.auction.model.JapaneseAuctionBuyer;
  */
 
 public interface JapaneseAuctionService {
-  public Long getPeriodOfTimeToDecreasePrice(Date celebrationDate, Date deadLine,
+  public Long getPeriodOfTimeToIncrementPrice(Date celebrationDate, Date deadLine,
       Integer numberOfRounds);
 
-  public BigDecimal getAmountToIncrementPrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
+  public BigDecimal getAmountToIncrementPrice(BigDecimal startingPrice, BigDecimal maximumSalePrice,
       Integer numberOfRounds);
 
   public BigDecimal incrementJapaneseAuctionItemPrice(String dutchAuctionId,

@@ -233,7 +233,7 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
         JapaneseAuction japaneseAuction = (JapaneseAuction) auction;
 
         JapaneseAuctionServiceImpl japaneseAuctionServiceImpl = new JapaneseAuctionServiceImpl();
-        periodOfTimeToIncrementPrice = japaneseAuctionServiceImpl.getPeriodOfTimeToDecreasePrice(
+        periodOfTimeToIncrementPrice = japaneseAuctionServiceImpl.getPeriodOfTimeToIncrementPrice(
             japaneseAuction.getCelebrationDate(), japaneseAuction.getDeadLine(),
             japaneseAuction.getNumberOfRounds());
 
@@ -248,16 +248,6 @@ public class OpenbravoAuctionServiceImpl implements OpenbravoAuctionService {
         break;
     }
   }
-
-  /*
-   * @Override public void finishAuctionCelebration(String auctionId) { Auction auction =
-   * getAuction(auctionId);
-   * 
-   * switch (auction.getAuctionType().getAuctionTypeEnum()) { case ENGLISH: new
-   * EnglishAuctionServiceImpl().finishAuctionCelebration(auctionId); break; case DUTCH: new
-   * DutchAuctionServiceImpl().fini finishAuctionCelebration(auctionId); break; case JAPANESE: new
-   * JapaneseAuctionServiceImpl().finishAuctionCelebration(auctionId); break; } }
-   */
 
   @Override
   public void cancelAuctionCelebration(String auctionId) {
