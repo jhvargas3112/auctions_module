@@ -95,7 +95,8 @@ isc.newAuctionContainer.addProperties({
 									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
 									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
-									"auctionBuyers": []
+									"auctionBuyers": [],
+									"auctionWinner": null
 							};
 							break;
 						case 'Holandesa':
@@ -120,7 +121,8 @@ isc.newAuctionContainer.addProperties({
 									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
 									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
-									"auctionBuyers": []
+									"auctionBuyers": [],
+									"auctionWinner": null
 							};
 							break;
 						case 'Japonesa':
@@ -145,7 +147,8 @@ isc.newAuctionContainer.addProperties({
 									'numberOfRounds': auctionParametersForm.getItem("numberOfRounds").getEnteredValue(),
 									'currentPrice': auctionParametersForm.getItem("startingPrice").getEnteredValue(),
 									'additionalInformation': auctionParametersForm.getItem("additionalInformation").getValue(),
-									"auctionBuyers": []
+									"auctionBuyers": [],
+									"auctionWinner": null
 							};
 							break;
 					}

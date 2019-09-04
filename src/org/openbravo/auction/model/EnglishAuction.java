@@ -17,10 +17,11 @@ import org.openbravo.auction.utils.AuctionTypeEnum;
 public class EnglishAuction extends Auction {
   public EnglishAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
       Integer maximumBiddersNum, Item item, BigDecimal startingPrice, BigDecimal currentPrice,
-      String additionalInformation, TreeSet<EnglishAuctionBuyer> englishAuctionBuyers) {
+      String additionalInformation, TreeSet<EnglishAuctionBuyer> englishAuctionBuyers,
+      String winnerEmail) {
     super(new AuctionType(AuctionTypeEnum.ENGLISH), auctionState, celebrationDate, deadLine,
         maximumBiddersNum, item, startingPrice, currentPrice, additionalInformation,
-        englishAuctionBuyers);
+        englishAuctionBuyers, winnerEmail);
   }
 
   @Override

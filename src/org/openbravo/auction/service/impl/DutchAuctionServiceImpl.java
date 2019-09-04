@@ -2,6 +2,7 @@ package org.openbravo.auction.service.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -31,8 +32,8 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
   @Override
   public BigDecimal getAmountToDecreasePrice(BigDecimal startingPrice, BigDecimal minimumSalePrice,
       Integer numberOfRounds) {
-    return (startingPrice.subtract(minimumSalePrice))
-        .divide(new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))));
+    return (startingPrice.subtract(minimumSalePrice)).divide(
+        new BigDecimal(Double.parseDouble(String.valueOf(numberOfRounds))), RoundingMode.HALF_DOWN);
   }
 
   @Override
@@ -56,8 +57,16 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
 
   @Override
   public void finishAuctionCelebration(String dutchAuctionId) {
-    new OpenbravoAuctionServiceImpl().changeAuctionState(dutchAuctionId,
-        AuctionStateEnum.FINISHED_WITHOUT_WINNER);
+    DutchAuction dutchAuction = (DutchAuction) new OpenbravoAuctionServiceImpl()
+        .getAuction(dutchAuctionId);
+
+    if (CheckIfThereIsAWinner(dutchAuction)) {
+      new OpenbravoAuctionServiceImpl().changeAuctionState(dutchAuctionId,
+          AuctionStateEnum.FINISHED_WITH_WINNER);
+    } else {
+      new OpenbravoAuctionServiceImpl().changeAuctionState(dutchAuctionId,
+          AuctionStateEnum.FINISHED_WITHOUT_WINNER);
+    }
   }
 
   @Override
@@ -73,16 +82,18 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
     DutchAuctionBuyer winner = determineDutchAuctionWinner((DutchAuction) dutchAuction,
         dutchAuctionBuyerId);
 
-    openbravoAuctionServiceImpl.notifyAuctionWinner(dutchAuctionId, winner.getEmail());
+    if (winner != null) {
+      openbravoAuctionServiceImpl.notifyAuctionWinner(dutchAuctionId, winner.getEmail());
 
-    ClientResource clientResource = new ClientResource(
-        "http://localhost:8111/openbravo/auction/set_winner");
-    clientResource.addQueryParameter("auction_id", dutchAuctionId);
+      ClientResource clientResource = new ClientResource(
+          "http://localhost:8111/openbravo/auction/set_winner");
+      clientResource.addQueryParameter("auction_id", dutchAuctionId);
 
-    clientResource.put(winner.getEmail());
+      clientResource.put(winner.getEmail());
 
-    new XMLUtils().saveAuctionWinner(dutchAuctionId, dutchAuction.getDeadLine().toString(),
-        winner.getEmail(), dutchAuction.getItem().getName(), dutchAuction.getCurrentPrice());
+      new XMLUtils().saveAuctionWinner(dutchAuctionId, dutchAuction.getDeadLine().toString(),
+          winner.getEmail(), dutchAuction.getItem().getName(), dutchAuction.getCurrentPrice());
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -103,5 +114,10 @@ public class DutchAuctionServiceImpl implements DutchAuctionService {
     }
 
     return winner;
+  }
+
+  @Override
+  public Boolean CheckIfThereIsAWinner(DutchAuction dutchAuction) {
+    return !StringUtils.isEmpty(dutchAuction.getWinnerEmail());
   }
 }

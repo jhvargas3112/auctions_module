@@ -27,4 +27,6 @@ public interface DutchAuctionService {
 
   public DutchAuctionBuyer determineDutchAuctionWinner(DutchAuction dutchAuction,
       String dutchAuctionBuyerId);
+
+  public Boolean CheckIfThereIsAWinner(DutchAuction dutchAuction);
 }

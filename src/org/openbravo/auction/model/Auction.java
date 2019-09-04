@@ -30,7 +30,8 @@ public abstract class Auction {
 
   public Auction(AuctionType auctionType, AuctionState auctionState, Date celebrationDate,
       Date deadLine, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
-      BigDecimal currentPrice, String additionalInformation, TreeSet<?> auctionBuyers) {
+      BigDecimal currentPrice, String additionalInformation, TreeSet<?> auctionBuyers,
+      String winnerEmail) {
     this.auctionType = auctionType;
     this.auctionState = auctionState;
 
@@ -43,7 +44,7 @@ public abstract class Auction {
     this.additionalInformation = additionalInformation;
 
     this.auctionBuyers = auctionBuyers;
-    this.winnerEmail = null;
+    this.winnerEmail = winnerEmail;
   }
 
   public AuctionType getAuctionType() {

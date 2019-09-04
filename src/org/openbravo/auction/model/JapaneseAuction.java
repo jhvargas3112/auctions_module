@@ -21,10 +21,10 @@ public class JapaneseAuction extends Auction {
   public JapaneseAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
       Integer numberOfRounds, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
       BigDecimal currentPrice, BigDecimal maximumSalePrice, String additionalInformation,
-      TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers) {
+      TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers, String winnerEmail) {
     super(new AuctionType(AuctionTypeEnum.JAPANESE), auctionState, celebrationDate, deadLine,
         maximumBiddersNum, item, startingPrice, currentPrice, additionalInformation,
-        japaneseAuctionBuyers);
+        japaneseAuctionBuyers, winnerEmail);
 
     this.maximumSalePrice = maximumSalePrice;
     this.numberOfRounds = numberOfRounds;

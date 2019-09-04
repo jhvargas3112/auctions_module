@@ -50,6 +50,7 @@ public class AuctionFactory {
     Integer numberOfRounds = null;
     String additionalInformation = (String) auctionParameters.get("additionalInformation");
     TreeSet<?> auctionBuyers = (TreeSet<?>) auctionParameters.get("auctionBuyers");
+    String winnerEmail = (String) auctionParameters.get("winnerEmail");
 
     if (auctionType != null) {
       if (auctionType.getAuctionTypeEnum().equals(AuctionTypeEnum.DUTCH)
@@ -64,17 +65,17 @@ public class AuctionFactory {
       case ENGLISH:
         auction = new EnglishAuction(auctionState, celebrationDate, deadLine, maximumBiddersNum,
             item, startingPrice, currentPrice, additionalInformation,
-            (TreeSet<EnglishAuctionBuyer>) auctionBuyers);
+            (TreeSet<EnglishAuctionBuyer>) auctionBuyers, winnerEmail);
         break;
       case DUTCH:
         auction = new DutchAuction(auctionState, celebrationDate, deadLine, numberOfRounds,
             maximumBiddersNum, item, startingPrice, currentPrice, minimumSalePrice,
-            additionalInformation, (TreeSet<DutchAuctionBuyer>) auctionBuyers);
+            additionalInformation, (TreeSet<DutchAuctionBuyer>) auctionBuyers, winnerEmail);
         break;
       case JAPANESE:
         auction = new JapaneseAuction(auctionState, celebrationDate, deadLine, numberOfRounds,
             maximumBiddersNum, item, startingPrice, currentPrice, maximumSalePrice,
-            additionalInformation, (TreeSet<JapaneseAuctionBuyer>) auctionBuyers);
+            additionalInformation, (TreeSet<JapaneseAuctionBuyer>) auctionBuyers, winnerEmail);
         break;
     }
 
@@ -98,6 +99,7 @@ public class AuctionFactory {
     TreeSet<EnglishAuctionBuyer> englishAuctionBuyers = new TreeSet<EnglishAuctionBuyer>();
     TreeSet<DutchAuctionBuyer> dutchAuctionBuyers = new TreeSet<DutchAuctionBuyer>();
     TreeSet<JapaneseAuctionBuyer> japaneseAuctionBuyers = new TreeSet<JapaneseAuctionBuyer>();
+    String winnerEmail = null;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -134,6 +136,10 @@ public class AuctionFactory {
 
       if (!jsonAuctionParameters.isNull("additionalInformation")) {
         additionalInformation = (String) jsonAuctionParameters.get("additionalInformation");
+      }
+
+      if (!jsonAuctionParameters.isNull("winnerEmail")) {
+        winnerEmail = (String) jsonAuctionParameters.get("winnerEmail");
       }
 
       JSONArray buyers = ((JSONArray) jsonAuctionParameters.get("auctionBuyers"));
@@ -175,6 +181,7 @@ public class AuctionFactory {
     auctionParameters.put("minimumSalePrice", minimumSalePrice);
     auctionParameters.put("maximumSalePrice", minimumSalePrice);
     auctionParameters.put("additionalInformation", additionalInformation);
+    auctionParameters.put("winnerEmail", winnerEmail);
 
     switch (auctionType.getAuctionTypeEnum()) {
       case ENGLISH:

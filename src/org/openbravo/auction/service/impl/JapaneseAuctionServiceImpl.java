@@ -56,8 +56,14 @@ public class JapaneseAuctionServiceImpl implements JapaneseAuctionService {
 
   @Override
   public void finishAuctionCelebration(String japaneseAuctionId) {
-    new OpenbravoAuctionServiceImpl().changeAuctionState(japaneseAuctionId,
-        AuctionStateEnum.FINISHED_WITHOUT_WINNER);
+    if (CheckIfThereIsAWinner(
+        (JapaneseAuction) new OpenbravoAuctionServiceImpl().getAuction(japaneseAuctionId))) {
+      new OpenbravoAuctionServiceImpl().changeAuctionState(japaneseAuctionId,
+          AuctionStateEnum.FINISHED_WITH_WINNER);
+    } else {
+      new OpenbravoAuctionServiceImpl().changeAuctionState(japaneseAuctionId,
+          AuctionStateEnum.FINISHED_WITHOUT_WINNER);
+    }
   }
 
   @Override

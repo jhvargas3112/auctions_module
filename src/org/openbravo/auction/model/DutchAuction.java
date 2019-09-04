@@ -21,10 +21,10 @@ public class DutchAuction extends Auction {
   public DutchAuction(AuctionState auctionState, Date celebrationDate, Date deadLine,
       Integer numberOfRounds, Integer maximumBiddersNum, Item item, BigDecimal startingPrice,
       BigDecimal currentPrice, BigDecimal minimumSalePrice, String additionalInformation,
-      TreeSet<DutchAuctionBuyer> dutchAuctionBuyers) {
+      TreeSet<DutchAuctionBuyer> dutchAuctionBuyers, String winnerEmail) {
     super(new AuctionType(AuctionTypeEnum.DUTCH), auctionState, celebrationDate, deadLine,
         maximumBiddersNum, item, startingPrice, currentPrice, additionalInformation,
-        dutchAuctionBuyers);
+        dutchAuctionBuyers, winnerEmail);
 
     this.minimumSalePrice = minimumSalePrice;
     this.numberOfRounds = numberOfRounds;
