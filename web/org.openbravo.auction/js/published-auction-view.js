@@ -35,8 +35,8 @@ closeAuctionButtonProperties = {
 			}
 	      },
 	      disabled: true,
-	      buttonType: 'eliminate',
-	      prompt: 'Cerrar subasta'
+	      buttonType: 'save',
+	      prompt: 'Generar orden de venta'
 };
 
 updateButton = isc.OBToolbarIconButton.create(updateButtonProperties);
